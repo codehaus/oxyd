@@ -16,10 +16,7 @@
  */
 package org.codehaus.oxyd.server;
 
-import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.document.IDocument;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.dom4j.Element;
 import org.dom4j.Document;
 import org.dom4j.io.XMLWriter;
@@ -34,30 +31,6 @@ import java.util.List;
 
 public class render {
 
-    static void render(ServerContext serverContext, String filename, HttpServletResponse response)
-    {
-        response.setContentType("text/xml; charset=UTF-8");
-
-        String content = "";
-        try {
-
-            content = Utils.getResourceContent("/templates/" + filename, serverContext);
-            Velocity.init();
-
-
-            StringWriter w  = new StringWriter();
-
-
-            Velocity.evaluate(serverContext.getVelocityContext(), w, "bla", content);
-
-            response.getOutputStream().print(w.toString());
-
-
-        }
-        catch (Exception e) {
-                e.printStackTrace();
-        }
-    }
 
     static void listWorkspaces(List workspaces, HttpServletResponse response) throws IOException {
         Document doc = new DOMDocument();

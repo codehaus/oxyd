@@ -118,7 +118,11 @@ public class ActionTest extends TestCase {
         }
         catch(oxydException e){
         }
+    }
 
+   public void testCreateWorkspaceWithAccents() throws oxydException {
+        Actions myActions = new Actions();
+        setUp(myActions);
 
         Workspace space;
         space =  myActions.createWorkspace("té & ti-", context);

@@ -16,57 +16,82 @@
  */
 package org.codehaus.oxyd.server;
 
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForm;
-import org.apache.velocity.VelocityContext;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.Context;
+import org.codehaus.oxyd.kernel.oxydException;
 import org.codehaus.oxyd.kernel.document.IDocument;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.*;
 import java.util.List;
+import java.io.IOException;
 
-public class ActionManager extends Action{
-    Actions actions = new Actions();
+public class ActionManager extends HttpServlet{
+    Actions         actions = new Actions();
+    ServletConfig   config;
 
-    public ActionForward execute(ActionMapping mapping,
-                                 ActionForm form,
-                                 HttpServletRequest req,
-                                 HttpServletResponse resp)
-            throws Exception, ServletException
+    public void init(ServletConfig config) throws ServletException {
+        this.config = config;
+    }
+
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        String action = mapping.getName();
+        String action = getActionName(req);
         ServerContext serverContext = new ServerContext();
 
         serverContext.setKernelContext(new Context());
         serverContext.getKernelContext().setAction(action);
-        serverContext.setServletContext(servlet.getServletContext());
+        serverContext.setServletContext(config.getServletContext());
 
-        if (action.compareTo("listworkspaces") == 0)
+        try{
+            if (action.compareTo("listworkspaces") == 0)
+            {
+                List workspaces = actions.getWorkspacesNames(serverContext.getKernelContext());
+                render.listWorkspaces(workspaces, resp);
+            }
+
+            if (action.compareTo("listworkspacedocuments") == 0)
+            {
+                List docs = actions.getWorkspaceDocumentsName(getWorkspaceName(req), serverContext.getKernelContext());
+                render.listWorkspaceDocuments(docs, resp);
+            }
+
+
+            if (action.compareTo("getDocument") == 0)
+            {
+                IDocument doc = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
+                render.getDocument(doc, resp);
+            }
+        }
+        catch (oxydException e)
         {
-            List workspaces = actions.getWorkspacesNames(serverContext.getKernelContext());
-            render.listWorkspaces(workspaces, resp);
+        }
+        catch (IOException ioe)
+        {
+            
         }
 
-        if (action.compareTo("listworkspacedocuments") == 0)
-        {
-            List docs = actions.getWorkspaceDocumentsName(getWorkspaceName(req), serverContext.getKernelContext());
-            render.listWorkspaceDocuments(docs, resp);
+    }
+
+
+    private String getActionName(HttpServletRequest req)
+    {
+        try {
+            String url;
+            url = req.getRequestURI();
+            int startWorkSpace = url.indexOf("/", 0);
+            startWorkSpace = url.indexOf("/", startWorkSpace + 1) + 1;
+            int endWorkspace = url.indexOf("/", startWorkSpace);
+            if (endWorkspace <= 0)
+                endWorkspace = url.length();
+            return (url.substring(startWorkSpace, endWorkspace));
         }
-
-
-        if (action.compareTo("getDocument") == 0)
+        catch (Exception e)
         {
-            IDocument doc = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
-            render.getDocument(doc, resp);
+            return null;
         }
-
-
-        return null;
     }
 
     private String getWorkspaceName(HttpServletRequest req)

@@ -17,22 +17,12 @@
 package org.codehaus.oxyd.server;
 
 import org.codehaus.oxyd.kernel.Context;
-import org.apache.velocity.VelocityContext;
 
 import javax.servlet.ServletContext;
 
 public class ServerContext {
     private Context         context;
     private ServletContext  servletContext;
-    private VelocityContext vcontext;
-
-    public VelocityContext getVelocityContext() {
-        return vcontext;
-    }
-
-    public void setVelocityContext(VelocityContext vcontext) {
-        this.vcontext = vcontext;
-    }
 
     public Context getKernelContext() {
         return context;
