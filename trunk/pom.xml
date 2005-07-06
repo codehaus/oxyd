@@ -1,0 +1,43 @@
+<project>
+
+<ciManagement>
+<notifiers>
+<notifier>
+<type>mail</type>
+<address>dev@oxyd.codehaus.org</address>
+</notifier>
+</notifiers>
+</ciManagement>
+
+<inceptionYear>2005</inceptionYear>
+<developers>
+<developer>
+<name>Jérémi Joslin</name>
+<id>jeremi</id>
+<email>jeremi23@gmail.com</email>
+<organization>Codehaus</organization>
+<roles>
+<role>Creator</role>
+<role>Java Developer</role>
+<role>Release Manager</role>
+</roles>
+<timezone>+1</timezone>
+</developer>
+</developers>
+
+<organization>
+<name>Codehaus</name>
+<url>http://codehaus.org/</url>
+<logo>http://codehaus.org/codehaus-small.png</logo>
+</organization>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.oxyd</groupId>
+  <version>0.1-SNAPSHOT</version>
+  <artifactId>Oxyd</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>OxydKernel</module>
+    <module>OxydServer</module>
+  </modules>
+</project>

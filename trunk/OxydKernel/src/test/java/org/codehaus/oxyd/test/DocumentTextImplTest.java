@@ -182,19 +182,6 @@ public class DocumentTextImplTest extends TestCase {
             assertTrue(false);
         }
         assertEquals("the version must have changed", 8, bloc.getVersion());
-/*
-        IBlock  oldBloc = doc.getVersion(bloc.getId(), 1, context);
-        assertEquals("sailefutur", new String(oldBloc.getContent()));
-
-        oldBloc = doc.getVersion(bloc.getId(), 3, context);
-        assertEquals("test update", new String(oldBloc.getContent()));
-
-        oldBloc = doc.getVersion(bloc.getId(), 4, context);
-        assertEquals("test update", new String(oldBloc.getContent()));
-
-        oldBloc = doc.getVersion(bloc.getId(), 6, context);
-        assertEquals("test update of this block", new String(oldBloc.getContent()));
-*/
     }
 
     public void testGetUpdates() throws oxydException {
