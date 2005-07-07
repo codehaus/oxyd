@@ -18,7 +18,7 @@ package org.codehaus.oxyd.kernel.document;
 
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
-import org.codehaus.oxyd.kernel.Utils;
+import org.codehaus.oxyd.kernel.utils.Utils;
 import org.dom4j.Element;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

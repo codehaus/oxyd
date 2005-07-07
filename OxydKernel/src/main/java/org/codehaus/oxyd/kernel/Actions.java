@@ -20,6 +20,7 @@ package org.codehaus.oxyd.kernel;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.Authentication.RightService;
 import org.codehaus.oxyd.kernel.Authentication.AuthService;
+import org.codehaus.oxyd.kernel.utils.Utils;
 
 import java.util.*;
 
