@@ -18,8 +18,8 @@ package org.codehaus.oxyd.kernel.document;
 
 import org.dom4j.Element;
 import org.dom4j.dom.DOMElement;
-import org.apache.commons.codec.binary.Base64;
-import org.codehaus.oxyd.kernel.Utils;
+import org.codehaus.oxyd.kernel.utils.Utils;
+import org.codehaus.oxyd.kernel.utils.Base64;
 
 public class            BlockTextImpl implements IBlock {
     private long        id;
@@ -142,7 +142,7 @@ public class            BlockTextImpl implements IBlock {
 
         el = new DOMElement("content");
         if (getContent()!=null) {
-         String content = new String(Base64.encodeBase64(getContent()));
+         String content = new String(Base64.encode(getContent()));
          el.addText(content);
         } else {
             el.addText("");
@@ -154,7 +154,7 @@ public class            BlockTextImpl implements IBlock {
     }
 
     public void fromXML(Element el) {
-        setContent(Base64.decodeBase64(Utils.getElementText(el, "content").getBytes()));
+        setContent(Base64.decode(Utils.getElementText(el, "content").getBytes()));
         setPosition(Utils.getElementText(el, "position"));
         setRemoved(new Boolean(Utils.getElementText(el, "isremoved")).booleanValue());
         setType(Utils.getElementText(el, "type"));

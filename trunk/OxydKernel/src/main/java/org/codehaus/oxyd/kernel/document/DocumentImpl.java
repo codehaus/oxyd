@@ -246,7 +246,7 @@ public abstract class DocumentImpl implements IDocument {
 
     public Document toXMLDocument() {
         Document doc = new DOMDocument();
-        Element docel = new DOMElement("oxyddocument");
+        Element docel = new DOMElement("document");
         doc.setRootElement(docel);
 
         Element el = new DOMElement("name");
