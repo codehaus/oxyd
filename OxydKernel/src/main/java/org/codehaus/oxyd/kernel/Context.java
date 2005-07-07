@@ -16,7 +16,7 @@
  */
 package org.codehaus.oxyd.kernel;
 
-import org.codehaus.oxyd.kernel.Authentication.User;
+import org.codehaus.oxyd.kernel.authentication.User;
 
 import java.util.List;
 
