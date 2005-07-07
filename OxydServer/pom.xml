@@ -1,45 +1,57 @@
 <project>
 
 
-<modelVersion>4.0.0</modelVersion>
-<groupId>org.codehaus.oxyd</groupId>
-<artifactId>OxydServer</artifactId>
-<packaging>war</packaging>
-<version>0.1-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.codehaus.oxyd.server</groupId>
+    <artifactId>OxydServer</artifactId>
+    <packaging>war</packaging>
+    <version>0.1-SNAPSHOT</version>
 
-<parent>
-<groupId>org.codehaus.oxyd</groupId>
-<artifactId>Oxyd</artifactId>
-<version>0.1-SNAPSHOT</version>
-</parent>
-    
-<dependencies>
+    <repository>
+        <connection>scm|svn|http://svn.oxyd.codehaus.org/trunk/OxydServer/</connection>
+        <url>http://svn.oxyd.codehaus.org/</url>
+    </repository>
 
+    <parent>
+        <groupId>org.codehaus.oxyd</groupId>
+        <artifactId>Oxyd</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
 
-<dependency>
-<groupId>junit</groupId>
-<artifactId>junit</artifactId>
-<version>3.8.1</version>
-<scope>test</scope>
-</dependency>
-
-<dependency>
-<groupId>dom4j</groupId>
-<artifactId>dom4j</artifactId>
-<version>1.6</version>
-<scope>compile</scope>
-</dependency>
-
-<dependency>
-<groupId>org.codehaus.oxyd.kernel</groupId>
-<artifactId>OxydKernel</artifactId>
-<version>0.1-SNAPSHOT</version>
-</dependency>
+    <dependencies>
 
 
-</dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
 
-<build>
-<finalName>OxydServer</finalName>
-</build>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>servletapi</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.oxyd.kernel</groupId>
+            <artifactId>OxydKernel</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <finalName>OxydServer</finalName>
+    </build>
 </project>
