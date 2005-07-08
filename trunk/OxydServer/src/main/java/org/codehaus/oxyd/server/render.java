@@ -17,6 +17,8 @@
 package org.codehaus.oxyd.server;
 
 import org.codehaus.oxyd.kernel.document.IDocument;
+import org.codehaus.oxyd.kernel.document.IBlock;
+import org.codehaus.oxyd.kernel.oxydException;
 import org.dom4j.Element;
 import org.dom4j.Document;
 import org.dom4j.io.XMLWriter;
@@ -75,18 +77,49 @@ public class render {
 
     }
 
-    public static void getDocument(IDocument document, HttpServletResponse response) throws IOException {
-        Document doc = new DOMDocument();
+    public static void returnDocument(IDocument document, HttpServletResponse response) throws IOException {
+        Document returndoc = new DOMDocument();
         Element respel = new DOMElement("response");
-        doc.setRootElement(respel);
+        returndoc.setRootElement(respel);
 
-        Element docEl = new DOMElement("document");
-        respel.add(docEl);
+        Document doc = document.toXMLDocument();
+        //Element docEl = new DOMElement("document");
+        respel.add(doc.getRootElement());
 
-        Element el = new DOMElement("name");
-        el.addText(document.getName());
-        docEl.add(el);
+        sendResponse(returndoc, response);
+    }
 
-        sendResponse(doc, response);
+    public static void returnBlock(IBlock block, HttpServletResponse response) throws IOException {
+        Document returndoc = new DOMDocument();
+        Element respel = new DOMElement("response");
+        returndoc.setRootElement(respel);
+
+        Element blockEl = block.toXML();
+        //Element docEl = new DOMElement("document");
+        respel.add(blockEl);
+
+        sendResponse(returndoc, response);
+    }
+
+    public static void returnOk(HttpServletResponse response) throws IOException {
+        Document returndoc = new DOMDocument();
+        Element respel = new DOMElement("response");
+        returndoc.setRootElement(respel);
+        respel.addText("OK");
+        sendResponse(returndoc, response);
+    }
+
+    public static void ReturnError(oxydException e, HttpServletResponse response) throws IOException {
+        Document returndoc = new DOMDocument();
+        Element respel = new DOMElement("error");
+        returndoc.setRootElement(respel);
+        respel.addText(e.getMessage());
+        respel.addAttribute("module", ""+e.getModule());
+        respel.addAttribute("code", ""+e.getCode());
+        sendResponse(returndoc, response);
+    }
+
+    public static void returnUpdates(List updates, HttpServletResponse response) {
+
     }
 }
