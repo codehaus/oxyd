@@ -33,13 +33,19 @@ public class oxydException extends Exception {
     public static final int MODULE_DOCUMENT_TEXT_IMPL = 2;
     public static final int MODULE_ACTION = 3;
     public static final int MODULE_WORKSPACE = 4;
+    public static final int MODULE_ACTION_MANAGER = 5;
+    public static final int MODULE_CLIENT_UTILS = 6;
 
     public static final int ERROR_BLOCK_LOCKED = 1001;
-    public static final int ERROR_NOT_EDITION_MODE = 1002;
-    public static final int ERROR_ALREADY_EXIST = 1003;
-    public static final int ERROR_WORKSPACE_NOT_EXIST = 1004;
-    public static final int ERROR_DOCUMENT_NOT_EXIST = 1005;
-    public static final int ERROR_XML_ERROR = 1006;
+    public static final int ERROR_BLOCK_NOT_LOCKED = 1002;
+//    public static final int ERROR_NOT_EDITION_MODE = 1003;
+    public static final int ERROR_ALREADY_EXIST = 1004;
+    public static final int ERROR_WORKSPACE_NOT_EXIST = 1005;
+    public static final int ERROR_DOCUMENT_NOT_EXIST = 1006;
+    public static final int ERROR_BLOCK_NOT_EXIST = 1007;
+    public static final int ERROR_XML_ERROR = 1008;
+    public static final int ERROR_COMMAND_NOT_FOUND = 1009;
+     public static final int ERROR_HTTP_ERROR= 1010;
 
     public static final int ERROR_NOT_IMPLEMENTED = 9000;
 
@@ -167,11 +173,15 @@ public class oxydException extends Exception {
     }
 
     public void printStackTrace(PrintWriter s) {
-        exception.printStackTrace(s);
+        if (exception!=null) {
+            exception.printStackTrace(s);
+        }
     }
 
     public void printStackTrace(PrintStream s) {
-        exception.printStackTrace(s);
+        if (exception!=null) {
+            exception.printStackTrace(s);
+        }
     }
 
     public String getStackTraceAsString() {

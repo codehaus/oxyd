@@ -33,7 +33,7 @@ public class HistoryImpl implements IHistory {
     }
 
     /**
-     * TODO: utiliser Spring pour recupérer l'objet grace a son type.
+     * 
      * @param version
      * @return
      */
