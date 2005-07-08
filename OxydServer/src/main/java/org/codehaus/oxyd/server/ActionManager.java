@@ -20,6 +20,7 @@ import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
 import org.codehaus.oxyd.kernel.document.IDocument;
+import org.codehaus.oxyd.kernel.document.IBlock;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,21 +53,72 @@ public class ActionManager extends HttpServlet{
                 render.listWorkspaces(workspaces, resp);
             }
 
-            if (action.compareTo("listworkspacedocuments") == 0)
+            else if (action.compareTo("listworkspacedocuments") == 0)
             {
                 List docs = actions.getWorkspaceDocumentsName(getWorkspaceName(req), serverContext.getKernelContext());
                 render.listWorkspaceDocuments(docs, resp);
             }
 
 
-            if (action.compareTo("getDocument") == 0)
+            else if (action.compareTo("returndocument") == 0)
             {
                 IDocument doc = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
-                render.getDocument(doc, resp);
+                render.returnDocument(doc, resp);
+            }
+
+            else if (action.compareTo("createdocument") == 0)
+            {
+                IDocument doc = actions.createDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
+                render.returnDocument(doc, resp);
+            }
+
+            else if (action.compareTo("addblock") == 0)
+            {
+                IBlock block = actions.addDocumentBlock(getWorkspaceName(req), getDocumentName(req), getPos(req),getContent(req), serverContext.getKernelContext());
+                render.returnBlock(block, resp);
+            }
+
+            else if (action.compareTo("updateblock") == 0)
+            {
+                actions.UpdateDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req),getContent(req), serverContext.getKernelContext());
+                render.returnOk(resp);
+            }
+
+            else if (action.compareTo("moveblock") == 0)
+            {
+                throw new oxydException(oxydException.MODULE_ACTION_MANAGER, oxydException.ERROR_NOT_IMPLEMENTED, "not implemented");
+            }
+
+            else if (action.compareTo("getupdates") == 0)
+            {
+                List updates = actions.getUpdate(getWorkspaceName(req), getDocumentName(req), getSinceVersion(req), serverContext.getKernelContext());
+                render.returnUpdates(updates, resp);
+            }
+
+            else if (action.compareTo("lockblock") == 0)
+            {
+                actions.lockDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req), serverContext.getKernelContext());
+                render.returnOk(resp);
+            }
+
+            else if (action.compareTo("unlockblock") == 0)
+            {
+                actions.unlockDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req), serverContext.getKernelContext());
+                render.returnOk(resp);
+            }
+
+            else
+            {
+                throw new oxydException(oxydException.MODULE_ACTION_MANAGER, oxydException.ERROR_COMMAND_NOT_FOUND, "Command not found");
             }
         }
         catch (oxydException e)
         {
+            try {
+                render.ReturnError(e, resp);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
         catch (IOException ioe)
         {
@@ -75,6 +127,26 @@ public class ActionManager extends HttpServlet{
 
     }
 
+
+    private long getBlockId(HttpServletRequest req)
+    {
+        return new Long(req.getParameter("blockid")).longValue();
+    }
+
+    private long getSinceVersion(HttpServletRequest req)
+    {
+        return new Long(req.getParameter("sinceVersion")).longValue();
+    }
+
+    private byte[] getContent(HttpServletRequest req)
+    {
+        return req.getParameter("content").getBytes();
+    }
+
+    private String getPos(HttpServletRequest req)
+    {
+        return req.getParameter("position");
+    }
 
     private String getActionName(HttpServletRequest req)
     {
