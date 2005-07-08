@@ -176,6 +176,7 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/OxydClientLib/OxydClientLib.iml" filepath="$PROJECT_DIR$/OxydClientLib/OxydClientLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/OxydKernel/OxydKernel.iml" filepath="$PROJECT_DIR$/OxydKernel/OxydKernel.iml" />
       <module fileurl="file://$PROJECT_DIR$/OxydServer/OxydServer.iml" filepath="$PROJECT_DIR$/OxydServer/OxydServer.iml" />
     </modules>
