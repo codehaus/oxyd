@@ -18,6 +18,7 @@ package org.codehaus.oxyd.kernel.document;
 
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.dom4j.Document;
 
 import java.util.Map;
 import java.util.List;
@@ -89,7 +90,7 @@ public interface IDocument {
 
     void lockBlock(long blockId, Context context) throws oxydException;
 
-    void saveBlock(long blockId, Context context);
+    void saveBlock(long blockId, Context context) throws oxydException;
 
     void removeBlock(long blockId, Context context) throws oxydException;
 
@@ -97,13 +98,17 @@ public interface IDocument {
 
     public List getUpdates(long sinceVersion, Context context);
 
-    String toXML();
+    public String toXML();
+
+    public Document toXMLDocument();
 
     public void fromXML(String xml) throws oxydException;
 
     public String getWorkspace();
 
     public void setWorkspace(String workspace);
+
+    public boolean isBlockLocked(long blockId);
 
 
 }

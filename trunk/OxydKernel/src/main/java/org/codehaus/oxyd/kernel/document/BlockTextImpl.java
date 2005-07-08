@@ -98,12 +98,15 @@ public class            BlockTextImpl implements IBlock {
     public Object clone()
     {
         IBlock block = new BlockTextImpl();
-        block.setContent((byte[])getContent().clone());
+        if (getContent() != null)
+            block.setContent((byte[])getContent().clone());
         block.setId(getId());
         block.setLocked(isLocked());
         block.setRemoved(isRemoved());
-        block.setPosition(new String(getPosition()));
-        block.setType(new String(getType()));
+        if (getPosition() != null)
+            block.setPosition(new String(getPosition()));
+        if (getType() != null)
+            block.setType(new String(getType()));
         block.setUserName(getUserName());
         block.setVersion(getVersion());
         return block;

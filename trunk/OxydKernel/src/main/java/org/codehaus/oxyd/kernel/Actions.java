@@ -18,6 +18,7 @@ package org.codehaus.oxyd.kernel;
 
 
 import org.codehaus.oxyd.kernel.document.IDocument;
+import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.utils.Utils;
 import org.codehaus.oxyd.kernel.auth.RightService;
 import org.codehaus.oxyd.kernel.auth.AuthService;
@@ -76,7 +77,7 @@ public class Actions {
 
     }
 
-    public void UpdateDocument(String workspace, String docName, long blockId, byte[] content, Context context) throws oxydException {
+    public void UpdateDocumentBlock(String workspace, String docName, long blockId, byte[] content, Context context) throws oxydException {
         IDocument doc = getDocument(workspace, docName, context);
         doc.updateBlock(blockId, content, context);
     }
@@ -101,6 +102,13 @@ public class Actions {
         doc.unlockBlock(blockId, context);
     }
 
+    public IBlock addDocumentBlock(String workspace, String docName, String pos, byte[] content, Context context) throws oxydException {
+        IDocument doc = getDocument(workspace, docName, context);
+        return doc.createBlock(pos, content, context);
+    }
+
+
+
     public List getDocumentVersion(String workSpace, String docName, long Version, Context context)
     {
         throw new Error("not Implemented");
@@ -108,9 +116,13 @@ public class Actions {
 
     public IDocument createDocument(String workspace, String docName, Context context) throws oxydException {
         docName = Utils.noaccents(docName).replaceAll("[^(\\w| )]", "");
+        if (!isWorkspaceExist(workspace, context))
+            createWorkspace(workspace,  context);
         if (!isDocumentExist(workspace, docName, context))
         {
             Workspace space = getWorkspaces(workspace, context);
+            if (space == null)
+                space = this.createWorkspace(workspace, context);
             return space.createDocument(docName, context);
         }
         throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");

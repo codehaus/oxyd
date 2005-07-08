@@ -52,6 +52,45 @@ public class DocumentTextImplTest extends TestCase {
         assertEquals("3", bloc2.getPosition().toString());
     }
 
+    public void testUnlockRollback()
+    {
+        Context context = Utils.createContext();
+        IDocument doc = new DocumentTextImpl("test");
+        doc.setId(42);
+        doc.setName("test");
+        IBlock bloc1 = doc.createBlock("1", "That's the futur".getBytes(), context);
+        try {
+            doc.lockBlock(bloc1.getId(), context);
+        } catch (oxydException e) {
+            assertTrue(false);
+        }
+
+        IBlock b1 = doc.getBlock(bloc1.getId(), context);
+        assertEquals("the version must have change", 2, b1.getVersion());
+
+        try {
+            doc.updateBlock(bloc1.getId(), "test update of this block1".getBytes(), context);
+        } catch (oxydException e) {
+            assertTrue(false);
+        }
+
+
+        b1 = doc.getBlock(bloc1.getId(), context);
+        assertEquals("test update of this block1", new String(b1.getContent()));
+        assertEquals("the version must have change", 3, b1.getVersion());
+        try {
+            doc.unlockBlock(bloc1.getId(), context);
+        } catch (oxydException e) {
+            assertTrue(false);
+        }
+
+        b1 = doc.getBlock(bloc1.getId(), context);
+        assertEquals("the version must have change", 4, b1.getVersion());
+        assertEquals("That's the futur", new String(b1.getContent()));
+
+
+    }
+
     public void testDocumentTextUpdateBlocImpl() throws oxydException {
         Context context = Utils.createContext();
 
@@ -69,7 +108,7 @@ public class DocumentTextImplTest extends TestCase {
         assertEquals("the third block", new String(bloc3.getContent()));
 
         doc.lockBlock(bloc2.getId(), context);
-        assertTrue(bloc2.isLocked());
+        assertTrue(doc.isBlockLocked(bloc2.getId()));
         try {
             doc.updateBlock(bloc2.getId(), "test update of this block2".getBytes(), context);
         } catch (oxydException e) {
@@ -83,17 +122,22 @@ public class DocumentTextImplTest extends TestCase {
 
         }
 
-        assertEquals("That's the futur", new String(bloc1.getContent()));
-        assertEquals("test update of this block2", new String(bloc2.getContent()));
-        assertEquals("the third block", new String(bloc3.getContent()));
+        IBlock b1 = doc.getBlock(bloc1.getId(), context);
+        IBlock b2 = doc.getBlock(bloc2.getId(), context);
+        IBlock b3 = doc.getBlock(bloc3.getId(), context);
 
-        assertEquals("the version must be the inital", 1, bloc1.getVersion());
-        assertEquals("the version must have changed", 5, bloc2.getVersion());
-        assertEquals("the version must be the inital", 3, bloc3.getVersion());
+        assertEquals("That's the futur", new String(b1.getContent()));
+        assertEquals("test update of this block2", new String(b2.getContent()));
+        assertEquals("the third block", new String(b3.getContent()));
+
+        assertEquals("the version must be the inital", 1, b1.getVersion());
+        assertEquals("the version must have changed", 5, b2.getVersion());
+        assertEquals("the version must be the inital", 3, b3.getVersion());
         assertEquals("the version must have changed", 5, doc.getVersion());
 
         doc.saveBlock(bloc2.getId(), context);
-        assertEquals("the version must have changed", 5, bloc2.getVersion());
+        b2 = doc.getBlock(bloc2.getId(), context);
+        assertEquals("the version must have changed", 5, b2.getVersion());
         assertEquals("the version must have changed", 5, doc.getVersion());
 
 
@@ -105,7 +149,8 @@ public class DocumentTextImplTest extends TestCase {
         } catch (oxydException e) {
             assertTrue(false);
         }
-        assertEquals("the version must have changed", 8, bloc2.getVersion());
+        b2 = doc.getBlock(bloc2.getId(), context);
+        assertEquals("the version must have changed", 8, b2.getVersion());
 
         doc.lockBlock(bloc3.getId(), context);
         try {
@@ -114,13 +159,16 @@ public class DocumentTextImplTest extends TestCase {
         } catch (oxydException e) {
             assertTrue(false);
         }
-        assertEquals(10, bloc3.getVersion());
+        b3 = doc.getBlock(bloc3.getId(), context);
+        assertEquals(10, b3.getVersion());
 
         doc.saveBlock(bloc3.getId(), context);
         doc.saveBlock(bloc2.getId(), context);
 
-        assertEquals(10, bloc3.getVersion());
-        assertEquals(8, bloc2.getVersion());
+        b2 = doc.getBlock(bloc2.getId(), context);
+        b3 = doc.getBlock(bloc3.getId(), context);
+        assertEquals(10, b3.getVersion());
+        assertEquals(8, b2.getVersion());
         assertEquals(10, doc.getVersion());
 
     }
@@ -142,34 +190,40 @@ public class DocumentTextImplTest extends TestCase {
         }
         catch(oxydException e)
         {}
-        assertEquals("the version must be the inital", 2, bloc.getVersion());
+        IBlock b1  = doc.getBlock(bloc.getId(), context);
+        assertEquals("the version must be the inital", 2, b1.getVersion());
         try {
             doc.updateBlock(bloc.getId(), "test".getBytes(), context);
         } catch (oxydException e) {
             assertTrue(false);
         }
-        assertEquals("the version must have changed", 3, bloc.getVersion());
+        b1  = doc.getBlock(bloc.getId(), context);
+        assertEquals("the version must have changed", 3, b1.getVersion());
         try {
             doc.updateBlock(bloc.getId(), "test update".getBytes(), context);
         } catch (oxydException e) {
             assertTrue(false);
         }
-        assertEquals("the version must have changed", 4, bloc.getVersion());
+        b1  = doc.getBlock(bloc.getId(), context);
+        assertEquals("the version must have changed", 4, b1.getVersion());
         doc.saveBlock(bloc.getId(), context);
-        assertEquals("the version must have not changed", 4, bloc.getVersion());
+        b1  = doc.getBlock(bloc.getId(), context);
+        assertEquals("the version must have not changed", 4, b1.getVersion());
         try {
             doc.updateBlock(bloc.getId(), "test update of".getBytes(), context);
         } catch (oxydException e) {
             assertTrue(false);
         }
-        assertEquals("the version must have changed", 5, bloc.getVersion());
+        b1  = doc.getBlock(bloc.getId(), context);
+        assertEquals("the version must have changed", 5, b1.getVersion());
         try {
             doc.updateBlock(bloc.getId(), "test update of this".getBytes(), context);
         } catch (oxydException e) {
             assertTrue(false);
         }
         doc.saveBlock(bloc.getId(), context);
-        assertEquals("the version must have changed", 6, bloc.getVersion());
+        b1  = doc.getBlock(bloc.getId(), context);
+        assertEquals("the version must have changed", 6, b1.getVersion());
         try {
             doc.updateBlock(bloc.getId(), "test update of this block".getBytes(), context);
         } catch (oxydException e) {
@@ -181,7 +235,8 @@ public class DocumentTextImplTest extends TestCase {
         } catch (oxydException e) {
             assertTrue(false);
         }
-        assertEquals("the version must have changed", 8, bloc.getVersion());
+        b1  = doc.getBlock(bloc.getId(), context);
+        assertEquals("the version must have changed", 8, b1.getVersion());
     }
 
     public void testGetUpdates() throws oxydException {
@@ -273,10 +328,10 @@ public class DocumentTextImplTest extends TestCase {
         assertEquals(doc1.getDirectory(), doc2.getDirectory());
     }
 
-    private boolean inList(Object obj, List list)
+    private boolean inList(IBlock obj, List list)
     {
         for (int i = 0; i < list.size(); i++)
-            if (obj == list.get(i))
+            if (obj.getId() == ((IBlock)list.get(i)).getId())
                 return true;
         return false;
     }

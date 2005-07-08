@@ -34,6 +34,7 @@ public abstract class DocumentImpl implements IDocument {
     private Map         users;
     private long        version;
     private Map         blocks;
+    private Map         lockedBlocks;
     private List        comments;
     private String      parentName;
     private String      directory;
@@ -43,25 +44,26 @@ public abstract class DocumentImpl implements IDocument {
 
     public DocumentImpl(String space, String name)
     {
-        blocks = new HashMap();
-        history = new HistoryImpl();
-        version = 0;
-        setName(name);
-        setWorkspace(space);
+        init(name, space);
     }
 
     public DocumentImpl(String name)
     {
-        blocks = new HashMap();
-        history = new HistoryImpl();
-        version = 0;
-        setName(name);
+        init(name, "");
     }
 
     public DocumentImpl() {
+        init("", "");
+    }
+
+    private void init(String name, String space) {
         blocks = new HashMap();
+        lockedBlocks = new HashMap();
         history = new HistoryImpl();
+        comments = new ArrayList();
         version = 0;
+        setName(name);
+        setWorkspace(space);
     }
 
     public String getWorkspace() {
@@ -166,47 +168,68 @@ public abstract class DocumentImpl implements IDocument {
     }
 
     public IBlock getBlock(long blockId, Context context) {
+        if (isBlockLocked(blockId))
+            return (IBlock) lockedBlocks.get(new Long(blockId));
         IBlock block  = (IBlock) blocks.get(new Long(blockId));
         return block;
     }
 
     public void updateBlock(long blockId, byte[] content, Context context) throws oxydException {
-        IBlock block  = (IBlock) blocks.get(new Long(blockId));
-        if (!block.isLocked())
-            throw new oxydException(oxydException.MODULE_DOCUMENT_TEXT_IMPL, oxydException.ERROR_NOT_EDITION_MODE, "You have not started the editing mode for this block");
-        long  updateversion = getNextVersion();
+        if (!isBlockLocked(blockId))
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_LOCKED, "The block is not currently locked");
+        IBlock block  = (IBlock) lockedBlocks.get(new Long(blockId));
+        if (block == null)
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_EXIST, "This block does not exist");
 
+        long  updateversion = getNextVersion();
         block.setContent(content);
         block.setVersion(updateversion);
+        setVersion(updateversion);
     }
 
     public abstract IBlock createBlock(String pos, byte[] content, Context context);
 
     public abstract void moveBlock(long blockId, String pos, Context context);
 
+    public boolean isBlockLocked(long blockId)
+    {
+        return lockedBlocks.containsKey(new Long(blockId));
+    }
+
     public void lockBlock(long blockId, Context context) throws oxydException {
+        if (isBlockLocked(blockId))
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_LOCKED, "This block is currently locked");
         IBlock block  = (IBlock) blocks.get(new Long(blockId));
-        if (!block.isLocked() && !block.isRemoved())
+        if (block != null)
         {
-            block.setLocked(true);
+            IBlock lockedBlock = (IBlock) block.clone();
+            lockedBlock.setLocked(true);
             long tmpVersion = getNextVersion();
-            block.setVersion(tmpVersion);
+            lockedBlock.setVersion(tmpVersion);
+            lockedBlocks.put(new Long(blockId), lockedBlock);
             setVersion(tmpVersion);
         }
         else
-            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_LOCKED, "This block is currently locked");
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_EXIST, "This block does not exist");
     }
 
-    public void saveBlock(long blockId, Context context) {
-        String xml = toXML();
-        IHistoryEvent histev = new HistoryEventImpl("save", null);
+    public void saveBlock(long blockId, Context context) throws oxydException {
+        if (!isBlockLocked(blockId))
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_LOCKED, "This block is not currently locked");
+        IBlock lockedBlock = (IBlock) lockedBlocks.get(new Long(blockId));
+        blocks.put(new Long(blockId), lockedBlock.clone());
+
+/*         String xml = toXML();
+       IHistoryEvent histev = new HistoryEventImpl("save", null);
         histev.setVersionNumber(getVersion());
-        getHistory().addHistoryEvent(getVersion(), histev);
+        getHistory().addHistoryEvent(getVersion(), histev); */
     }
 
     public void removeBlock(long blockId, Context context) throws oxydException {
+        if (isBlockLocked(blockId))
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_LOCKED, "The block is currently locked");
         IBlock block  = (IBlock) blocks.get(new Long(blockId));
-        if (!block.isLocked() && !block.isRemoved())
+        if (block != null)
         {
             block.setRemoved(true);
             long tmpVersion = getNextVersion();
@@ -214,33 +237,56 @@ public abstract class DocumentImpl implements IDocument {
             setVersion(tmpVersion);
         }
         else
-            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_LOCKED, "The block is currently locked");
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_EXIST, "The block does not exist");
     }
 
     public void unlockBlock(long blockId, Context context) throws oxydException {
+        if (!isBlockLocked(blockId))
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_LOCKED, "The block is currently locked");
         IBlock block  = (IBlock) blocks.get(new Long(blockId));
-        if (block.isLocked() && !block.isRemoved())
+        if (block != null)
         {
-            block.setLocked(false);
+            lockedBlocks.remove(new Long(blockId));
             long tmpVersion = getNextVersion();
             block.setVersion(tmpVersion);
             setVersion(tmpVersion);
         }
         else
-            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_NOT_EDITION_MODE, "The block is currently locked");
+            throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_EXIST, "The block does not exist");
     }
 
+
+    /**
+     *
+     * @param sinceVersion
+     * @param context
+     * @return
+     */
     public List getUpdates(long sinceVersion, Context context) {
         if (sinceVersion >= getVersion())
             return null;
         List updates = new ArrayList();
-        Iterator it = blocks.values().iterator();
+        List blockId = new ArrayList();
+
+        Iterator it = lockedBlocks.values().iterator();
         while(it.hasNext())
         {
             IBlock block = (IBlock) it.next();
             if (sinceVersion < block.getVersion())
+            {
+                updates.add(block);
+                blockId.add(new Long(block.getId()));
+            }
+        }
+
+        it = blocks.values().iterator();
+        while(it.hasNext())
+        {
+            IBlock block = (IBlock) it.next();
+            if (sinceVersion < block.getVersion() && !blockId.contains(new Long(block.getId())))
                 updates.add(block);
         }
+
         return updates;
     }
 
