@@ -54,7 +54,8 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/oxyd/trunk/</connection>
+        <connection>scm:svn:http://svn.oxyd.codehaus.org/oxyd/scm/trunk/</connection>
+        <developerconnection>scm:svn:https://svn.codehaus.org/oxyd/trunk/</developerconnection>
         <url>:https://svn.codehaus.org/oxyd</url>
     </scm>
 </project>
