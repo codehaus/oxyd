@@ -7,11 +7,6 @@
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
 
-    <repository>
-        <connection>scm|svn|http://svn.oxyd.codehaus.org/trunk/OxydKernel/</connection>
-        <url>http://svn.oxyd.codehaus.org/</url>
-    </repository>
-
     <parent>
         <groupId>org.codehaus.oxyd</groupId>
         <artifactId>Oxyd</artifactId>
