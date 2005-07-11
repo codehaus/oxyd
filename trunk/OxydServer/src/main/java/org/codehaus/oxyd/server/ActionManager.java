@@ -19,6 +19,7 @@ package org.codehaus.oxyd.server;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.utils.Base64;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
 
@@ -60,7 +61,7 @@ public class ActionManager extends HttpServlet{
             }
 
 
-            else if (action.compareTo("returndocument") == 0)
+            else if (action.compareTo("getdocument") == 0)
             {
                 IDocument doc = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
                 render.returnDocument(doc, resp);
@@ -98,6 +99,12 @@ public class ActionManager extends HttpServlet{
             else if (action.compareTo("lockblock") == 0)
             {
                 actions.lockDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req), serverContext.getKernelContext());
+                render.returnOk(resp);
+            }
+
+            else if (action.compareTo("saveblock") == 0)
+            {
+                actions.saveDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req), serverContext.getKernelContext());
                 render.returnOk(resp);
             }
 
@@ -140,7 +147,7 @@ public class ActionManager extends HttpServlet{
 
     private byte[] getContent(HttpServletRequest req)
     {
-        return req.getParameter("content").getBytes();
+        return Base64.decode(req.getParameter("content").getBytes());
     }
 
     private String getPos(HttpServletRequest req)

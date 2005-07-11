@@ -97,6 +97,11 @@ public class Actions {
         doc.lockBlock(blockId, context);
     }
 
+    public void saveDocumentBlock(String workpace, String docName, long blockId, Context context) throws oxydException {
+        IDocument doc = getDocument(workpace, docName, context);
+        doc.saveBlock(blockId, context);
+    }
+
     public void unlockDocumentBlock(String workspace, String docName, long blockId, Context context) throws oxydException {
         IDocument doc = getDocument(workspace, docName, context);
         doc.unlockBlock(blockId, context);

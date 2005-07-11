@@ -112,7 +112,7 @@ public class            BlockTextImpl implements IBlock {
         return block;
     }
 
-        public Element toXML() {
+    public Element toXML() {
         Element blockel = new DOMElement("block");
 
         Element el = new DOMElement("id");
@@ -137,6 +137,10 @@ public class            BlockTextImpl implements IBlock {
 
         el = new DOMElement("isremoved");
         el.addText(new Boolean(isRemoved()).toString());
+        blockel.add(el);
+
+        el = new DOMElement("islocked");
+        el.addText(new Boolean(isLocked()).toString());
         blockel.add(el);
 
         el = new DOMElement("version");
@@ -164,6 +168,6 @@ public class            BlockTextImpl implements IBlock {
         setUserName(Utils.getElementText(el, "username"));
         setVersion(new Long(Utils.getElementText(el, "version")).longValue());
         setId(new Long(Utils.getElementText(el, "id")).longValue());
-
+        setLocked(new Boolean(Utils.getElementText(el, "islocked")).booleanValue());
     }
 }

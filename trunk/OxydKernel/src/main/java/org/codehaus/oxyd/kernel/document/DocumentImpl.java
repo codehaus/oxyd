@@ -34,7 +34,7 @@ public abstract class DocumentImpl implements IDocument {
     private Map         users;
     private long        version;
     private Map         blocks;
-    private Map         lockedBlocks;
+    protected Map       lockedBlocks;
     private List        comments;
     private String      parentName;
     private String      directory;
@@ -326,6 +326,12 @@ public abstract class DocumentImpl implements IDocument {
         el = new DOMElement("blocks");
         docel.add(el);
         Iterator it = getBlocks().values().iterator();
+        while (it.hasNext())
+            el.add(((IBlock)it.next()).toXML());
+
+        el = new DOMElement("lockedblocks");
+        docel.add(el);
+        it = lockedBlocks.values().iterator();
         while (it.hasNext())
             el.add(((IBlock)it.next()).toXML());
 
