@@ -35,6 +35,7 @@ public class oxydException extends Exception {
     public static final int MODULE_WORKSPACE = 4;
     public static final int MODULE_ACTION_MANAGER = 5;
     public static final int MODULE_CLIENT_UTILS = 6;
+    public static final int MODULE_CLIENT_ACTION = 7;
 
     public static final int ERROR_BLOCK_LOCKED = 1001;
     public static final int ERROR_BLOCK_NOT_LOCKED = 1002;

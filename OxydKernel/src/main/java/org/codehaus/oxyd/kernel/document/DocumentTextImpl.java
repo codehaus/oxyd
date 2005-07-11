@@ -118,7 +118,16 @@ public class    DocumentTextImpl extends DocumentImpl {
             this.getBlocks().put(new Long(block.getId()), block);
         }
 
+        blocksEl = infosEl.element("lockedblocks");
 
+        ListFile =  blocksEl.elements("block");
+        for (int i = 0; i < ListFile.size(); i++)
+        {
+            Element blockEl = ((Element)ListFile.get(i));
+            IBlock block = new BlockTextImpl();
+            block.fromXML(blockEl);
+            super.lockedBlocks.put(new Long(block.getId()), block);
+        }
     }
 
 
