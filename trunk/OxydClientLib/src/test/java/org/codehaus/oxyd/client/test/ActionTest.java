@@ -122,6 +122,14 @@ public class ActionTest extends TestCase {
         assertEquals(0, doc.getLockedBlocks().size());
     }
 
+    public void testGetUpdates() throws oxydException {
+        Document doc = actions.createDocument("GetUpdates", "titi");
+        Block block = actions.addBlock(doc, "1", "aa".getBytes());
+        Block block2 = actions.addBlock(doc, "1", "aa".getBytes());
+        actions.getUpdates(doc);
+
+    }
+
     private boolean inList(String obj, List list)
     {
         for (int i = 0; i < list.size(); i++)
