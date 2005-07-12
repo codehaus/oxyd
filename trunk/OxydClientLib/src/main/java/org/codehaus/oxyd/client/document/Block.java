@@ -31,7 +31,28 @@ public class Block {
     private boolean     locked;
     private boolean     removed;
     private boolean     modified;
+    private Document    doc;
 
+    public Block(Document doc)
+    {
+        setDoc(doc);
+    }
+
+    public Block(Document doc, org.dom4j.Document xml)
+    {
+        this(doc);
+        Element docEl = xml.getRootElement();
+        Element infosEl = docEl.element("block");
+        fromXML(infosEl);
+    }
+
+    public Document getDoc() {
+        return doc;
+    }
+
+    public void setDoc(Document doc) {
+        this.doc = doc;
+    }
 
     public long getId() {
         return id;

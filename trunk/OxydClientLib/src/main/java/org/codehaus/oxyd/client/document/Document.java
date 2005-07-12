@@ -142,7 +142,7 @@ public class Document {
         for (int i = 0; i < ListFile.size(); i++)
         {
             Element blockEl = ((Element)ListFile.get(i));
-            Block block = new Block();
+            Block block = new Block(this);
             block.fromXML(blockEl);
             this.getBlocks().put(new Long(block.getId()), block);
         }
@@ -152,7 +152,7 @@ public class Document {
         for (int i = 0; i < ListFile.size(); i++)
         {
             Element blockEl = ((Element)ListFile.get(i));
-            Block block = new Block();
+            Block block = new Block(this);
             block.fromXML(blockEl);
             lockedBlocks.put(new Long(block.getId()), block);
         }

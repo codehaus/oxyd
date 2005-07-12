@@ -1,0 +1,66 @@
+<project>
+
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.codehaus.oxyd.client</groupId>
+    <artifactId>OxydClientAPI</artifactId>
+    <packaging>jar</packaging>
+    <version>0.1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.codehaus.oxyd</groupId>
+        <artifactId>Oxyd</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+  	    <artifactId>commons-logging</artifactId>
+            <version>1.0.4</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+  	    <artifactId>commons-httpclient</artifactId>
+            <version>2.0.2</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+  		<groupId>cargo</groupId>
+  		<artifactId>cargo</artifactId>
+  		<version>0.5</version>
+		<scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.oxyd.kernel</groupId>
+            <artifactId>OxydKernel</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <finalName>OxydClientAPI</finalName>
+    </build>
+</project>
