@@ -38,6 +38,11 @@ public class ActionManager extends HttpServlet{
         this.config = config;
     }
 
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)
+    {
+        doGet(req, resp);
+    }
+
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
         String action = getActionName(req);
