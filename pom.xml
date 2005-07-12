@@ -2,11 +2,22 @@
 
 
     <ciManagement>
+        <system>continuum</system>
         <notifiers>
             <notifier>
                 <type>mail</type>
-                <address>dev@oxyd.codehaus.org</address>
+                 <configuration>
+		     <address>dev@oxyd.codehaus.org</address>
+		 </configuration>
             </notifier>
+	    <notifier>
+	    	    <type>irc</type>
+		    <configuration>
+		    <host>irc.codehaus.org</host>
+		    <port>6667</port>
+		    <channel>#oxyd</channel>
+		    </configuration>
+       	    </notifier>   
         </notifiers>
     </ciManagement>
 
