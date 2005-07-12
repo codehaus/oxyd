@@ -20,10 +20,13 @@ package org.codehaus.oxyd.client;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.codehaus.oxyd.kernel.oxydException;
 import org.dom4j.Element;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Iterator;
 
 public class Utils {
 
@@ -51,6 +54,40 @@ public class Utils {
         finally {
             // release any connection resources used by the method
             get.releaseConnection();
+        }
+    }
+
+        public static String getURLContent(String surl, Map postParams) throws oxydException {
+        HttpClient client = new HttpClient();
+
+        // create a GET method that reads a file over HTTPS, we're assuming
+        // that this file requires basic authentication using the realm above.
+        PostMethod post = new PostMethod(surl);
+
+        Iterator it = postParams.keySet().iterator();
+        while (it.hasNext())
+        {
+            String key = (String) it.next();
+            post.addParameter(key, (String)postParams.get(key));
+        }
+
+        try {
+            // execute the GET
+            int status = client.executeMethod(post);
+
+            if (status != 200)
+                throw new oxydException(oxydException.MODULE_CLIENT_UTILS, oxydException.ERROR_HTTP_ERROR, "http code: "+ status);
+
+            // print the status and response
+            return post.getResponseBodyAsString();
+        }
+        catch(IOException e)
+        {
+            throw new oxydException(oxydException.MODULE_CLIENT_UTILS, oxydException.ERROR_HTTP_ERROR, e.getMessage());
+        }
+        finally {
+            // release any connection resources used by the method
+            post.releaseConnection();
         }
     }
 

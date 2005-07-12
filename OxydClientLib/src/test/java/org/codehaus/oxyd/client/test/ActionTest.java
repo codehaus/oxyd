@@ -19,6 +19,7 @@ package org.codehaus.oxyd.client.test;
 
 import org.codehaus.oxyd.client.Actions;
 import org.codehaus.oxyd.client.document.Document;
+import org.codehaus.oxyd.client.document.Block;
 import org.codehaus.oxyd.kernel.oxydException;
 import junit.framework.TestCase;
 
@@ -30,6 +31,7 @@ public class ActionTest extends TestCase {
 
     public void setUp() throws oxydException {
         actions = new Actions();
+        
     }
 
     public void testCreateDocument() throws oxydException {
@@ -71,22 +73,53 @@ public class ActionTest extends TestCase {
 
     public void testCreateBlock() throws oxydException {
         Document doc = actions.createDocument("plip", "titi");
-        List docs = actions.createBlock(doc, "1");
+        Block block = actions.addBlock(doc, "1", "aa".getBytes());
+        Block block1 = actions.addBlock(doc, "2", "aa".getBytes());
+        Block block2 = actions.addBlock(doc, "3", "aa".getBytes());
 
-        assertEquals(3, docs.size());
-        assertTrue(inList("test", docs));
-        assertTrue(inList("foo", docs));
-        assertTrue(inList("Foo", docs));
+        Document doc1 = actions.getDocument(doc.getWorkspace(), doc.getName());
+
+        assertEquals(3, doc1.getBlocks().size());
+        assertTrue(doc1.getBlocks().containsKey(new Long(block.getId())));
+        assertTrue(doc1.getBlocks().containsKey(new Long(block1.getId())));
+        assertTrue(doc1.getBlocks().containsKey(new Long(block2.getId())));
+    }
+
+    public void testUpdateBlock() throws oxydException {
+        Document doc = actions.createDocument("plup", "titi");
+        Block block = actions.addBlock(doc, "1", "aa".getBytes());
+        Block block1 = actions.addBlock(doc, "2", "aa".getBytes());
+        Block block2 = actions.addBlock(doc, "3", "aa".getBytes());
+
+        actions.lockBlock(block);
+        block.setContent("is the futur?".getBytes());
+        actions.updateBlock(block);
+
+        actions.lockBlock(block1);
+        block1.setContent("yes it is".getBytes());
+        actions.updateBlock(block1);
+
+
+        doc = actions.getDocument(doc.getWorkspace(), doc.getName());
+        block = (Block) doc.getLockedBlocks().get(new Long(block.getId()));
+        assertEquals("is the futur?", new String(block.getContent()));
+
+        block1 = (Block) doc.getLockedBlocks().get(new Long(block1.getId()));
+        assertEquals("yes it is", new String(block1.getContent()));
     }
 
     public void testLockBlock() throws oxydException {
-        actions.createDocument("plop", "titi");
-        actions.lockBlock();
+        Document doc = actions.createDocument("plop", "titi");
+        Block block = actions.addBlock(doc, "1", "aa".getBytes());
+        actions.addBlock(doc, "1", "aa".getBytes());
 
-        assertEquals(3, docs.size());
-        assertTrue(inList("test", docs));
-        assertTrue(inList("foo", docs));
-        assertTrue(inList("Foo", docs));
+        assertTrue(actions.lockBlock(block));
+        doc = actions.getDocument(doc.getWorkspace(), doc.getName());
+        assertEquals(1, doc.getLockedBlocks().size());
+
+        assertTrue(actions.unlockBlock(block));
+        doc = actions.getDocument(doc.getWorkspace(), doc.getName());
+        assertEquals(0, doc.getLockedBlocks().size());
     }
 
     private boolean inList(String obj, List list)
@@ -96,4 +129,6 @@ public class ActionTest extends TestCase {
                 return true;
         return false;
     }
+
+
 }

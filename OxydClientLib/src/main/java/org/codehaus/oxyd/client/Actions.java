@@ -20,12 +20,15 @@ package org.codehaus.oxyd.client;
 import org.codehaus.oxyd.client.document.Document;
 import org.codehaus.oxyd.client.document.Block;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.utils.Base64;
 import org.dom4j.Element;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.io.StringReader;
 
 public class Actions {
@@ -81,14 +84,27 @@ public class Actions {
         return doc;
     }
 
-    public Block addBlock()
-    {
-        return null;
+    public Block addBlock(Document doc, String pos, byte[] content) throws oxydException {
+        String url = serverUrl + "addblock/" + doc.getWorkspace() + "/" + doc.getName();
+        Map postMap = new HashMap(2);
+        postMap.put("content", new String(Base64.encode(content)));
+        postMap.put("position", pos);
+        String URLContent = Utils.getURLContent(url, postMap);
+        org.dom4j.Document xmlDoc = getXMLDocument(URLContent);
+        isError(xmlDoc);
+        Block block = new Block(doc, xmlDoc);
+        return block;
     }
 
-    public void updateBlock()
-    {
-
+    public boolean updateBlock(Block block) throws oxydException {
+        String url = serverUrl + "updateblock/" + block.getDoc().getWorkspace() + "/" + block.getDoc().getName();
+        Map postMap = new HashMap(2);
+        postMap.put("content", new String(Base64.encode(block.getContent())));
+        postMap.put("blockid", "" + block.getId());
+        String URLContent = Utils.getURLContent(url, postMap);
+        org.dom4j.Document xmlDoc = getXMLDocument(URLContent);
+        isError(xmlDoc);
+        return isOK(xmlDoc);
     }
 
     public void moveBlock()
@@ -101,18 +117,25 @@ public class Actions {
 
     }
 
-    public void lockBlock(Block block)
-    {
+    public boolean lockBlock(Block block) throws oxydException {
+        String url = serverUrl + "lockblock/" + block.getDoc().getWorkspace() + "/" + block.getDoc().getName() + "?blockid="+block.getId();
+        String content = Utils.getURLContent(url);
+        org.dom4j.Document xmlDoc = getXMLDocument(content);
+        isError(xmlDoc);
+        return isOK(xmlDoc);
+    }
+
+    public boolean unlockBlock(Block block) throws oxydException {
+        String url = serverUrl + "unlockblock/" + block.getDoc().getWorkspace() + "/" + block.getDoc().getName() + "?blockid="+block.getId();
+        String content = Utils.getURLContent(url);
+        org.dom4j.Document xmlDoc = getXMLDocument(content);
+        isError(xmlDoc);
+        return isOK(xmlDoc);
 
     }
 
-    public void unlockBlock(Block block)
-    {
-
-    }
-
-    public boolean saveBlock(Document doc, Block block) throws oxydException {
-        String url = serverUrl + "saveblock/" + doc.getWorkspace() + "/" + doc.getName();
+    public boolean saveBlock(Block block) throws oxydException {
+        String url = serverUrl + "saveblock/" + block.getDoc().getWorkspace() + "/" + block.getDoc().getName() + "?blockid="+block.getId();
         String content = Utils.getURLContent(url);
         org.dom4j.Document xmlDoc = getXMLDocument(content);
         isError(xmlDoc);
@@ -152,7 +175,5 @@ public class Actions {
         return false;
     }
 
-    public Block createBlock(Document doc, String pos) {
-        return null;
-    }
+
 }
