@@ -60,8 +60,9 @@
     <artifactId>Oxyd</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>OxydKernel</module>
-        <module>OxydServer</module>
+        <module>core</module>
+        <module>server</module>
+        <module>clientAPI</module>
     </modules>
 
     <scm>

@@ -20,7 +20,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="OxydKernel" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -48,6 +47,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="core" />
     <orderEntryProperties />
   </component>
 </module>

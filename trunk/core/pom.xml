@@ -2,8 +2,8 @@
 
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.codehaus.oxyd.kernel</groupId>
-    <artifactId>OxydKernel</artifactId>
+    <groupId>org.codehaus.oxyd.core</groupId>
+    <artifactId>core</artifactId>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
 
@@ -35,7 +35,7 @@
     </dependencies>
 
     <build>
-        <finalName>OxydKernel</finalName>
+        <finalName>core</finalName>
     </build>
 
 </project>
