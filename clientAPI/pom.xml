@@ -2,8 +2,8 @@
 
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.codehaus.oxyd.client</groupId>
-    <artifactId>OxydClientAPI</artifactId>
+    <groupId>org.codehaus.oxyd.clientAPI</groupId>
+    <artifactId>clientAPI</artifactId>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
 
@@ -52,8 +52,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.codehaus.oxyd.kernel</groupId>
-            <artifactId>OxydKernel</artifactId>
+            <groupId>org.codehaus.oxyd.core</groupId>
+            <artifactId>core</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
 

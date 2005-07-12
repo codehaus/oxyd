@@ -176,9 +176,9 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/OxydClientLib/OxydClientLib.iml" filepath="$PROJECT_DIR$/OxydClientLib/OxydClientLib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/OxydKernel/OxydKernel.iml" filepath="$PROJECT_DIR$/OxydKernel/OxydKernel.iml" />
-      <module fileurl="file://$PROJECT_DIR$/OxydServer/OxydServer.iml" filepath="$PROJECT_DIR$/OxydServer/OxydServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clientAPI/clientAPI.iml" filepath="$PROJECT_DIR$/clientAPI/clientAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="false" project-jdk-name="java version &quot;1.4.2_07&quot;" />

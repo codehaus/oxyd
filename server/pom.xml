@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.oxyd.server</groupId>
-    <artifactId>OxydServer</artifactId>
+    <artifactId>server</artifactId>
     <packaging>war</packaging>
     <version>0.1-SNAPSHOT</version>
 
@@ -38,8 +38,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.codehaus.oxyd.kernel</groupId>
-            <artifactId>OxydKernel</artifactId>
+            <groupId>org.codehaus.oxyd.core</groupId>
+            <artifactId>core</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
 
@@ -47,6 +47,14 @@
     </dependencies>
 
     <build>
-        <finalName>OxydServer</finalName>
+        <finalName>server</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webXml>${basedir}/src/main/web/WEB-INF/web.xml</webXml>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

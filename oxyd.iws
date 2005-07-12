@@ -112,73 +112,38 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="vertical" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/OxydKernel/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
-      <entry file="file://$PROJECT_DIR$/OxydServer/src/main/java/org/codehaus/oxyd/server/ActionManager.java" pinned="false">
+    <first-group selected-file="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java">
+      <entry file="file://$PROJECT_DIR$/server/pom.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="99" column="45" selection-start="3983" selection-end="3983" vertical-scroll-proportion="0.5061082">
+          <state line="54" column="39" selection-start="1391" selection-end="1391" vertical-scroll-proportion="0.705401">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/OxydClientLib/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java" pinned="false">
+      <entry file="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="128" column="21" selection-start="4979" selection-end="4979" vertical-scroll-proportion="0.52040815">
+          <state line="75" column="33" selection-start="2626" selection-end="2626" vertical-scroll-proportion="0.44189852">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/OxydServer/src/main/java/org/codehaus/oxyd/server/render.java" pinned="false">
+      <entry file="file://$PROJECT_DIR$/core/pom.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="33" column="13" selection-start="1269" selection-end="1269" vertical-scroll-proportion="0.083769634">
+          <state line="4" column="35" selection-start="86" selection-end="86" vertical-scroll-proportion="0.024549918">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/OxydClientLib/src/main/java/org/codehaus/oxyd/client/Actions.java" pinned="false">
+      <entry file="file://$PROJECT_DIR$/clientAPI/pom.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="116" column="5" selection-start="4383" selection-end="4383" vertical-scroll-proportion="0.6352531">
+          <state line="4" column="40" selection-start="91" selection-end="91" vertical-scroll-proportion="-0.66939443">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/OxydClientLib/src/main/java/org/codehaus/oxyd/client/Utils.java" pinned="false">
+      <entry file="file://$PROJECT_DIR$/pom.xml" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="70" column="61" selection-start="2739" selection-end="2739" vertical-scroll-proportion="0.44153577">
-            <folding />
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/OxydKernel/src/main/java/org/codehaus/oxyd/kernel/Actions.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="88" column="60" selection-start="3204" selection-end="3204" vertical-scroll-proportion="0.5165794">
-            <folding />
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/OxydKernel/src/main/java/org/codehaus/oxyd/kernel/document/IDocument.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="98" column="0" selection-start="2557" selection-end="2557" vertical-scroll-proportion="0.4387755">
-            <folding />
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/OxydKernel/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="258" column="0" selection-start="8192" selection-end="8278" vertical-scroll-proportion="0.16230367">
-            <folding />
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/OxydClientLib/src/main/java/org/codehaus/oxyd/client/document/Document.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="129" column="0" selection-start="3149" selection-end="3149" vertical-scroll-proportion="0.18707483">
-            <folding />
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/OxydClientLib/src/main/java/org/codehaus/oxyd/client/document/Block.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="45" column="27" selection-start="1524" selection-end="1524" vertical-scroll-proportion="0.71428573">
+          <state line="54" column="69" selection-start="1586" selection-end="1586" vertical-scroll-proportion="0.41080198">
             <folding />
           </state>
         </provider>
@@ -200,16 +165,23 @@
   <component name="NamedScopeManager" />
   <component name="PackagesPane" />
   <component name="ProjectPane">
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib/src/test/java" module="OxydClientLib" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib/src" module="OxydClientLib" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib/src/test/java/org/codehaus/oxyd/client" module="OxydClientLib" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib" module="OxydClientLib" type="directory" />
-    <expanded_node url="" module="OxydClientLib" type="module" />
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib/src/test/java/org/codehaus" module="OxydClientLib" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib/src/test/java/org/codehaus/oxyd" module="OxydClientLib" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib/src/test/java/org" module="OxydClientLib" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib/src/test" module="OxydClientLib" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/OxydClientLib/src/test/java/org/codehaus/oxyd/client/test" module="OxydClientLib" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/server/src/main" module="server" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test" module="clientAPI" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/server/src/main/web" module="server" type="directory" />
+    <expanded_node url="" module="server" type="module" />
+    <expanded_node url="file://$PROJECT_DIR$/server/src" module="server" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test" module="clientAPI" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org" module="clientAPI" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src" module="clientAPI" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java" module="clientAPI" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd" module="clientAPI" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/core" module="core" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI" module="clientAPI" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/server" module="server" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus" module="clientAPI" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client" module="clientAPI" type="directory" />
+    <expanded_node url="" module="clientAPI" type="module" />
+    <expanded_node url="" module="core" type="module" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
@@ -283,7 +255,7 @@
       <option name="VM_PARAMETERS" />
     </configuration>
     <configuration selected="false" default="false" name="testKernel" type="JUnit" factoryName="JUnit">
-      <module name="OxydServer" />
+      <module name="server" />
       <option name="PACKAGE_NAME" value="org.codehaus.oxyd.test" />
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -305,7 +277,7 @@
       <ConfigurationWrapper RunnerId="Debug" />
     </configuration>
     <configuration selected="true" default="false" name="testClientAPI" type="JUnit" factoryName="JUnit">
-      <module name="OxydServer" />
+      <module name="server" />
       <option name="PACKAGE_NAME" value="org.codehaus.oxyd.client.test" />
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -334,11 +306,6 @@
       <option name="OPEN_IN_BROWSER" value="false" />
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/oxyd/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
-      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
-        <option name="CONTEXT_PATH" value="/oxyd" />
-        <option name="MODULE_NAME" value="OxydServer" />
-        <option name="DEPLOY" value="true" />
-      </J2EE_MODULE>
       <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="33886" />
@@ -434,7 +401,7 @@
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.30733946" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.33088234" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3112745" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33027524" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33027524" order="8" />
@@ -519,107 +486,37 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/OxydKernel/src/test/java/org/codehaus/oxyd/test/WorkspaceTest.java">
+    <entry file="file://$PROJECT_DIR$/server/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="13" selection-start="1063" selection-end="1063" vertical-scroll-proportion="0.04225352">
+        <state line="54" column="39" selection-start="1391" selection-end="1391" vertical-scroll-proportion="0.705401">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OxydKernel/src/main/java/org/codehaus/oxyd/kernel/document/BlockTextImpl.java">
+    <entry file="file://$PROJECT_DIR$/core/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="41" selection-start="3756" selection-end="3756" vertical-scroll-proportion="0.16338028">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydKernel/src/test/java/org/codehaus/oxyd/test/ActionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="13" selection-start="1088" selection-end="1088" vertical-scroll-proportion="-3.690141">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydKernel/src/test/java/org/codehaus/oxyd/test/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="13" selection-start="847" selection-end="847" vertical-scroll-proportion="0.1984127">
+        <state line="4" column="35" selection-start="86" selection-end="86" vertical-scroll-proportion="0.024549918">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="122" selection-end="122" vertical-scroll-proportion="0.16535433">
+        <state line="54" column="69" selection-start="1586" selection-end="1586" vertical-scroll-proportion="0.41080198">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OxydServer/src/main/java/org/codehaus/oxyd/server/render.java">
+    <entry file="file://$PROJECT_DIR$/clientAPI/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="13" selection-start="1269" selection-end="1269" vertical-scroll-proportion="0.083769634">
+        <state line="4" column="40" selection-start="91" selection-end="91" vertical-scroll-proportion="-0.66939443">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OxydClientLib/src/main/java/org/codehaus/oxyd/client/Utils.java">
+    <entry file="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="61" selection-start="2739" selection-end="2739" vertical-scroll-proportion="0.44153577">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydClientLib/src/main/java/org/codehaus/oxyd/client/document/Document.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="0" selection-start="3149" selection-end="3149" vertical-scroll-proportion="0.18707483">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydClientLib/src/main/java/org/codehaus/oxyd/client/document/Block.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="27" selection-start="1524" selection-end="1524" vertical-scroll-proportion="0.71428573">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydClientLib/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="21" selection-start="4979" selection-end="4979" vertical-scroll-proportion="0.52040815">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydClientLib/src/main/java/org/codehaus/oxyd/client/Actions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="5" selection-start="4383" selection-end="4383" vertical-scroll-proportion="0.6352531">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydServer/src/main/java/org/codehaus/oxyd/server/ActionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="45" selection-start="3983" selection-end="3983" vertical-scroll-proportion="0.5061082">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydKernel/src/main/java/org/codehaus/oxyd/kernel/Actions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="60" selection-start="3204" selection-end="3204" vertical-scroll-proportion="0.5165794">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydKernel/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="258" column="0" selection-start="8192" selection-end="8278" vertical-scroll-proportion="0.16230367">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OxydKernel/src/main/java/org/codehaus/oxyd/kernel/document/IDocument.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="0" selection-start="2557" selection-end="2557" vertical-scroll-proportion="0.4387755">
+        <state line="75" column="33" selection-start="2626" selection-end="2626" vertical-scroll-proportion="0.44189852">
           <folding />
         </state>
       </provider>
