@@ -25,17 +25,14 @@ import org.dom4j.Element;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 import java.io.StringReader;
 
 public class Actions {
     private String serverUrl = "http://localhost:8080/oxyd/";
 
-    public List listWorkspaces() throws oxydException {
-        String url = serverUrl + "listworkspaces";
+    public List getWorkspaces() throws oxydException {
+        String url = serverUrl + "getworkspaces";
         String content = Utils.getURLContent(url);
         org.dom4j.Document xmlDoc = getXMLDocument(content);
         isError(xmlDoc);
@@ -49,8 +46,8 @@ public class Actions {
         return workspaces;
     }
 
-    public List listWorkspaceDocuments(String workspace) throws oxydException {
-        String url = serverUrl + "listworkspacedocuments/" + workspace;
+    public List getWorkspaceDocuments(String workspace) throws oxydException {
+        String url = serverUrl + "getworkspacedocuments/" + workspace;
         String content = Utils.getURLContent(url);
         org.dom4j.Document xmlDoc = getXMLDocument(content);
         isError(xmlDoc);
@@ -112,9 +109,39 @@ public class Actions {
 
     }
 
-    public void getUpdates(Document doc)
-    {
+    public void getUpdates(Document doc) throws oxydException {
+        String url = serverUrl + "getupdates/" + doc.getWorkspace() + "/" + doc.getName() + "?sinceVersion=" + doc.getVersion();
+        String content = Utils.getURLContent(url);
+        org.dom4j.Document xmlDoc = getXMLDocument(content);
+        isError(xmlDoc);
+        Element el = xmlDoc.getRootElement();
+        doc.setVersion(new Long(el.element("blocks").attributeValue("version")).longValue());
+        List els = el.element("blocks").elements("block");
 
+        Iterator it = doc.getLockedBlocks().values().iterator();
+        while(it.hasNext())
+            ((Block)it.next()).setModified(false);
+
+        it = doc.getBlocks().values().iterator();
+        while(it.hasNext())
+            ((Block)it.next()).setModified(false);
+
+        for (int i = 0; i < els.size(); i++)
+        {
+            Block block = new Block(doc);
+            block.fromXML((Element) els.get(i));
+            block.setModified(true);
+            if (block.isLocked())
+            {
+                doc.getBlocks().remove(new Long(block.getId()));
+                doc.getLockedBlocks().put(new Long(block.getId()), block);
+            }
+            else
+            {
+                doc.getLockedBlocks().remove(new Long(block.getId()));
+                doc.getBlocks().put(new Long(block.getId()), block);
+            }
+        }
     }
 
     public boolean lockBlock(Block block) throws oxydException {

@@ -53,13 +53,13 @@ public class ActionManager extends HttpServlet{
         serverContext.setServletContext(config.getServletContext());
 
         try{
-            if (action.compareTo("listworkspaces") == 0)
+            if (action.compareTo("getworkspaces") == 0)
             {
                 List workspaces = actions.getWorkspacesNames(serverContext.getKernelContext());
                 render.listWorkspaces(workspaces, resp);
             }
 
-            else if (action.compareTo("listworkspacedocuments") == 0)
+            else if (action.compareTo("getworkspacedocuments") == 0)
             {
                 List docs = actions.getWorkspaceDocumentsName(getWorkspaceName(req), serverContext.getKernelContext());
                 render.listWorkspaceDocuments(docs, resp);
@@ -98,7 +98,8 @@ public class ActionManager extends HttpServlet{
             else if (action.compareTo("getupdates") == 0)
             {
                 List updates = actions.getUpdate(getWorkspaceName(req), getDocumentName(req), getSinceVersion(req), serverContext.getKernelContext());
-                render.returnUpdates(updates, resp);
+                long version = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext()).getVersion();
+                render.returnUpdates(updates, version, resp);
             }
 
             else if (action.compareTo("lockblock") == 0)

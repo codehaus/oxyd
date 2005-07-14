@@ -51,7 +51,7 @@ public class ActionTest extends TestCase {
         actions.createDocument("test", "titi");
         actions.createDocument("foo", "titi");
         actions.createDocument("Foo", "titi");
-        List docs = actions.listWorkspaces();
+        List docs = actions.getWorkspaces();
 
         assertEquals(3, docs.size());
         assertTrue(inList("test", docs));
@@ -63,7 +63,7 @@ public class ActionTest extends TestCase {
         actions.createDocument("Bar", "titi");
         actions.createDocument("Bar", "toto");
         actions.createDocument("Bar", "tutu");
-        List docs = actions.listWorkspaceDocuments("Bar");
+        List docs = actions.getWorkspaceDocuments("Bar");
 
         assertEquals(3, docs.size());
         assertTrue(inList("titi", docs));
@@ -123,11 +123,17 @@ public class ActionTest extends TestCase {
     }
 
     public void testGetUpdates() throws oxydException {
-        Document doc = actions.createDocument("GetUpdates", "titi");
+        Document doc = actions.createDocument("plopplip", "titi");
         Block block = actions.addBlock(doc, "1", "aa".getBytes());
         Block block2 = actions.addBlock(doc, "1", "aa".getBytes());
         actions.getUpdates(doc);
-
+        assertEquals(2, doc.getVersion());
+        assertEquals(0, doc.getLockedBlocks().size());
+        assertEquals(2, doc.getBlocks().size());
+        actions.lockBlock(block);
+        actions.getUpdates(doc);
+        assertEquals(1, doc.getLockedBlocks().size());
+        assertEquals(1, doc.getBlocks().size());
     }
 
     private boolean inList(String obj, List list)
