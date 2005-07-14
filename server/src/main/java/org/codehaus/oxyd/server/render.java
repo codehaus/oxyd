@@ -119,7 +119,20 @@ public class render {
         sendResponse(returndoc, response);
     }
 
-    public static void returnUpdates(List updates, HttpServletResponse response) {
+    public static void returnUpdates(List updates, long version, HttpServletResponse response) throws IOException {
+        Document doc = new DOMDocument();
+        Element respel = new DOMElement("response");
+        doc.setRootElement(respel);
 
+        Element docsEl = new DOMElement("blocks");
+        respel.add(docsEl);
+        docsEl.addAttribute("version", ""+version);
+
+        for (int i = 0; i < updates.size(); i++)
+        {
+            Element el = ((IBlock)updates.get(i)).toXML();
+            docsEl.add(el);
+        }
+        sendResponse(doc, response);
     }
 }

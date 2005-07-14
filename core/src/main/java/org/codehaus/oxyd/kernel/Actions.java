@@ -49,7 +49,7 @@ public class Actions {
         return workspacesNames;
     }
 
-    private Workspace getWorkspaces(String workspaceName, Context context)
+    private Workspace getWorkspace(String workspaceName, Context context)
     {
         return (Workspace) workspaces.get(workspaceName);
     }
@@ -70,7 +70,7 @@ public class Actions {
     {
         if (isDocumentExist(workspace, docName, context))
         {
-            Workspace space = getWorkspaces(workspace, context);
+            Workspace space = getWorkspace(workspace, context);
             return space.getDocument(docName, context);
         }
         throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");
@@ -85,7 +85,7 @@ public class Actions {
     public List getUpdate(String workspace, String docName, long sinceVersion, Context context) throws oxydException {
         if (isDocumentExist(workspace, docName, context))
         {
-            Workspace space = getWorkspaces(workspace, context);
+            Workspace space = getWorkspace(workspace, context);
             return space.getDocument(docName, context).getUpdates(sinceVersion, context);
         }
         throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");
@@ -125,7 +125,7 @@ public class Actions {
             createWorkspace(workspace,  context);
         if (!isDocumentExist(workspace, docName, context))
         {
-            Workspace space = getWorkspaces(workspace, context);
+            Workspace space = getWorkspace(workspace, context);
             if (space == null)
                 space = this.createWorkspace(workspace, context);
             return space.createDocument(docName, context);
@@ -136,7 +136,7 @@ public class Actions {
     private boolean isDocumentExist(String workspace, String docName, Context context) throws oxydException {
         if (isWorkspaceExist(workspace, context))
         {
-            Workspace space = getWorkspaces(workspace, context);
+            Workspace space = getWorkspace(workspace, context);
             return space.isDocumentExist(docName, context);
         }
         else

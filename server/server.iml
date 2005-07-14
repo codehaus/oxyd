@@ -3,16 +3,13 @@
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/exploded/WEB-INF/classes" />
-    <exclude-output />
     <exploded url="file://$MODULE_DIR$/exploded" />
-    <exclude-exploded />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="OxydKernel" exported="" />
     <orderEntry type="library" name="tomcat" level="application" />
     <orderEntry type="module-library">
       <library>
@@ -23,6 +20,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="core" />
     <orderEntry type="library" name="Tomcat" level="application_server_libraries" />
     <orderEntryProperties />
   </component>
@@ -36,19 +34,19 @@
     <setting name="RUN_JASPER_VALIDATION" value="false" />
   </component>
   <component name="WebModuleProperties">
-    <containerElement type="module" name="OxydKernel">
+    <containerElement type="module" name="core">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/classes" />
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/dom4j-1.6.jar" />
-      <url>jar://$MODULE_DIR$/../OxydKernel/lib/dom4j-1.6.jar!/</url>
+      <url>jar://$MODULE_DIR$/../core/lib/dom4j-1.6.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/junit-3.8.1.jar" />
-      <url>jar://$MODULE_DIR$/../OxydKernel/lib/junit-3.8.1.jar!/</url>
+      <url>jar://$MODULE_DIR$/../core/lib/junit-3.8.1.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />

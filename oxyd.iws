@@ -112,38 +112,59 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="vertical" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java">
-      <entry file="file://$PROJECT_DIR$/server/pom.xml" pinned="false">
+    <first-group selected-file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/Actions.java">
+      <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/Actions.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="54" column="39" selection-start="1391" selection-end="1391" vertical-scroll-proportion="0.705401">
+          <state line="140" column="70" selection-start="5544" selection-end="5544" vertical-scroll-proportion="0.56363636">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/document/Document.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="136" column="73" selection-start="3591" selection-end="3591" vertical-scroll-proportion="0.6793103">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/Utils.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="43" column="0" selection-start="1618" selection-end="1618" vertical-scroll-proportion="0.91636366">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="75" column="33" selection-start="2626" selection-end="2626" vertical-scroll-proportion="0.44189852">
+          <state line="133" column="22" selection-start="5190" selection-end="5190" vertical-scroll-proportion="0.94482756">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/core/pom.xml" pinned="false">
+      <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/document/Block.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="4" column="35" selection-start="86" selection-end="86" vertical-scroll-proportion="0.024549918">
+          <state line="40" column="11" selection-start="1334" selection-end="1334" vertical-scroll-proportion="-3.3206897">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/clientAPI/pom.xml" pinned="false">
+      <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Actions.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="4" column="40" selection-start="91" selection-end="91" vertical-scroll-proportion="-0.66939443">
+          <state line="88" column="61" selection-start="3202" selection-end="3202" vertical-scroll-proportion="0.9563636">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/pom.xml" pinned="false">
+      <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/ActionManager.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="54" column="69" selection-start="1586" selection-end="1586" vertical-scroll-proportion="0.41080198">
+          <state line="101" column="46" selection-start="4277" selection-end="4277" vertical-scroll-proportion="0.48">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/render.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="128" column="34" selection-start="4729" selection-end="4729" vertical-scroll-proportion="1.2034483">
             <folding />
           </state>
         </provider>
@@ -164,25 +185,7 @@
   <component name="J2EEProjectPane" />
   <component name="NamedScopeManager" />
   <component name="PackagesPane" />
-  <component name="ProjectPane">
-    <expanded_node url="file://$PROJECT_DIR$/server/src/main" module="server" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test" module="clientAPI" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/server/src/main/web" module="server" type="directory" />
-    <expanded_node url="" module="server" type="module" />
-    <expanded_node url="file://$PROJECT_DIR$/server/src" module="server" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test" module="clientAPI" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org" module="clientAPI" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src" module="clientAPI" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java" module="clientAPI" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd" module="clientAPI" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/core" module="core" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI" module="clientAPI" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/server" module="server" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus" module="clientAPI" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client" module="clientAPI" type="directory" />
-    <expanded_node url="" module="clientAPI" type="module" />
-    <expanded_node url="" module="core" type="module" />
-  </component>
+  <component name="ProjectPane" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
       <flattenPackages />
@@ -202,11 +205,35 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="Web Module Deployment Descriptor Default Version" value="2.3" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="/home/jeremi/Desktop/moovement/site -jobreader" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
   </component>
   <component name="RunManager">
     <activeType name="JUnit" />
+    <configuration selected="false" default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+    </configuration>
+    <configuration selected="false" default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration selected="false" default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <module name="" />
+    </configuration>
     <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -229,30 +256,6 @@
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="wholeProject" />
       </option>
-    </configuration>
-    <configuration selected="false" default="true" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <module name="" />
-    </configuration>
-    <configuration selected="false" default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
-    <configuration selected="false" default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
     </configuration>
     <configuration selected="false" default="false" name="testKernel" type="JUnit" factoryName="JUnit">
       <module name="server" />
@@ -306,6 +309,11 @@
       <option name="OPEN_IN_BROWSER" value="false" />
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/oxyd/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
+      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
+        <option name="CONTEXT_PATH" value="/oxyd" />
+        <option name="MODULE_NAME" value="server" />
+        <option name="DEPLOY" value="true" />
+      </J2EE_MODULE>
       <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="33886" />
@@ -396,13 +404,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="1" width="1278" height="773" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1280" height="774" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.30733946" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3112745" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33027524" order="1" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.25856444" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.330781" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33027524" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
@@ -410,7 +418,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.42813456" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.32721713" order="4" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.4464832" order="4" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
@@ -486,37 +494,107 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/server/pom.xml">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="39" selection-start="1391" selection-end="1391" vertical-scroll-proportion="0.705401">
+        <state line="54" column="69" selection-start="1586" selection-end="1586" vertical-scroll-proportion="0.46768707">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="35" selection-start="86" selection-end="86" vertical-scroll-proportion="0.024549918">
+        <state line="4" column="35" selection-start="86" selection-end="86" vertical-scroll-proportion="0.02618658">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file:///home/jeremi/Desktop/moovement/site -jobreader/index2.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="69" selection-start="1586" selection-end="1586" vertical-scroll-proportion="0.41080198">
+        <state line="6" column="72" selection-start="362" selection-end="362" vertical-scroll-proportion="0.025167786">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientAPI/pom.xml">
+    <entry file="file:///home/jeremi/Desktop/moovement/site -jobreader/index.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="40" selection-start="91" selection-end="91" vertical-scroll-proportion="-0.66939443">
+        <state line="72" column="1" selection-start="5031" selection-end="7071" vertical-scroll-proportion="0.6828859">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Actions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="88" column="61" selection-start="3202" selection-end="3202" vertical-scroll-proportion="0.9563636">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/IDocument.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="98" column="0" selection-start="2557" selection-end="2557" vertical-scroll-proportion="0.4599018">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="264" column="16" selection-start="8295" selection-end="8295" vertical-scroll-proportion="0.33221477">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/render.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="34" selection-start="4729" selection-end="4729" vertical-scroll-proportion="1.2034483">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/clientAPI/lib/junit-3.8.1.jar!/junit/framework/TestCase.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="644" selection-end="644" vertical-scroll-proportion="0.85597825">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="0" selection-start="1618" selection-end="1618" vertical-scroll-proportion="0.91636366">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/document/Document.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="136" column="73" selection-start="3591" selection-end="3591" vertical-scroll-proportion="0.6793103">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/ActionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="46" selection-start="4277" selection-end="4277" vertical-scroll-proportion="0.48">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/Actions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="140" column="70" selection-start="5544" selection-end="5544" vertical-scroll-proportion="0.56363636">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/document/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="11" selection-start="1334" selection-end="1334" vertical-scroll-proportion="-3.3206897">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="33" selection-start="2626" selection-end="2626" vertical-scroll-proportion="0.44189852">
+        <state line="133" column="22" selection-start="5190" selection-end="5190" vertical-scroll-proportion="0.94482756">
           <folding />
         </state>
       </provider>
