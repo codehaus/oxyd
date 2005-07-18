@@ -4,19 +4,21 @@
 <web-app>
 
   <display-name>Oxyd</display-name>
-
+  
   <servlet>
     <servlet-name>action</servlet-name>
     <servlet-class>org.codehaus.oxyd.server.ActionManager</servlet-class>
+      <load-on-startup>1</load-on-startup>
+
   </servlet>
 
   <servlet-mapping>
     <servlet-name>action</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/command/*</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
-    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
