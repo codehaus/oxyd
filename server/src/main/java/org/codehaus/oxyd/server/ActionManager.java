@@ -52,6 +52,8 @@ public class ActionManager extends HttpServlet{
         serverContext.getKernelContext().setAction(action);
         serverContext.setServletContext(config.getServletContext());
 
+        resp.setContentType("text/xml;charset=UTF-8");
+
         try{
             if (action.compareTo("getworkspaces") == 0)
             {
@@ -167,6 +169,7 @@ public class ActionManager extends HttpServlet{
             String url;
             url = req.getRequestURI();
             int startWorkSpace = url.indexOf("/", 0);
+            startWorkSpace = url.indexOf("/", startWorkSpace + 1);
             startWorkSpace = url.indexOf("/", startWorkSpace + 1) + 1;
             int endWorkspace = url.indexOf("/", startWorkSpace);
             if (endWorkspace <= 0)
@@ -186,6 +189,7 @@ public class ActionManager extends HttpServlet{
             url = req.getRequestURI();
             int startWorkSpace = url.indexOf("/", 0);
             startWorkSpace = url.indexOf("/", startWorkSpace + 1);
+            startWorkSpace = url.indexOf("/", startWorkSpace + 1);
             startWorkSpace = url.indexOf("/", startWorkSpace + 1) + 1;
             int endWorkspace = url.indexOf("/", startWorkSpace);
             if (endWorkspace <= 0)
@@ -204,6 +208,7 @@ public class ActionManager extends HttpServlet{
             String url;
             url = req.getRequestURI();
             int startDocument = url.indexOf("/", 0);
+            startDocument = url.indexOf("/", startDocument + 1);
             startDocument = url.indexOf("/", startDocument + 1);
             startDocument = url.indexOf("/", startDocument + 1);
             startDocument = url.indexOf("/", startDocument + 1) + 1;
