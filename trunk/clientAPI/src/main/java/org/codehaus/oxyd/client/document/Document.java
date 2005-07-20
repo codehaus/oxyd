@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.io.StringReader;
 
 public class Document {
-    private long        id;
     private String      name;
     private Map         users;
     private long        version;
@@ -44,14 +43,6 @@ public class Document {
         blocks = new HashMap();
         lockedBlocks = new HashMap();
         fromXML(xmlDoc);
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

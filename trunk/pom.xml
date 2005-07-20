@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <project>
-
-
     <ciManagement>
         <system>continuum</system>
         <notifiers>
@@ -65,9 +65,9 @@
         <module>clientAPI</module>
     </modules>
 
-    <scm>
-        <connection>scm:svn:svn://svn.oxyd.codehaus.org/oxyd/scm/trunk/</connection>
-        <developerconnection>scm:svn:https://svn.codehaus.org/oxyd/trunk/</developerconnection>
-        <url>:https://svn.codehaus.org/oxyd</url>
-    </scm>
+        <scm>
+            <connection>scm:svn:svn://svn.oxyd.codehaus.org/oxyd/scm/trunk/</connection>
+            <developerConnection>scm:svn:https://svn.codehaus.org/oxyd/trunk/</developerConnection>
+            <url>https://svn.codehaus.org/oxyd</url>
+        </scm>
 </project>

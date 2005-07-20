@@ -27,7 +27,7 @@ body {
 }
 
 
-#content {
+#main {
     /*float: left;
     position: relative; */
 	top:0px;
@@ -78,6 +78,18 @@ body {
 
 }
 
+.position {
+    visibility:hidden;
+}
+
+.content {
+    border: 1px solid #0000FF;
+}
+
+.contentLocked {
+    border: 1px solid #00FF00;
+}
+
 
 
         /* Elements
@@ -112,12 +124,6 @@ body {
         a:active	{ color: #999999; }
         a:hover		{ color: #999999; background: #C0C0C0; border: none; }
 
-        a[hreflang]:after {
-                content: "\0000a0[" attr(hreflang) "]";
-            color : #B89D70;
-            background : transparent;
-        }
-
         h2 {	font-family : Georgia,"Times New Roman","New York",serif;}
         h2 a {  text-decoration: none;}
         h3 {	font-family : "Trebuchet MS",Arial,Helvetica,sans-serif;}
@@ -149,14 +155,15 @@ body {
         </div>
 
         <!--<div id="main">   -->
-            <div id="content">
+            <div id="main">
                 <div id="messages">
 
                 </div>
                 <div id="document">
                     <div id="infos">
                         document: <a id="spaceName"></a>.<a id="documentName"></a><br />
-                        version: <a id="version"></a>
+                        version: <a id="version"></a><br />
+                        <a onclick="addBlock('-1')"><img src="img/button_add.png" alt="add"/></a>
                     </div>
                     <div id="blocks">
 

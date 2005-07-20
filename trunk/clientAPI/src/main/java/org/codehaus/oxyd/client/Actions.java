@@ -29,7 +29,7 @@ import java.util.*;
 import java.io.StringReader;
 
 public class Actions {
-    private String serverUrl = "http://localhost:8080/oxyd/";
+    private String serverUrl = "http://localhost:8080/oxyd/command/";
 
     public List getWorkspaces() throws oxydException {
         String url = serverUrl + "getworkspaces";
@@ -110,7 +110,7 @@ public class Actions {
     }
 
     public void getUpdates(Document doc) throws oxydException {
-        String url = serverUrl + "getupdates/" + doc.getWorkspace() + "/" + doc.getName() + "?sinceVersion=" + doc.getVersion();
+        String url = serverUrl + "getupdates/" + doc.getWorkspace() + "/" + doc.getName() + "?sinceversion=" + doc.getVersion();
         String content = Utils.getURLContent(url);
         org.dom4j.Document xmlDoc = getXMLDocument(content);
         isError(xmlDoc);

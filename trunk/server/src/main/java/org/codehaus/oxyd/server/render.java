@@ -127,12 +127,12 @@ public class render {
         Element docsEl = new DOMElement("blocks");
         respel.add(docsEl);
         docsEl.addAttribute("version", ""+version);
-
-        for (int i = 0; i < updates.size(); i++)
-        {
-            Element el = ((IBlock)updates.get(i)).toXML();
-            docsEl.add(el);
-        }
+        if (updates != null)
+            for (int i = 0; i < updates.size(); i++)
+            {
+                Element el = ((IBlock)updates.get(i)).toXML();
+                docsEl.add(el);
+            }
         sendResponse(doc, response);
     }
 }
