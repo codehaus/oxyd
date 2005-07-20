@@ -150,12 +150,14 @@ public class ActionManager extends HttpServlet{
 
     private long getSinceVersion(HttpServletRequest req)
     {
-        return new Long(req.getParameter("sinceVersion")).longValue();
+        return new Long(req.getParameter("sinceversion")).longValue();
     }
 
     private byte[] getContent(HttpServletRequest req)
     {
-        return Base64.decode(req.getParameter("content").getBytes());
+        if (req.getParameter("content") != null)
+            return Base64.decode(req.getParameter("content").getBytes());
+        return "".getBytes();
     }
 
     private String getPos(HttpServletRequest req)

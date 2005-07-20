@@ -1,64 +1,231 @@
 var baseUrl = "/oxyd/command/";
 var debug = 1;
 var editing = false;
+//var editNode = null;
+var editingContentNode = null;
+var editingBlockNode = null;
+var workspace = null;
+var documentName = null;
 
-document.onclick = startEdit;
-
+document.ondblclick = selectBlockToEdit;
+/*
 if (document.getElementById && document.createElement)
 {
 	var butt = document.createElement('BUTTON');
 	var buttext = document.createTextNode('Save');
 	butt.appendChild(buttext);
-	butt.onclick = saveEdit;
+	butt.onclick = finishEditingBySaving;
+}
+ */
+
+if (document.getElementById && document.createElement)
+{
+	var butt = document.createElement('a');
+    butt.id = "apply";
+	butt.innerHTML = "<img src=\"img/apply.png\" />";
+	butt.onclick = finishEditingBySaving;
 }
 
-function saveEdit()
+function getUpdates()
 {
-    var area = document.getElementsByTagName('TEXTAREA')[0];
-    blockEl = area.parentNode;
-    var contentEl = document.createElement('div');
-    var blockEl = area.parentNode;
-    contentEl.setAttribute('id', 'content_'+blockEl.id);
-    contentEl.setAttribute('class', 'content');
-    blockEl.appendChild(contentEl);
-    contentEl.innerHTML = area.value;
-	blockEl.insertBefore(contentEl,area);
-	blockEl.removeChild(area);
-	blockEl.removeChild(document.getElementsByTagName('button')[0]);
-	editing = false;
-	return false;
+    if (getDocumentName())
+    {
+        var url = baseUrl + "getupdates/" + getWorkspaceName() + "/" + getDocumentName() + "?sinceversion=" + getVersion();
+        executeCommand(url, getUpdatesCallback);
+        if (editing)
+            updateBlock(isError);
+    }
+    setTimeout("getUpdates()", 2000);
 }
 
-function startEdit(e)
+function getUpdatesCallback(xml){
+    if (isError(xml))
+        return;
+    readBlocks(xml);
+    setVersion(xml.getElementsByTagName('blocks')[0].getAttribute('version'));
+}
+
+
+function editBlockCallback(xml)
 {
-	if (editing) return;
-	if (!document.getElementById || !document.createElement) return;
-	var obj = null;
-    if (!e) obj = window.event.srcElement;
-	else obj = e.target;
-	while (obj.nodeType != 1)
-	{
-		obj = obj.parentNode;
-	}
-	if (obj.tagName == 'TEXTAREA' || obj.tagName == 'A') return;
-	while (obj.nodeName != 'DIV' && obj.nodeName != 'HTML' && obj.className != 'CONTENT')
-	{
-		obj = obj.parentNode;
-	}
-	if (obj.nodeName == 'HTML') return;
-	var x = obj.innerHTML;
+    if (isError(xml))
+    {
+        editing = false;
+        return;
+    }
+    var x = editingContentNode.innerHTML;
 	var y = document.createElement('TEXTAREA');
 //	y.appendChild(document.createTextNode(x));
-	var z = obj.parentNode;
-	z.insertBefore(y,obj);
-	z.insertBefore(butt,obj);
-	z.removeChild(obj);
+	var z = editingContentNode.parentNode;
+	z.insertBefore(y,editingContentNode);
+	z.insertBefore(butt,editingContentNode);
+	z.removeChild(editingContentNode);
 	y.value = x;
 	y.focus();
-	editing = true;
+}
+
+function addBlock(blockId)
+{
+    if (editing)
+    {
+        addMessage("You can edit only one block at a time");
+        return;
+    }
+    var previousBlock = document.getElementById(blockId);
+    var pos = 0;
+    if (previousBlock != null){
+        var nodes = previousBlock.childNodes;
+        for (j=0;j<nodes.length;j++)
+        {
+            if (nodes[j].className == "position")
+            {
+                pos = nodes[j].innerHTML + 1;
+                break;
+            }
+        }
+    }
+    var url = baseUrl + "addblock/" + getWorkspaceName() + "/" + getDocumentName() + "?position=" + pos;
+    executeCommand(url, addBlockCallback);
+}
+
+function addBlockCallback(xml){
+    if (isError(xml))
+        return;
+    var blockEl = readBlock(xml);
+    var nodes = blockEl.childNodes;
+    for (j=0;j<nodes.length;j++)
+    {
+        if (nodes[j].className == "content")
+        {
+            editBlock(nodes[j]);
+            break;
+        }
+    }
+
+}
+
+function selectBlockToEdit(e)
+{
+    if (editing) return;
+    if (!document.getElementById || !document.createElement) return;
+    var ContentNode = null;
+    if (!e) ContentNode = window.event.srcElement;
+    else ContentNode = e.target;
+    while (ContentNode.nodeType != 1)
+    {
+        ContentNode = obj.parentNode;
+    }
+    if (ContentNode.tagName == 'TEXTAREA' || ContentNode.tagName == 'A') return;
+    while (ContentNode.nodeName != 'DIV' && ContentNode.nodeName != 'HTML' && ContentNode.className != 'CONTENT')
+    {
+        ContentNode = ContentNode.parentNode;
+    }
+    if (ContentNode.nodeName == 'HTML') return;
+    editBlock(ContentNode);
+}
+
+function editBlock(ContentNode)
+{
+	editingContentNode = ContentNode;
+    editing = true;
+    editingBlockNode = editingContentNode.parentNode;
+    //Call the API
+    var url = baseUrl + "lockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
+    executeCommand(url, editBlockCallback);
 	return false;
 }
 
+function unlockBlock(callbackFunction)
+{
+    if (!editing) return;
+
+    var url = baseUrl + "unlockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
+    executeCommand(url, callbackFunction);
+    editing = false;
+}
+
+function xreplace(checkMe,toberep,repwith){
+    var temp = checkMe;
+    var i = temp.indexOf(toberep);
+    while(i > -1){
+        temp = temp.replace(toberep, repwith);
+        i = temp.indexOf(toberep);
+    }
+    return temp;
+}
+
+function updateBlock(callbackFunction)
+{
+    if (!editing) return;
+    var content = getEditingContent();
+    if (content != null)
+    {
+        var url = baseUrl + "updateblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&content=" + UrlEncode(encode64(content));
+        executeCommand(url, callbackFunction);
+    }
+}
+
+function getEditingContent()
+{
+    var contentNode = document.getElementsByTagName('TEXTAREA');
+    if (contentNode && contentNode[0] != null)
+        return contentNode[0].value;
+    return null;
+}
+
+function UrlEncode(str)
+{
+    str = xreplace(str, '=', '%3D');
+    str = xreplace(str, '+', '%3D');
+    str = xreplace(str, '/', '%3D');
+    return str;
+}
+
+function finishEditingBySavingCallback1(xml)
+{
+    if (isError(xml))
+        return;
+    saveBlock(finishEditingBySavingCallback2);
+}
+
+function finishEditingBySavingCallback2(xml)
+{
+    if (isError(xml))
+        return;
+    unlockBlock(finishEditingBySavingCallback3);
+}
+
+function finishEditingBySavingCallback3(xml)
+{
+    if (isError(xml))
+        return;
+    var area = document.getElementsByTagName('TEXTAREA')[0];
+    var contentEl = document.createElement('div');
+    //var blockEl = area.parentNode;
+    contentEl.setAttribute('id', 'content_'+editingBlockNode.id);
+    contentEl.setAttribute('class', 'content');
+    editingBlockNode.appendChild(contentEl);
+    contentEl.innerHTML = area.value;
+	editingBlockNode.insertBefore(contentEl,area);
+	editingBlockNode.removeChild(area);
+	//editingBlockNode.removeChild(document.getElementsByTagName('button')[0]);
+    editingBlockNode.removeChild(document.getElementById('apply'));
+}
+
+function finishEditingBySaving()
+{
+    updateBlock(finishEditingBySavingCallback1);
+
+	return false;
+}
+
+function saveBlock(callbackFunction)
+{
+    if (!editing) return;
+
+    var url = baseUrl + "saveblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
+    executeCommand(url, callbackFunction);
+}
 
 function getDocument(workspace, document)
 {
@@ -73,16 +240,60 @@ function createDocument(workspace, document)
 }
 
 
+function isError(xml)
+{
+    var error = xml.getElementsByTagName('error');
+    if (error.length == 0)
+        return false;
+
+    addMessage(error[0].firstChild.data);
+    return true;
+}
+
+function setWorkspaceName(name)
+{
+    var spaceNameEl = document.getElementById('spaceName');
+    spaceNameEl.innerHTML = name;
+}
+
+function getWorkspaceName()
+{
+    var spaceNameEl = document.getElementById('spaceName');
+    return spaceNameEl.innerHTML;
+}
+
+function setDocumentName(name)
+{
+    var documentNameEl = document.getElementById('documentName');
+    documentNameEl.innerHTML = name;
+}
+
+function getDocumentName()
+{
+    var documentNameEl = document.getElementById('documentName');
+    return(documentNameEl.innerHTML);
+}
+
+function setVersion(num)
+{
+    var versionEl = document.getElementById('version');
+    versionEl.innerHTML = num;
+}
+
+function getVersion()
+{
+    var versionEl = document.getElementById('version');
+    return(versionEl.innerHTML);
+}
+
+
 function readDocument(xml)
 {
-    //addMessage(xml);
-    var versionEl = document.getElementById('version');
-    var spaceNameEl = document.getElementById('spaceName');
-    var documentNameEl = document.getElementById('documentName');
-    versionEl.innerHTML = xml.getElementsByTagName('version')[0].firstChild.data;
-    spaceNameEl.innerHTML = xml.getElementsByTagName('workspace')[0].firstChild.data;
-    documentNameEl.innerHTML = xml.getElementsByTagName('name')[0].firstChild.data;
+    setVersion(xml.getElementsByTagName('version')[0].firstChild.data);
+    setWorkspaceName(xml.getElementsByTagName('workspace')[0].firstChild.data);
+    setDocumentName(xml.getElementsByTagName('name')[0].firstChild.data);
     readBlocks(xml);
+    setTimeout("getUpdates()", 2000);
 }
 
 function myGetElementByTagName(node, tag){
@@ -100,7 +311,6 @@ function myGetElementByTagName(node, tag){
 function readBlocks(xml)
 {
     var blocks = xml.getElementsByTagName('block');
-    addMessage("blocks: " + blocks);
     for (var i = 0; i < blocks.length; i++)
     {
         readBlock(blocks[i]);
@@ -113,7 +323,10 @@ function readBlock(xmlblock)
     var blockId = xmlblock.getElementsByTagName('id')[0].firstChild.data;
     //var blockId = myGetElementByTagName(xmlblock, 'id').firstChild.data;
 
-    var blockEl = document.getElementById('block_'+blockId);
+    if ((editing == true) && editingBlockNode.id == blockId)
+        return;
+
+    var blockEl = document.getElementById(blockId);
     if (blockEl == null)
     {
         blockEl = document.createElement('div');
@@ -122,20 +335,12 @@ function readBlock(xmlblock)
         blocksEl.appendChild(blockEl);
     }
 
-    var idEl = document.getElementById('id_'+blockId);
-    if (positionEl == null)
-    {
-        positionEl = document.createElement('div');
-        positionEl.setAttribute('id', 'position_'+blockId);
-        blockEl.appendChild(positionEl);
-    }
-    positionEl.innerHTML = xmlblock.getElementsByTagName('position')[0].firstChild.data;
-
     var positionEl = document.getElementById('position_'+blockId);
     if (positionEl == null)
     {
         positionEl = document.createElement('div');
         positionEl.setAttribute('id', 'position_'+blockId);
+        positionEl.setAttribute('class', 'position');
         blockEl.appendChild(positionEl);
     }
     positionEl.innerHTML = xmlblock.getElementsByTagName('position')[0].firstChild.data;
@@ -148,8 +353,25 @@ function readBlock(xmlblock)
         contentEl.setAttribute('class', 'content');
         blockEl.appendChild(contentEl);
     }
-    contentEl.innerHTML = decode64(xmlblock.getElementsByTagName('content')[0].firstChild.data);
+    if (xmlblock.getElementsByTagName('islocked')[0].firstChild.data == "true")
+        contentEl.className = "contentLocked";
+    else
+        contentEl.className = "content";
+    if (xmlblock.getElementsByTagName('content')[0].firstChild)
+        contentEl.innerHTML = decode64(xmlblock.getElementsByTagName('content')[0].firstChild.data);
+    else
+        contentEl.innerHTML = " ";
 
+    var actionEl = document.getElementById('action_'+blockId);
+    if (actionEl == null)
+    {
+        actionEl = document.createElement('div');
+        actionEl.setAttribute('id', 'action_'+blockId);
+        actionEl.setAttribute('class', 'action');
+        blockEl.appendChild(actionEl);
+        actionEl.innerHTML = "<a onclick=\"addBlock(" + blockId + ")\"><img src=\"img/button_add.png\" alt=\"add\" /></a>"
+    }
+    return blockEl;
 }
 
 
@@ -182,12 +404,12 @@ function executeCommand(url, callback) {
                     alert('no callback defined');
                 }
             } else {
-                alert("There was a problem retrieving the xml data:\n" + ajaxRequest.status + ":\t" + ajaxRequest.statusText + "\n" + ajaxRequest.responseText);
+                addMessage("There was a problem retrieving the xml data:\n" + ajaxRequest.status + ":\t" + ajaxRequest.statusText + "\n" + ajaxRequest.responseText);
             }
         }
     }
 
-    addMessage(url);
+    //addMessage(url);
     // use a local variable to hold our request and callback until the inner function is called...
     var ajaxRequest = null;
     var ajaxCallback = callback;

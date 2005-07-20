@@ -43,7 +43,7 @@ public class Utils {
 
             if (status != 200)
                 throw new oxydException(oxydException.MODULE_CLIENT_UTILS, oxydException.ERROR_HTTP_ERROR, "http code: "+ status);
-
+            
             // print the status and response
             return get.getResponseBodyAsString();
         }

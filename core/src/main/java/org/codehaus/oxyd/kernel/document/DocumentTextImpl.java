@@ -77,7 +77,7 @@ public class    DocumentTextImpl extends DocumentImpl {
             if (!tmpBlock.isRemoved() && tmpblockPos >= lPos && lPos < BlockPos)
             {
                 tmpBlock.setPosition(new Long(tmpblockPos + 1).toString());
-                tmpBlock.setVersion(moveversion);
+               // tmpBlock.setVersion(moveversion);
             }
         }
 

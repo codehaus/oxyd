@@ -174,6 +174,18 @@ public abstract class DocumentImpl implements IDocument {
         return block;
     }
 
+    private boolean isEqual(byte[] b1, byte[] b2)
+    {
+        if (b1.length != b2.length)
+            return false;
+        for (int i = 0; i < b1.length; i++)
+        {
+            if (b1[i] != b2[i])
+                return false;
+        }
+        return true;
+    }
+
     public void updateBlock(long blockId, byte[] content, Context context) throws oxydException {
         if (!isBlockLocked(blockId))
             throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_LOCKED, "The block is not currently locked");
@@ -181,10 +193,13 @@ public abstract class DocumentImpl implements IDocument {
         if (block == null)
             throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_EXIST, "This block does not exist");
 
-        long  updateversion = getNextVersion();
-        block.setContent(content);
-        block.setVersion(updateversion);
-        setVersion(updateversion);
+        if (!isEqual(block.getContent(), content))
+        {
+            long  updateversion = getNextVersion();
+            block.setContent(content);
+            block.setVersion(updateversion);
+            setVersion(updateversion);
+        }
     }
 
     public abstract IBlock createBlock(String pos, byte[] content, Context context);
@@ -247,6 +262,7 @@ public abstract class DocumentImpl implements IDocument {
         if (block != null)
         {
             lockedBlocks.remove(new Long(blockId));
+            block.setLocked(false);
             long tmpVersion = getNextVersion();
             block.setVersion(tmpVersion);
             setVersion(tmpVersion);
