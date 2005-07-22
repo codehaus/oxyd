@@ -18,17 +18,20 @@ package org.codehaus.oxyd.kernel.document;
 
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.utils.Utils;
 import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
+import org.dom4j.io.SAXReader;
 import org.dom4j.dom.DOMDocument;
 import org.dom4j.dom.DOMElement;
 
 import java.util.*;
 import java.io.StringWriter;
 import java.io.IOException;
+import java.io.StringReader;
 
-public abstract class DocumentImpl implements IDocument {
+public class DocumentImpl implements IDocument {
     private long        id;
     private String      name;
     private Map         users;
@@ -170,8 +173,7 @@ public abstract class DocumentImpl implements IDocument {
     public IBlock getBlock(long blockId, Context context) {
         if (isBlockLocked(blockId))
             return (IBlock) lockedBlocks.get(new Long(blockId));
-        IBlock block  = (IBlock) blocks.get(new Long(blockId));
-        return block;
+        return (IBlock) blocks.get(new Long(blockId));
     }
 
     private boolean isEqual(byte[] b1, byte[] b2)
@@ -201,10 +203,6 @@ public abstract class DocumentImpl implements IDocument {
             setVersion(updateversion);
         }
     }
-
-    public abstract IBlock createBlock(String pos, byte[] content, Context context);
-
-    public abstract void moveBlock(long blockId, String pos, Context context);
 
     public boolean isBlockLocked(long blockId)
     {
@@ -272,12 +270,7 @@ public abstract class DocumentImpl implements IDocument {
     }
 
 
-    /**
-     *
-     * @param sinceVersion
-     * @param context
-     * @return
-     */
+
     public List getUpdates(long sinceVersion, Context context) {
         if (sinceVersion >= getVersion())
             return null;
@@ -354,7 +347,7 @@ public abstract class DocumentImpl implements IDocument {
         el = new DOMElement("comments");
         if (getComments() != null)
         {
-            docel.add(el);        
+            docel.add(el);
             it = getComments().iterator();
             while (it.hasNext())
                 el.add(((IComment)it.next()).toXML());
@@ -380,6 +373,95 @@ public abstract class DocumentImpl implements IDocument {
        {
             return toXML(toXMLDocument());
        }
+
+
+    public IBlock createBlock(String pos, byte[] content, Context context)
+    {
+        IBlock block = new BlockTextImpl();
+        block.setContent(content);
+        block.setRemoved(false);
+        block.setId(nextId++);
+        block.setPosition(new Long(getBlocks().size() + 1).toString());
+        getBlocks().put(new Long(block.getId()), block);
+        moveBlock(block.getId(), pos, context);
+        return block;
+    }
+
+
+    public void moveBlock(long blockId, String pos, Context context)
+    {
+        IBlock block  = getBlock(blockId, context);//(IBlock) getBlocks().get(new Long(blockId));
+        long BlockPos = new Long(block.getPosition()).longValue();
+        long lPos = new Long(pos).longValue();
+
+        long  moveversion = getNextVersion();
+
+        if (lPos > getBlocks().size())
+            lPos = getBlocks().size();
+        if (lPos < 1)
+            lPos = 1;
+        Object[]  blockCol = getBlocks().values().toArray();
+        for(int i = 0; i < blockCol.length; i++)
+        {
+            IBlock tmpBlock = ((IBlock) blockCol[i]);
+            int tmpblockPos = (new Long(tmpBlock.getPosition())).intValue();
+            if (!tmpBlock.isRemoved() && tmpblockPos >= lPos && lPos < BlockPos)
+            {
+                tmpBlock.setPosition(new Long(tmpblockPos + 1).toString());
+                if (isBlockLocked(tmpBlock.getId()))
+                    getBlock(tmpBlock.getId(), context).setPosition(new Long(tmpblockPos + 1).toString());
+               // tmpBlock.setVersion(moveversion);
+            }
+        }
+
+        block.setPosition(pos);
+        block.setVersion(moveversion);
+    }
+
+
+
+
+    public void fromXML(String xml) throws oxydException {
+        SAXReader reader = new SAXReader();
+        Document domdoc = null;
+
+        StringReader in = new StringReader(xml);
+        try {
+            domdoc = reader.read(in);
+        } catch (DocumentException e) {
+            throw new oxydException(oxydException.MODULE_DOCUMENT_TEXT_IMPL, oxydException.ERROR_XML_ERROR, "Could not read the XML file");
+        }
+
+        Element infosEl = domdoc.getRootElement();
+
+        setName(Utils.getElementText(infosEl, "name"));
+        setWorkspace(Utils.getElementText(infosEl, "workspace"));
+        setDirectory(Utils.getElementText(infosEl, "directory"));
+        setVersion(new Long(Utils.getElementText(infosEl, "version")).longValue());
+        setParentName(Utils.getElementText(infosEl, "parentname"));
+
+        Element blocksEl = infosEl.element("blocks");
+
+        List ListFile =  blocksEl.elements("block");
+        for (int i = 0; i < ListFile.size(); i++)
+        {
+            Element blockEl = ((Element)ListFile.get(i));
+            IBlock block = new BlockTextImpl();
+            block.fromXML(blockEl);
+            this.getBlocks().put(new Long(block.getId()), block);
+        }
+
+        blocksEl = infosEl.element("lockedblocks");
+
+        ListFile =  blocksEl.elements("block");
+        for (int i = 0; i < ListFile.size(); i++)
+        {
+            Element blockEl = ((Element)ListFile.get(i));
+            IBlock block = new BlockTextImpl();
+            block.fromXML(blockEl);
+            lockedBlocks.put(new Long(block.getId()), block);
+        }
+    }
 
 
 }
