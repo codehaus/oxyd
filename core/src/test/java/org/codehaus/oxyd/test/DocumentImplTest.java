@@ -16,7 +16,7 @@
  */
 package org.codehaus.oxyd.test;
 
-import org.codehaus.oxyd.kernel.document.DocumentTextImpl;
+import org.codehaus.oxyd.kernel.document.DocumentImpl;
 import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.Context;
@@ -32,14 +32,14 @@ import java.util.List;
  *
  * TODO : test if we unlock, and not saving before, we must return to the previous saved value
  */
-public class DocumentTextImplTest extends TestCase {
+public class DocumentImplTest extends TestCase {
 
     public void testDocumentTextPositionImpl()
     {
         Context context = Utils.createContext();
 
 
-        IDocument doc = new DocumentTextImpl("test");
+        IDocument doc = new DocumentImpl("test");
 
         doc.setId(42);
         doc.setName("test");
@@ -55,7 +55,7 @@ public class DocumentTextImplTest extends TestCase {
     public void testUnlockRollback()
     {
         Context context = Utils.createContext();
-        IDocument doc = new DocumentTextImpl("test");
+        IDocument doc = new DocumentImpl("test");
         doc.setId(42);
         doc.setName("test");
         IBlock bloc1 = doc.createBlock("1", "That's the futur".getBytes(), context);
@@ -95,7 +95,7 @@ public class DocumentTextImplTest extends TestCase {
         Context context = Utils.createContext();
 
 
-        IDocument doc = new DocumentTextImpl("test");
+        IDocument doc = new DocumentImpl("test");
 
         doc.setId(42);
         doc.setName("test");
@@ -177,7 +177,7 @@ public class DocumentTextImplTest extends TestCase {
         Context context = Utils.createContext();
 
 
-        IDocument doc = new DocumentTextImpl("test");
+        IDocument doc = new DocumentImpl("test");
 
         doc.setId(42);
         doc.setName("test");
@@ -241,7 +241,7 @@ public class DocumentTextImplTest extends TestCase {
 
     public void testGetUpdates() throws oxydException {
         Context context = Utils.createContext();
-        IDocument doc = new DocumentTextImpl("test");
+        IDocument doc = new DocumentImpl("test");
         long sinceVersion = 0;
         doc.setId(42);
         doc.setName("test");
@@ -285,7 +285,7 @@ public class DocumentTextImplTest extends TestCase {
         assertFalse(b2.isLocked());
 
 
-        IDocument doc2 = new DocumentTextImpl("test2");
+        IDocument doc2 = new DocumentImpl("test2");
         IBlock doc2b1 = doc2.createBlock("1", "blip".getBytes(), context);
         IBlock doc2b2 = doc2.createBlock("2", "blop".getBytes(), context);
 
@@ -308,7 +308,7 @@ public class DocumentTextImplTest extends TestCase {
 
     public void testXML() throws oxydException {
         Context context = Utils.createContext();
-        IDocument doc1 = new DocumentTextImpl("test", "titi");
+        IDocument doc1 = new DocumentImpl("test", "titi");
         doc1.setParentName("parentName");
         doc1.setDirectory("/your/path");
         doc1.createBlock("1", "toto a la plage".getBytes(), context);
@@ -318,7 +318,7 @@ public class DocumentTextImplTest extends TestCase {
         String xml = doc1.toXML();
 //        assertEquals("", xml);
 
-        IDocument doc2 = new DocumentTextImpl();
+        IDocument doc2 = new DocumentImpl();
         doc2.fromXML(xml);
 
         assertEquals(doc1.getName(), doc2.getName());

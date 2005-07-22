@@ -17,7 +17,7 @@
 package org.codehaus.oxyd.kernel;
 
 import org.codehaus.oxyd.kernel.document.IDocument;
-import org.codehaus.oxyd.kernel.document.DocumentTextImpl;
+import org.codehaus.oxyd.kernel.document.DocumentImpl;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class Workspace {
     public IDocument createDocument(String docName, Context context) throws oxydException {
         if (isDocumentExist(docName, context))
             throw new oxydException(oxydException.MODULE_WORKSPACE, oxydException.ERROR_ALREADY_EXIST, "This document already exist");
-        IDocument  doc = new DocumentTextImpl(getName(), docName);
+        IDocument  doc = new DocumentImpl(getName(), docName);
         documents.put(docName, doc);
         return doc;
     }
