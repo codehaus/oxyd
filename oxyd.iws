@@ -120,10 +120,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="script.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="script.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/main/web/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="3" selection-start="2040" selection-end="2638" vertical-scroll-proportion="0.6174957">
+            <state line="217" column="0" selection-start="5376" selection-end="5376" vertical-scroll-proportion="9.099099">
               <folding />
             </state>
           </provider>
@@ -132,7 +132,7 @@
       <file leaf-file-name="document.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/main/web/document.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="103" column="1" selection-start="2497" selection-end="2497" vertical-scroll-proportion="1.6606606">
               <folding />
             </state>
           </provider>
@@ -141,7 +141,7 @@
       <file leaf-file-name="block.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/main/web/block.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="198" column="1" selection-start="5908" selection-end="5908" vertical-scroll-proportion="7.7417417">
               <folding />
             </state>
           </provider>
@@ -150,7 +150,7 @@
       <file leaf-file-name="Actions.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Actions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="11" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.025728988">
+            <state line="36" column="11" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.045045044">
               <folding />
             </state>
           </provider>
@@ -159,16 +159,16 @@
       <file leaf-file-name="DocumentImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="413" column="21" selection-start="12992" selection-end="12992" vertical-scroll-proportion="0.025728988">
+            <state line="413" column="21" selection-start="12992" selection-end="12992" vertical-scroll-proportion="0.045045044">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActionManager.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ActionManager.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/ActionManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="13" selection-start="1292" selection-end="1292" vertical-scroll-proportion="0.025728988">
+            <state line="129" column="13" selection-start="5484" selection-end="5484" vertical-scroll-proportion="0.7297297">
               <folding />
             </state>
           </provider>
@@ -177,7 +177,7 @@
       <file leaf-file-name="DocumentImplTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/test/java/org/codehaus/oxyd/test/DocumentImplTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="13" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.025083613">
+            <state line="34" column="13" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.04310345">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -188,7 +188,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/main/web/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="4" selection-start="2225" selection-end="2225" vertical-scroll-proportion="0.025728988">
+            <state line="175" column="31" selection-start="4857" selection-end="4857" vertical-scroll-proportion="0.5945946">
               <folding />
             </state>
           </provider>
@@ -197,7 +197,7 @@
       <file leaf-file-name="User.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/auth/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="20" selection-start="819" selection-end="819" vertical-scroll-proportion="0.075250834">
+            <state line="18" column="20" selection-start="819" selection-end="819" vertical-scroll-proportion="0.12931034">
               <folding />
             </state>
           </provider>
@@ -570,7 +570,7 @@
   <component name="RecentsManager" />
   <component name="RestoreUpdateTree" />
   <component name="RunManager">
-    <activeType name="JUnit" />
+    <activeType name="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" />
     <configuration selected="false" default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -779,7 +779,7 @@
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="Favorites" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.37327188" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.37327188" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.52300614" order="4" />
@@ -898,67 +898,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Actions.java">
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/auth/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="11" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.025728988">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="413" column="21" selection-start="12992" selection-end="12992" vertical-scroll-proportion="0.025728988">
+        <state line="18" column="20" selection-start="819" selection-end="819" vertical-scroll-proportion="0.12931034">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/test/java/org/codehaus/oxyd/test/DocumentImplTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="13" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.025083613">
+        <state line="34" column="13" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.04310345">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/web/index.html">
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="4" selection-start="2225" selection-end="2225" vertical-scroll-proportion="0.025728988">
+        <state line="413" column="21" selection-start="12992" selection-end="12992" vertical-scroll-proportion="0.045045044">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/auth/User.java">
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Actions.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="20" selection-start="819" selection-end="819" vertical-scroll-proportion="0.075250834">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/ActionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="13" selection-start="1292" selection-end="1292" vertical-scroll-proportion="0.025728988">
+        <state line="36" column="11" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.045045044">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/src/main/web/document.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/web/block.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="103" column="1" selection-start="2497" selection-end="2497" vertical-scroll-proportion="1.6606606">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/src/main/web/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="3" selection-start="2040" selection-end="2638" vertical-scroll-proportion="0.6174957">
+        <state line="217" column="0" selection-start="5376" selection-end="5376" vertical-scroll-proportion="9.099099">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/web/block.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="198" column="1" selection-start="5908" selection-end="5908" vertical-scroll-proportion="7.7417417">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/web/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="175" column="31" selection-start="4857" selection-end="4857" vertical-scroll-proportion="0.5945946">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/ActionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="129" column="13" selection-start="5484" selection-end="5484" vertical-scroll-proportion="0.7297297">
           <folding />
         </state>
       </provider>
