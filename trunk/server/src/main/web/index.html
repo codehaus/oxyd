@@ -58,10 +58,17 @@ body {
 }
 
 #messages {
+    background-image: url(img/info.png);
+    background-repeat: no-repeat;
+    background-position: right top;
     border: 2px solid #FF0000;
     height: 80px;
     overflow: auto;
-    /*visibility:hidden;  */
+    visibility:hidden;
+}
+
+#infos {
+    visibility:hidden;
 }
 
 #top h1 {
@@ -72,7 +79,7 @@ body {
 
 
 #top a {
-        color: white;
+        /*color: white; */
 	text-decoration : none;
         background: transparent;
 
@@ -80,16 +87,36 @@ body {
 
 .position {
     visibility:hidden;
+    height:0px;
 }
 
 .content {
-    border: 1px solid #0000FF;
+    /*border: 1px solid #0000FF; */
 }
 
 .contentLocked {
+    background-image: url(img/lock.png);
+    background-repeat: no-repeat;
+    background-position: right top;
     border: 1px solid #00FF00;
+
 }
 
+.action {
+    visibility:hidden;
+    border: 1px solid #FFFFFF;
+}
+
+.block{
+    border: 1px solid #FFFFFF;
+}
+
+
+.actionButton{
+    -moz-opacity:0.2;
+    filter:alpha(opacity=50);
+    cursor:pointer;
+}
 
 
         /* Elements
@@ -107,7 +134,7 @@ body {
         h5 { font-size : 0.83em; margin : 1.67em 0; }
         h6 { font-size : 0.67em; margin : 2.33em 0; }
 
-        code,pre {
+        code {
                 font-family : "Courier New",monospace;
                 font-size : 1em;
                 color: #3333cc;
@@ -116,13 +143,18 @@ body {
                 border-width: 1px;
         }
 
+        pre {
+            margin : 0;
+            padding : 0;
+        }
+
         q { font-style : italic; }
 
         a	        { color: #999999; text-decoration: none; }
         a:link		{ color: #999999; text-decoration: none; }
         a:visited	{ color: #999999; text-decoration: none; }
         a:active	{ color: #999999; }
-        a:hover		{ color: #999999; background: #C0C0C0; border: none; }
+        a:hover		{ color: #999999; border: none; }
 
         h2 {	font-family : Georgia,"Times New Roman","New York",serif;}
         h2 a {  text-decoration: none;}
@@ -146,19 +178,18 @@ body {
 <div id="page">
     <div id="container">
         <div id="top">
-            <form action="" onsubmit="alert(this.form.spaceName.value)">
-                <input type="text" name="txtSpaceName" id="txtSpaceName" value=""/> <input type="text" name="txtDocName" id="txtDocName" value=""/>
-
-                <input id="createButton" value="Create" onclick='createDocument(this.form.txtSpaceName.value, this.form.txtDocName.value)' type="button">
-                <input id="openButton" value="Open" onclick='getDocument(this.form.txtSpaceName.value, this.form.txtDocName.value)' type="button">
+            <form id="formopendoc" action="#" >
+                <label for="txtSpaceName" >Workspace</label>
+                <input type="text" name="txtSpaceName" id="txtSpaceName" value=""/>
+                <label for="txtDocName" >Document</label>
+                <input type="text" name="txtDocName" id="txtDocName" value=""/>
+                <input id="createButton" value="Create" onclick='createDocument(this.form.txtSpaceName.value, this.form.txtDocName.value)' type="button" />
+                <input id="openButton" value="Open" onclick='getDocument(this.form.txtSpaceName.value, this.form.txtDocName.value)' type="button" />
             </form>
         </div>
 
         <!--<div id="main">   -->
             <div id="main">
-                <div id="messages">
-
-                </div>
                 <div id="document">
                     <div id="infos">
                         document: <a id="spaceName"></a>.<a id="documentName"></a><br />
@@ -168,6 +199,9 @@ body {
                     <div id="blocks">
 
                     </div>
+                </div>
+                <div id="messages">
+
                 </div>
             </div>
         <!--</div>    -->

@@ -1,39 +1,89 @@
 var baseUrl = "/oxyd/command/";
 var debug = 1;
 var editing = false;
-//var editNode = null;
 var editingContentNode = null;
 var editingBlockNode = null;
 var workspace = null;
 var documentName = null;
+var topActionNode = null;
+var topInfosNode = null;
+var blockActionModelNode = null;
 
 document.ondblclick = selectBlockToEdit;
-/*
-if (document.getElementById && document.createElement)
-{
-	var butt = document.createElement('BUTTON');
-	var buttext = document.createTextNode('Save');
-	butt.appendChild(buttext);
-	butt.onclick = finishEditingBySaving;
-}
- */
 
 if (document.getElementById && document.createElement)
 {
 	var butt = document.createElement('a');
     butt.id = "apply";
-	butt.innerHTML = "<img src=\"img/apply.png\" />";
+	butt.innerHTML = "<img src=\"img/apply.png\" alt=\"Apply\" />";
 	butt.onclick = finishEditingBySaving;
+
+    blockActionModelNode = document.createElement('div');
+    blockActionModelNode.setAttribute('id', 'actionModel');
+    blockActionModelNode.setAttribute('class', 'action');
+    blockActionModelNode.innerHTML = "<a onclick=\" addBlock(this.parentNode.parentNode.id)\"><img src=\"img/new.png\" alt=\"add a block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a>"
+    blockActionModelNode.innerHTML = blockActionModelNode.innerHTML + " <a onclick=\" removeBlock(this.parentNode.parentNode.id)\"><img src=\"img/trash.png\" alt=\"remove the block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a>"
+
+
+}
+
+function onMouseOverButton(el)
+{
+    if (window.XMLHttpRequest) {
+        el.style.MozOpacity=1;
+    }
+    else
+    {
+        el.filters.alpha.opacity=100
+    }
+}
+
+function onMouseOutButton(el)
+{
+    if (window.XMLHttpRequest) {
+        el.style.MozOpacity=0.2;
+    }
+    else
+    {
+        el.filters.alpha.opacity=50;
+    }
+}
+
+function onMouseOverBlock(el)
+{
+
+    el.style.border = "1px solid #0000FF";
+
+    var blockId = el.id;
+    var actionEl = document.getElementById('action_'+blockId);
+    if (actionEl)
+        actionEl.style.visibility = "visible";
+}
+
+function onMouseOutBlock(el)
+{
+
+    el.style.border = "1px solid #FFFFFF";
+    var blockId = el.id;
+    var actionEl = document.getElementById('action_'+blockId);
+    if (actionEl)
+        actionEl.style.visibility = "hidden";
 }
 
 function getUpdates()
 {
-    if (getDocumentName())
+   try {
+        if (getDocumentName())
+        {
+            var url = baseUrl + "getupdates/" + getWorkspaceName() + "/" + getDocumentName() + "?sinceversion=" + getVersion();
+            executeCommand(url, getUpdatesCallback);
+            if (editing)
+                updateBlock(isError);
+        }
+   }
+    catch (e)
     {
-        var url = baseUrl + "getupdates/" + getWorkspaceName() + "/" + getDocumentName() + "?sinceversion=" + getVersion();
-        executeCommand(url, getUpdatesCallback);
-        if (editing)
-            updateBlock(isError);
+        addMessage(e);
     }
     setTimeout("getUpdates()", 2000);
 }
@@ -46,23 +96,6 @@ function getUpdatesCallback(xml){
 }
 
 
-function editBlockCallback(xml)
-{
-    if (isError(xml))
-    {
-        editing = false;
-        return;
-    }
-    var x = editingContentNode.innerHTML;
-	var y = document.createElement('TEXTAREA');
-//	y.appendChild(document.createTextNode(x));
-	var z = editingContentNode.parentNode;
-	z.insertBefore(y,editingContentNode);
-	z.insertBefore(butt,editingContentNode);
-	z.removeChild(editingContentNode);
-	y.value = x;
-	y.focus();
-}
 
 function addBlock(blockId)
 {
@@ -79,7 +112,7 @@ function addBlock(blockId)
         {
             if (nodes[j].className == "position")
             {
-                pos = nodes[j].innerHTML + 1;
+                pos = Math.round(nodes[j].innerHTML) + 1;
                 break;
             }
         }
@@ -93,7 +126,7 @@ function addBlockCallback(xml){
         return;
     var blockEl = readBlock(xml);
     var nodes = blockEl.childNodes;
-    for (j=0;j<nodes.length;j++)
+    for (var j=0;j<nodes.length;j++)
     {
         if (nodes[j].className == "content")
         {
@@ -131,8 +164,38 @@ function editBlock(ContentNode)
     editingBlockNode = editingContentNode.parentNode;
     //Call the API
     var url = baseUrl + "lockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
-    executeCommand(url, editBlockCallback);
+    executeCommand(url, editBlockCallback1);
 	return false;
+}
+
+function editBlockCallback1(xml)
+{
+    if (isError(xml))
+    {
+        editing = false;
+        return;
+    }
+    var url = baseUrl + "getblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
+    executeCommand(url, editBlockCallback2);
+}
+
+function editBlockCallback2(xml)
+{
+    var content = "";
+    if (isError(xml) || xml.getElementsByTagName('content').length == 0 || !xml.getElementsByTagName('content')[0].firstChild)
+    {
+
+    }
+    else
+        content = decode64(xml.getElementsByTagName('content')[0].firstChild.data);
+	var y = document.createElement('TEXTAREA');
+//	y.appendChild(document.createTextNode(x));
+	var z = editingContentNode.parentNode;
+	z.insertBefore(y,editingContentNode);
+	z.insertBefore(butt,editingContentNode);
+	z.removeChild(editingContentNode);
+	y.value = content;
+	y.focus();
 }
 
 function unlockBlock(callbackFunction)
@@ -205,7 +268,7 @@ function finishEditingBySavingCallback3(xml)
     contentEl.setAttribute('id', 'content_'+editingBlockNode.id);
     contentEl.setAttribute('class', 'content');
     editingBlockNode.appendChild(contentEl);
-    contentEl.innerHTML = area.value;
+    contentEl.innerHTML = "<pre>" + area.value + "</pre>";
 	editingBlockNode.insertBefore(contentEl,area);
 	editingBlockNode.removeChild(area);
 	//editingBlockNode.removeChild(document.getElementsByTagName('button')[0]);
@@ -227,15 +290,40 @@ function saveBlock(callbackFunction)
     executeCommand(url, callbackFunction);
 }
 
+function affDocumentInfos()
+{
+    if (topActionNode == null)
+        topActionNode = document.getElementById("formopendoc");
+    var topEl = document.getElementById("top");
+    if (topInfosNode == null)
+        topInfosNode = document.getElementById("infos");
+    if (topActionNode)
+        topEl.removeChild(topActionNode);
+    topEl.appendChild(topInfosNode);
+    topInfosNode.style.visibility = "visible";
+
+}
+
+function affOpenFunctions()
+{
+    var topEl = document.getElementById("top");
+    if (topInfosNode)
+        topEl.removeChild(topInfosNode);
+    topEl.appendChild(topActionNode);
+
+}
+
 function getDocument(workspace, document)
 {
     var url = baseUrl + "getdocument/" + workspace + "/" + document;
+    affDocumentInfos();
     executeCommand(url, readDocument);
 }
 
 function createDocument(workspace, document)
 {
     var url = baseUrl + "createdocument/" + workspace + "/" + document;
+    affDocumentInfos();
     executeCommand(url, readDocument);
 }
 
@@ -289,13 +377,18 @@ function getVersion()
 
 function readDocument(xml)
 {
+    if (isError(xml))
+    {
+        affOpenFunctions();
+        return;
+    }
     setVersion(xml.getElementsByTagName('version')[0].firstChild.data);
     setWorkspaceName(xml.getElementsByTagName('workspace')[0].firstChild.data);
     setDocumentName(xml.getElementsByTagName('name')[0].firstChild.data);
     readBlocks(xml);
     setTimeout("getUpdates()", 2000);
 }
-
+ /*
 function myGetElementByTagName(node, tag){
     if (window.XMLHttpRequest) {
         //mozilla
@@ -306,7 +399,7 @@ function myGetElementByTagName(node, tag){
         if (node.childNodes[j].nodeName == tag)
             return node.childNodes[j];
     }
-}
+}  */
 
 function readBlocks(xml)
 {
@@ -315,6 +408,19 @@ function readBlocks(xml)
     {
         readBlock(blocks[i]);
     }
+}
+
+function setBlockPosition(blockEl, blockId, pos)
+{
+    var positionEl = document.getElementById('position_'+blockId);
+    if (positionEl == null)
+    {
+        positionEl = document.createElement('div');
+        positionEl.setAttribute('id', 'position_'+blockId);
+        positionEl.setAttribute('class', 'position');
+        blockEl.appendChild(positionEl);
+    }
+    positionEl.innerHTML = pos;
 }
 
 function readBlock(xmlblock)
@@ -332,18 +438,13 @@ function readBlock(xmlblock)
         blockEl = document.createElement('div');
         blockEl.setAttribute('id', blockId);
         blockEl.setAttribute('class', 'block');
-        blocksEl.appendChild(blockEl);
+        blockEl.setAttribute("onmouseover", "onMouseOverBlock(this)");
+        blockEl.setAttribute("onmouseout", "onMouseOutBlock(this)");
+        //blocksEl.appendChild(blockEl);
     }
 
-    var positionEl = document.getElementById('position_'+blockId);
-    if (positionEl == null)
-    {
-        positionEl = document.createElement('div');
-        positionEl.setAttribute('id', 'position_'+blockId);
-        positionEl.setAttribute('class', 'position');
-        blockEl.appendChild(positionEl);
-    }
-    positionEl.innerHTML = xmlblock.getElementsByTagName('position')[0].firstChild.data;
+    var pos = xmlblock.getElementsByTagName('position')[0].firstChild.data;
+    setBlockPosition(blockEl, blockId, pos);
 
     var contentEl = document.getElementById('content_'+blockId);
     if (contentEl == null)
@@ -358,20 +459,49 @@ function readBlock(xmlblock)
     else
         contentEl.className = "content";
     if (xmlblock.getElementsByTagName('content')[0].firstChild)
-        contentEl.innerHTML = decode64(xmlblock.getElementsByTagName('content')[0].firstChild.data);
+        contentEl.innerHTML = "<pre>" + decode64(xmlblock.getElementsByTagName('content')[0].firstChild.data) + "</pre>";
     else
-        contentEl.innerHTML = " ";
+        contentEl.innerHTML = "";
 
     var actionEl = document.getElementById('action_'+blockId);
     if (actionEl == null)
     {
-        actionEl = document.createElement('div');
+        //actionEl = document.createElement('div');
+        actionEl = blockActionModelNode.cloneNode(true);
         actionEl.setAttribute('id', 'action_'+blockId);
-        actionEl.setAttribute('class', 'action');
         blockEl.appendChild(actionEl);
-        actionEl.innerHTML = "<a onclick=\"addBlock(" + blockId + ")\"><img src=\"img/button_add.png\" alt=\"add\" /></a>"
     }
+    moveBlocktoHisPosition(blocksEl, blockEl, Math.round(pos));
     return blockEl;
+}
+
+function getBlockPosition(blockEl)
+{
+    var nodes = blockEl.childNodes;
+    for (var j=0;j<nodes.length;j++)
+    {
+        if (nodes[j].className == "position")
+            return Math.round(nodes[j].innerHTML);
+    }
+    return -1;
+}
+
+function moveBlocktoHisPosition(blocksEl, blockEl, pos)
+{
+    var nodes = blocksEl.childNodes;
+    var i = 0;
+    var flag = false;
+    for (; i < nodes.length ; i++)
+    {
+        if (nodes[i].className == "block" && pos <= getBlockPosition(nodes[i]))
+        {
+            blocksEl.insertBefore(blockEl, nodes[i]);
+            flag = true;
+            break;
+        }
+    }
+    if (!flag)
+        blocksEl.appendChild(blockEl);
 }
 
 
@@ -381,6 +511,7 @@ function addMessage(text)
     {
         var message = document.getElementById('messages');
         message.innerHTML = "* " + text + "<br />" + message.innerHTML;
+        message.style.visibility = "visible";
     }
 }
 
