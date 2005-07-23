@@ -122,6 +122,13 @@ public class ActionManager extends HttpServlet{
                 render.returnOk(resp);
             }
 
+            else if (action.compareTo("getblock") == 0)
+            {
+                IBlock block = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext()).getBlock(getBlockId(req), serverContext.getKernelContext());
+
+                render.returnBlock(block, resp);
+            }
+
             else
             {
                 throw new oxydException(oxydException.MODULE_ACTION_MANAGER, oxydException.ERROR_COMMAND_NOT_FOUND, "Command not found");

@@ -410,7 +410,7 @@ public class DocumentImpl implements IDocument {
                 tmpBlock.setPosition(new Long(tmpblockPos + 1).toString());
                 if (isBlockLocked(tmpBlock.getId()))
                     getBlock(tmpBlock.getId(), context).setPosition(new Long(tmpblockPos + 1).toString());
-               // tmpBlock.setVersion(moveversion);
+               tmpBlock.setVersion(moveversion);
             }
         }
 
