@@ -1,30 +1,63 @@
 var baseUrl = "/oxyd/command/";
 var debug = 1;
 var editing = false;
-var editingContentNode = null;
-var editingBlockNode = null;
+
 var workspace = null;
 var documentName = null;
+
+// current editing node infos
+var editingContentNode = null;
+var editingBlockNode = null;
+
+// next Block to edit
+var nextEditingNode = null;
+
+//model for the block action
+var blockActionModelNode = null;
+
+//save some part of the xhtml
 var topActionNode = null;
 var topInfosNode = null;
-var blockActionModelNode = null;
+var loginFormNode = null;
+var buttonsNode = null;
+
+//key for getLoginKey
+var key = null;
+
 
 document.ondblclick = selectBlockToEdit;
 
-if (document.getElementById && document.createElement)
-{
-	var butt = document.createElement('a');
-    butt.id = "apply";
-	butt.innerHTML = "<img src=\"img/apply.png\" alt=\"Apply\" />";
-	butt.onclick = finishEditingBySaving;
+
+window.onload = function() {
+    buttonsNode = document.createElement('div');
+    buttonsNode.id = "buttons";
+
+    var buttonNode = document.createElement('a');
+    buttonNode.id = "apply";
+    buttonNode.innerHTML = "<img src=\"img/apply.png\" alt=\"Apply\" />";
+    buttonNode.onclick = finishEditingBySaving;
+    buttonsNode.appendChild(buttonNode);
+
+    buttonNode = document.createElement('a');
+    buttonNode.id = "cancel";
+    buttonNode.innerHTML = "<img src=\"img/cancel.png\" alt=\"cancel\" />";
+    buttonNode.onclick = finishEditingByCancel;
+    buttonsNode.appendChild(buttonNode);
+
+
 
     blockActionModelNode = document.createElement('div');
     blockActionModelNode.setAttribute('id', 'actionModel');
     blockActionModelNode.setAttribute('class', 'action');
-    blockActionModelNode.innerHTML = "<a onclick=\" addBlock(this.parentNode.parentNode.id)\"><img src=\"img/new.png\" alt=\"add a block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a>"
-    blockActionModelNode.innerHTML = blockActionModelNode.innerHTML + " <a onclick=\" removeBlock(this.parentNode.parentNode.id)\"><img src=\"img/trash.png\" alt=\"remove the block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a>"
 
+    var blockActionHTML = "<span class=\"blockActionButtons\"><a onclick=\" addBlock(this.parentNode.parentNode.parentNode.id)\"><img src=\"img/new.png\" alt=\"add a block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a>";
+    blockActionHTML = blockActionHTML + " <a onclick=\" removeBlock(this.parentNode.parentNode.parentNode.id)\"><img src=\"img/trash.png\" alt=\"remove the block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a></span>";
 
+    blockActionHTML = blockActionHTML + "<span class=\"blockStatus\"></span>";
+
+    blockActionModelNode.innerHTML = blockActionHTML;
+
+    extractTop();
 }
 
 function onMouseOverButton(el)
@@ -52,7 +85,7 @@ function onMouseOutButton(el)
 function onMouseOverBlock(el)
 {
 
-    el.style.border = "1px solid #0000FF";
+    el.style.borderLeft = "2px solid #0000FF";
 
     var blockId = el.id;
     var actionEl = document.getElementById('action_'+blockId);
@@ -62,8 +95,8 @@ function onMouseOverBlock(el)
 
 function onMouseOutBlock(el)
 {
-
-    el.style.border = "1px solid #FFFFFF";
+                            
+    el.style.borderLeft = "2px solid #FFFFFF";
     var blockId = el.id;
     var actionEl = document.getElementById('action_'+blockId);
     if (actionEl)
@@ -71,12 +104,14 @@ function onMouseOutBlock(el)
 }
 
 
-
-
 function selectBlockToEdit(e)
 {
-    if (editing) return;
-    if (!document.getElementById || !document.createElement) return;
+    if (editing)
+    {
+        nextEditingNode = e;
+        finishEditingBySaving();
+        return;
+    }
     var ContentNode = null;
     if (!e) ContentNode = window.event.srcElement;
     else ContentNode = e.target;
@@ -85,7 +120,7 @@ function selectBlockToEdit(e)
         ContentNode = obj.parentNode;
     }
     if (ContentNode.tagName == 'TEXTAREA' || ContentNode.tagName == 'A') return;
-    while (ContentNode.nodeName != 'DIV' && ContentNode.nodeName != 'HTML' && ContentNode.className != 'CONTENT')
+    while (ContentNode.nodeName != 'HTML' && ContentNode.className != 'content')
     {
         ContentNode = ContentNode.parentNode;
     }
@@ -120,34 +155,35 @@ function UrlEncode(str)
     return str;
 }
 
-
-function saveBlock(callbackFunction)
+function extractTop()
 {
-    if (!editing) return;
-
-    var url = baseUrl + "saveblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
-    executeCommand(url, callbackFunction);
+    topActionNode = document.getElementById("formopendoc");
+    topInfosNode = document.getElementById("infos");
+    topActionNode.parentNode.removeChild(topActionNode);
+    topInfosNode.parentNode.removeChild(topInfosNode);
 }
 
 function affDocumentInfos()
 {
-    if (topActionNode == null)
-        topActionNode = document.getElementById("formopendoc");
     var topEl = document.getElementById("top");
-    if (topInfosNode == null)
-        topInfosNode = document.getElementById("infos");
-    if (topActionNode)
+    try{
         topEl.removeChild(topActionNode);
+    }
+    catch(e)
+    {}
     topEl.appendChild(topInfosNode);
-    topInfosNode.style.visibility = "visible";
+//    topInfosNode.style.visibility = "visible";
 
 }
 
 function affOpenFunctions()
 {
     var topEl = document.getElementById("top");
-    if (topInfosNode)
+    try{
         topEl.removeChild(topInfosNode);
+    }
+    catch(e)
+    {}
     topEl.appendChild(topActionNode);
 
 }
@@ -201,22 +237,23 @@ function getVersion()
     return(versionEl.innerHTML);
 }
 
+function login(login, pwd)
+{
+    var url = baseUrl + "login?login=" + login + "&pwd="+pwd;
+    executeCommand(url, loginCallback);
 
- /*
-function myGetElementByTagName(node, tag){
-    if (window.XMLHttpRequest) {
-        //mozilla
-        return node.getElementsByTagName(tag)[0];
+}
+
+function loginCallback(xml)
+{
+    if (!isError(xml))
+    {
+        key = xml.getElementsByTagName('key')[0].firstChild.data;
+        var loginEl = document.getElementById('loginForm');
+        loginEl.parentNode.removeChild(loginEl);
+        affOpenFunctions();
     }
-    for (j=0;j<node.childNodes.length;j++)
-	{
-        if (node.childNodes[j].nodeName == tag)
-            return node.childNodes[j];
-    }
-}  */
-
-
-
+}
 
 function addMessage(text)
 {
@@ -257,7 +294,6 @@ function executeCommand(url, callback) {
     // use a local variable to hold our request and callback until the inner function is called...
     var ajaxRequest = null;
     var ajaxCallback = callback;
-
 
     // bind our callback then hit the server...
     if (window.XMLHttpRequest) {

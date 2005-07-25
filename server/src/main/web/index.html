@@ -68,11 +68,11 @@ body {
     overflow: auto;
     visibility:hidden;
 }
-
+/*
 #infos {
     visibility:hidden;
 }
-
+  */
 #top h1 {
 	    margin-top : 0;
         padding-top: 15px;
@@ -94,6 +94,9 @@ body {
 
 .content {
     /*border: 1px solid #0000FF; */
+    white-space:-moz-pre-wrap;
+    overflow: auto;
+    word-wrap: break-word;
 }
 
 .contentLocked {
@@ -101,11 +104,13 @@ body {
     background-repeat: no-repeat;
     background-position: right top;
     border: 1px solid #00FF00;
-
+    white-space:-moz-pre-wrap;
+    overflow: auto;
+    word-wrap: break-word;
 }
 
 .action {
-    visibility:hidden;
+/*    visibility:hidden;  */
     border: 1px solid #FFFFFF;
 }
 
@@ -120,6 +125,10 @@ body {
     cursor:pointer;
 }
 
+
+.blockStatus{
+    font-size: 0.6em;
+}
 
         /* Elements
        -------------------------------------------------------- */
@@ -148,6 +157,7 @@ body {
         pre {
             margin : 0;
             padding : 0;
+            white-space:pre-wrap;
         }
 
         q { font-style : italic; }
@@ -184,6 +194,13 @@ body {
 <div id="page">
     <div id="container">
         <div id="top">
+            <form id="loginForm" action="#" >
+                <label for="txtLogin" >Login</label>
+                <input type="text" name="txtLogin" id="txtLogin" value=""/>
+                <label for="txtPwd" >Password</label>
+                <input type="password" name="txtPwd" id="txtPwd" value=""/>
+                <input id="validLogin" value="Login" onclick='login(this.form.txtLogin.value, this.form.txtPwd.value)' type="button" />
+            </form>
             <form id="formopendoc" action="#" >
                 <label for="txtSpaceName" >Workspace</label>
                 <input type="text" name="txtSpaceName" id="txtSpaceName" value=""/>
@@ -192,6 +209,8 @@ body {
                 <input id="createButton" value="Create" onclick='createDocument(this.form.txtSpaceName.value, this.form.txtDocName.value)' type="button" />
                 <input id="openButton" value="Open" onclick='getDocument(this.form.txtSpaceName.value, this.form.txtDocName.value)' type="button" />
             </form>
+
+
         </div>
 
         <!--<div id="main">   -->

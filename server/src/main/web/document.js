@@ -3,7 +3,7 @@ function getUpdates()
    try {
         if (getDocumentName())
         {
-            var url = baseUrl + "getupdates/" + getWorkspaceName() + "/" + getDocumentName() + "?sinceversion=" + getVersion();
+            var url = baseUrl + "getupdates/" + getWorkspaceName() + "/" + getDocumentName() + "?sinceversion=" + getVersion() + "&key=" + key;
             executeCommand(url, getUpdatesCallback);
             if (editing)
                 updateBlock(isError);
@@ -44,7 +44,7 @@ function addBlock(blockId)
             }
         }
     }
-    var url = baseUrl + "addblock/" + getWorkspaceName() + "/" + getDocumentName() + "?position=" + pos;
+    var url = baseUrl + "addblock/" + getWorkspaceName() + "/" + getDocumentName() + "?position=" + pos + "&key=" + key;
     executeCommand(url, addBlockCallback);
 }
 
@@ -66,14 +66,14 @@ function addBlockCallback(xml){
 
 function getDocument(workspace, document)
 {
-    var url = baseUrl + "getdocument/" + workspace + "/" + document;
+    var url = baseUrl + "getdocument/" + workspace + "/" + document + "?key=" + key;
     affDocumentInfos();
     executeCommand(url, readDocument);
 }
 
 function createDocument(workspace, document)
 {
-    var url = baseUrl + "createdocument/" + workspace + "/" + document;
+    var url = baseUrl + "createdocument/" + workspace + "/" + document + "?key=" + key;
     affDocumentInfos();
     executeCommand(url, readDocument);
 }

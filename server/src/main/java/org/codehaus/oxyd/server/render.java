@@ -109,6 +109,16 @@ public class render {
         sendResponse(returndoc, response);
     }
 
+    public static void returnKey(String key, HttpServletResponse response) throws IOException {
+        Document returndoc = new DOMDocument();
+        Element respel = new DOMElement("response");
+        returndoc.setRootElement(respel);
+        Element keyEl = new DOMElement("key");
+        respel.add(keyEl);
+        keyEl.addText(key);
+        sendResponse(returndoc, response);
+    }
+
     public static void ReturnError(oxydException e, HttpServletResponse response) throws IOException {
         Document returndoc = new DOMDocument();
         Element respel = new DOMElement("error");

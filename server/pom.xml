@@ -53,6 +53,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <webXml>${basedir}/src/main/web/WEB-INF/web.xml</webXml>
+		    <warSourceDirectory>${basedir}/src/main/web</warSourceDirectory>
                 </configuration>
             </plugin>
         </plugins>

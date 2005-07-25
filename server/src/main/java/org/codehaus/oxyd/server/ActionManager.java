@@ -19,9 +19,11 @@ package org.codehaus.oxyd.server;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.auth.AuthService;
 import org.codehaus.oxyd.kernel.utils.Base64;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
+import org.codehaus.oxyd.server.storage.XWikiStore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,11 +33,12 @@ import java.util.List;
 import java.io.IOException;
 
 public class ActionManager extends HttpServlet{
-    Actions         actions = new Actions();
+    Actions         actions = null;
     ServletConfig   config;
 
     public void init(ServletConfig config) throws ServletException {
         this.config = config;
+        actions = new Actions(new AuthService(), new XWikiStore());
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -54,7 +57,14 @@ public class ActionManager extends HttpServlet{
 
         resp.setContentType("text/xml;charset=UTF-8");
 
+
         try{
+
+            if (action.compareTo("login") != 0)
+            {
+                actions.login(getKey(req), serverContext.getKernelContext());
+            }
+
             if (action.compareTo("getworkspaces") == 0)
             {
                 List workspaces = actions.getWorkspacesNames(serverContext.getKernelContext());
@@ -129,6 +139,13 @@ public class ActionManager extends HttpServlet{
                 render.returnBlock(block, resp);
             }
 
+            else if (action.compareTo("login") == 0)
+            {
+                String key = actions.getLoginKey(getLogin(req), getPwd(req), serverContext.getKernelContext());
+
+                render.returnKey(key, resp);
+            }
+
             else
             {
                 throw new oxydException(oxydException.MODULE_ACTION_MANAGER, oxydException.ERROR_COMMAND_NOT_FOUND, "Command not found");
@@ -149,6 +166,21 @@ public class ActionManager extends HttpServlet{
 
     }
 
+    private String getKey(HttpServletRequest req)
+    {
+        return req.getParameter("key");
+    }
+
+
+    private String getLogin(HttpServletRequest req)
+    {
+        return req.getParameter("login");
+    }
+
+    private String getPwd(HttpServletRequest req)
+    {
+        return req.getParameter("pwd");
+    }
 
     private long getBlockId(HttpServletRequest req)
     {
