@@ -17,9 +17,10 @@
 package org.codehaus.oxyd.test;
 
 import org.codehaus.oxyd.kernel.Workspace;
-import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.oxydException;
 import org.codehaus.oxyd.kernel.Context;
+import org.codehaus.oxyd.kernel.Actions;
+import org.codehaus.oxyd.kernel.auth.AuthService;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import junit.framework.TestCase;
 
@@ -29,7 +30,7 @@ public class WorkspaceTest  extends TestCase{
 
 
     public void setUp() throws Exception {
-        context = Utils.createContext();
+        context = Utils.initContext(new Actions(new AuthService(), null));
         space = new Workspace("test");
         space.createDocument("doc1", context);
         space.createDocument("doc2", context);

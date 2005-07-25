@@ -21,6 +21,8 @@ import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.Actions;
+import org.codehaus.oxyd.kernel.auth.AuthService;
 
 import junit.framework.TestCase;
 
@@ -28,17 +30,17 @@ import java.util.List;
 
 
 
-/**
- *
- * TODO : test if we unlock, and not saving before, we must return to the previous saved value
- */
+
 public class DocumentImplTest extends TestCase {
+    private Actions action;
+    private Context context;
 
-    public void testDocumentTextPositionImpl()
-    {
-        Context context = Utils.createContext();
+    public void setUp() throws Exception {
+        action = new Actions(new AuthService(), null);
+        context = Utils.initContext(action);
+    }
 
-
+    public void testDocumentTextPositionImpl() throws oxydException {
         IDocument doc = new DocumentImpl("test");
 
         doc.setId(42);
@@ -52,9 +54,7 @@ public class DocumentImplTest extends TestCase {
         assertEquals("3", bloc2.getPosition().toString());
     }
 
-    public void testUnlockRollback()
-    {
-        Context context = Utils.createContext();
+    public void testUnlockRollback() throws oxydException {
         IDocument doc = new DocumentImpl("test");
         doc.setId(42);
         doc.setName("test");
@@ -92,7 +92,6 @@ public class DocumentImplTest extends TestCase {
     }
 
     public void testDocumentTextUpdateBlocImpl() throws oxydException {
-        Context context = Utils.createContext();
 
 
         IDocument doc = new DocumentImpl("test");
@@ -174,7 +173,6 @@ public class DocumentImplTest extends TestCase {
     }
 
     public void testDocumentTextGetBlockHistoryImpl() throws oxydException {
-        Context context = Utils.createContext();
 
 
         IDocument doc = new DocumentImpl("test");
@@ -240,7 +238,6 @@ public class DocumentImplTest extends TestCase {
     }
 
     public void testGetUpdates() throws oxydException {
-        Context context = Utils.createContext();
         IDocument doc = new DocumentImpl("test");
         long sinceVersion = 0;
         doc.setId(42);
@@ -307,7 +304,6 @@ public class DocumentImplTest extends TestCase {
     }
 
     public void testXML() throws oxydException {
-        Context context = Utils.createContext();
         IDocument doc1 = new DocumentImpl("test", "titi");
         doc1.setParentName("parentName");
         doc1.setDirectory("/your/path");
@@ -334,6 +330,23 @@ public class DocumentImplTest extends TestCase {
             if (obj.getId() == ((IBlock)list.get(i)).getId())
                 return true;
         return false;
+    }
+
+    public void testBlockPosition() throws oxydException {
+        IDocument doc = new DocumentImpl("test", "titi42");
+        IBlock b1 = doc.createBlock("0", "1".getBytes(), context);
+        List blocks = doc.getUpdates(0, context);
+        long version = doc.getVersion();
+        assertEquals(1, blocks.size());
+        IBlock block = (IBlock) blocks.get(0);
+        assertEquals(1, new Long(block.getPosition()).longValue());
+
+        IBlock b2 = doc.createBlock("0", "0.5".getBytes(), context);
+        blocks = doc.getUpdates(version, context);
+        assertEquals(2, blocks.size());
+
+        assertTrue(inList(b1, blocks));
+        assertTrue(inList(b2, blocks));
     }
 }
 

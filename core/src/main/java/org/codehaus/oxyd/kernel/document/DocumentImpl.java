@@ -18,6 +18,7 @@ package org.codehaus.oxyd.kernel.document;
 
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.auth.User;
 import org.codehaus.oxyd.kernel.utils.Utils;
 import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
@@ -34,7 +35,7 @@ import java.io.StringReader;
 public class DocumentImpl implements IDocument {
     private long        id;
     private String      name;
-    private Map         users;
+    private List         users;
     private long        version;
     private Map         blocks;
     protected Map       lockedBlocks;
@@ -93,12 +94,20 @@ public class DocumentImpl implements IDocument {
         this.name = name;
     }
 
-    public Map getUsers() {
+    public List getUsers() {
         return users;
     }
 
-    public void setUsers(Map users) {
-        this.users = users;
+    public void addUser(User user) {
+        if (users == null)
+            users = new ArrayList();
+        if (!users.contains(user))
+            users.add(user);
+    }
+
+     public void removeUser(User user) {
+        if (users.contains(user))
+            users.remove(user);
     }
 
     public long getVersion() {
@@ -217,6 +226,7 @@ public class DocumentImpl implements IDocument {
         {
             IBlock lockedBlock = (IBlock) block.clone();
             lockedBlock.setLocked(true);
+            lockedBlock.setUserName(context.getUser().getLogin());
             long tmpVersion = getNextVersion();
             lockedBlock.setVersion(tmpVersion);
             lockedBlocks.put(new Long(blockId), lockedBlock);
@@ -231,11 +241,6 @@ public class DocumentImpl implements IDocument {
             throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_LOCKED, "This block is not currently locked");
         IBlock lockedBlock = (IBlock) lockedBlocks.get(new Long(blockId));
         blocks.put(new Long(blockId), lockedBlock.clone());
-
-/*         String xml = toXML();
-       IHistoryEvent histev = new HistoryEventImpl("save", null);
-        histev.setVersionNumber(getVersion());
-        getHistory().addHistoryEvent(getVersion(), histev); */
     }
 
     public void removeBlock(long blockId, Context context) throws oxydException {
@@ -246,6 +251,7 @@ public class DocumentImpl implements IDocument {
         {
             block.setRemoved(true);
             long tmpVersion = getNextVersion();
+            block.setUserName(context.getUser().getLogin());
             block.setVersion(tmpVersion);
             setVersion(tmpVersion);
         }
@@ -264,12 +270,27 @@ public class DocumentImpl implements IDocument {
             long tmpVersion = getNextVersion();
             block.setVersion(tmpVersion);
             setVersion(tmpVersion);
+            refactorBlock(block, context);
         }
         else
             throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_NOT_EXIST, "The block does not exist");
     }
 
 
+    private void refactorBlock(IBlock block, Context context)
+    {
+        String content = new String(block.getContent());
+        String[] tabs = content.split("\n\n");
+
+        String pos = new Long(new Long(block.getPosition()).longValue() + 1).toString();
+        for (int i = tabs.length - 1; i > 0; i--)
+        {
+            String tmpContent = tabs[i];
+            tmpContent.replaceFirst("\n", "");
+            this.createBlock(pos, tabs[i].getBytes(), context);
+        }
+        block.setContent(tabs[0].getBytes());
+    }
 
     public List getUpdates(long sinceVersion, Context context) {
         if (sinceVersion >= getVersion())
@@ -380,6 +401,7 @@ public class DocumentImpl implements IDocument {
         IBlock block = new BlockTextImpl();
         block.setContent(content);
         block.setRemoved(false);
+        block.setUserName(context.getUser().getLogin());
         block.setId(nextId++);
         block.setPosition(new Long(getBlocks().size() + 1).toString());
         getBlocks().put(new Long(block.getId()), block);
@@ -390,22 +412,22 @@ public class DocumentImpl implements IDocument {
 
     public void moveBlock(long blockId, String pos, Context context)
     {
-        IBlock block  = getBlock(blockId, context);//(IBlock) getBlocks().get(new Long(blockId));
-        long BlockPos = new Long(block.getPosition()).longValue();
-        long lPos = new Long(pos).longValue();
+        IBlock block  = getBlock(blockId, context);
+        long srcPos = new Long(block.getPosition()).longValue();
+        long destPos = new Long(pos).longValue();
 
         long  moveversion = getNextVersion();
 
-        if (lPos > getBlocks().size())
-            lPos = getBlocks().size();
-        if (lPos < 1)
-            lPos = 1;
+        if (destPos > getBlocks().size())
+            destPos = getBlocks().size();
+        if (destPos < 1)
+            destPos = 1;
         Object[]  blockCol = getBlocks().values().toArray();
         for(int i = 0; i < blockCol.length; i++)
         {
             IBlock tmpBlock = ((IBlock) blockCol[i]);
             int tmpblockPos = (new Long(tmpBlock.getPosition())).intValue();
-            if (!tmpBlock.isRemoved() && tmpblockPos >= lPos && lPos < BlockPos)
+            if (!tmpBlock.isRemoved() && tmpblockPos >= destPos && destPos < srcPos)
             {
                 tmpBlock.setPosition(new Long(tmpblockPos + 1).toString());
                 if (isBlockLocked(tmpBlock.getId()))
@@ -414,7 +436,7 @@ public class DocumentImpl implements IDocument {
             }
         }
 
-        block.setPosition(pos);
+        block.setPosition(new Long(destPos).toString());
         block.setVersion(moveversion);
     }
 

@@ -16,5 +16,45 @@
  */
 package org.codehaus.oxyd.kernel.auth;
 
-public class AuthService {
+import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.Context;
+
+import java.util.Map;
+import java.util.HashMap;
+
+public class AuthService implements IAuthService {
+
+    private Map logins;
+    private Map loggedIn;
+
+    public AuthService()
+    {
+        loggedIn = new HashMap();
+        logins = new HashMap();
+        logins.put("validLogin", "ValidPwd");
+        logins.put("toto", "titi");
+    }
+
+    public String login(String login, String pwd, Context context) throws oxydException {
+        String validPwd = (String) logins.get(login);
+        if (validPwd == null)
+            throw new oxydException(oxydException.MODULE_AUTH_SERVICE, oxydException.ERROR_INVALID_USERNAME_OR_PASSWORD, "invalid Username or password");
+        if (validPwd.compareTo(pwd) != 0)
+            throw new oxydException(oxydException.MODULE_AUTH_SERVICE, oxydException.ERROR_INVALID_USERNAME_OR_PASSWORD, "invalid Username or password");
+        context.setUser(new User(login));
+        loggedIn.put(new Integer(context.getUser().getLogin().hashCode()).toString(), context.getUser());
+        return new Integer(context.getUser().getLogin().hashCode()).toString();
+    }
+
+    public void login(String key, Context context) throws oxydException {
+        if (!loggedIn.containsKey(key))
+            throw new oxydException(oxydException.MODULE_AUTH_SERVICE, oxydException.ERROR_INVALID_KEY, "invalid key");
+        context.setUser((User) loggedIn.get(key));
+    }
+
+    public void logout(String key, Context context) throws oxydException {
+        if (!loggedIn.containsKey(key))
+            throw new oxydException(oxydException.MODULE_AUTH_SERVICE, oxydException.ERROR_INVALID_KEY, "invalid key");
+        loggedIn.remove(key);
+    }
 }

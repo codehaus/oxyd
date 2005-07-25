@@ -52,7 +52,10 @@ public class Workspace {
     public IDocument getDocument(String docName, Context context) throws oxydException
     {
         if (isDocumentExist(docName, context))
-            return (IDocument) documents.get(docName);
+        {
+            IDocument doc = (IDocument) documents.get(docName);
+            return doc;
+        }
         throw new oxydException(oxydException.MODULE_WORKSPACE, oxydException.ERROR_DOCUMENT_NOT_EXIST, "This document does not exist");
     }
 
@@ -62,6 +65,11 @@ public class Workspace {
         IDocument  doc = new DocumentImpl(getName(), docName);
         documents.put(docName, doc);
         return doc;
+    }
+
+    public void addDocument(IDocument doc, Context context)
+    {
+        documents.put(doc.getName(), doc);
     }
 
 

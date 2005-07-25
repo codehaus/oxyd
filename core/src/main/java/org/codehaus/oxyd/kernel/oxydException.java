@@ -36,17 +36,22 @@ public class oxydException extends Exception {
     public static final int MODULE_ACTION_MANAGER = 5;
     public static final int MODULE_CLIENT_UTILS = 6;
     public static final int MODULE_CLIENT_ACTION = 7;
+    public static final int MODULE_AUTH_SERVICE = 8;
+    public static final int MODULE_XWIKI_STORE = 9;
 
     public static final int ERROR_BLOCK_LOCKED = 1001;
     public static final int ERROR_BLOCK_NOT_LOCKED = 1002;
-//    public static final int ERROR_NOT_EDITION_MODE = 1003;
     public static final int ERROR_ALREADY_EXIST = 1004;
     public static final int ERROR_WORKSPACE_NOT_EXIST = 1005;
     public static final int ERROR_DOCUMENT_NOT_EXIST = 1006;
     public static final int ERROR_BLOCK_NOT_EXIST = 1007;
     public static final int ERROR_XML_ERROR = 1008;
     public static final int ERROR_COMMAND_NOT_FOUND = 1009;
-     public static final int ERROR_HTTP_ERROR= 1010;
+    public static final int ERROR_HTTP_ERROR= 1010;
+    public static final int ERROR_INVALID_USERNAME_OR_PASSWORD = 1011;
+    public static final int ERROR_INVALID_KEY = 1012;
+    public static final int ERROR_UNKNOWN= 1012;
+
 
     public static final int ERROR_NOT_IMPLEMENTED = 9000;
 

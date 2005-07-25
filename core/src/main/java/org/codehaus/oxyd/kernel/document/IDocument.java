@@ -18,6 +18,7 @@ package org.codehaus.oxyd.kernel.document;
 
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.auth.User;
 import org.dom4j.Document;
 
 import java.util.Map;
@@ -33,27 +34,16 @@ public interface IDocument {
 
     void setName(String name);
 
-    Map getUsers();
+    List getUsers();
 
-    void setUsers(Map users);
+    void addUser(User user);
+
+    void removeUser(User user);
 
     long getVersion();
 
-    /**
-     * TODO rename this function who is not explicit
-     * @param blockId
-     * @param version
-     * @param context
-     * @return
-     */
     IBlock getVersion(long blockId, long version, Context context);
 
-    /**
-     * TODO rename this function who is not explicit
-     * @param version
-     * @param context
-     * @return
-     */
     IDocument getVersion(long version, Context context);
 
     void setVersion(long version);

@@ -16,17 +16,64 @@
  */
 package org.codehaus.oxyd.kernel.auth;
 
-public class    User {
-    String      userName;
-    String      pwd;
+import org.codehaus.oxyd.kernel.document.IDocument;
 
-    public String getUserName() {
-        return userName;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class        User {
+    String      login;
+    List        openDocuments;
+
+    public String getLogin() {
+        return login;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
+    public User(String login) {
+        setLogin(login);
+    }
+
+    public List getOpenDocuments() {
+        return openDocuments;
+    }
+
+    public void addOpenDocument(IDocument doc) {
+        if (openDocuments == null)
+            openDocuments = new ArrayList();
+        if (!openDocuments.contains(doc))
+            openDocuments.add(doc);
+    }
+
+    public void logout()
+    {
+        Iterator it = openDocuments.iterator();
+        while (it.hasNext())
+        {
+            ((IDocument)it.next()).removeUser(this);
+        }
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final User user = (User) o;
+
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+        
+        return true;
+    }
+
+    public int hashCode() {
+        int result;
+        result = (login != null ? login.hashCode() : 0);
+        result = 29 * result + (openDocuments != null ? openDocuments.hashCode() : 0);
+        return result;
+    }
 
 }

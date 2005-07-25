@@ -17,12 +17,15 @@
 package org.codehaus.oxyd.test;
 
 import org.codehaus.oxyd.kernel.Context;
+import org.codehaus.oxyd.kernel.Actions;
+import org.codehaus.oxyd.kernel.oxydException;
 
 public class Utils {
 
-    public static Context   createContext()
-    {
+    public static Context   initContext(Actions actions) throws oxydException {
         Context context = new Context();
-        return new Context();
+        String key = actions.getLoginKey("toto", "titi", context);
+        actions.login(key, context);
+        return context;
     }
 }

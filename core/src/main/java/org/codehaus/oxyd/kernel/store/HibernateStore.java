@@ -14,9 +14,8 @@
  *   limitations under the License.
  * ====================================================================
  */
-package org.codehaus.oxyd.kernel.auth;
 
-public class RightService {
+package org.codehaus.oxyd.kernel.store;
 
-    
+public class HibernateStore {
 }
