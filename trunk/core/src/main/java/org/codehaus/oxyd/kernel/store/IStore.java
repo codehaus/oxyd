@@ -1,3 +1,8 @@
+package org.codehaus.oxyd.kernel.store;
+
+import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.Context;
+import org.codehaus.oxyd.kernel.document.IDocument;
 /* ====================================================================
  *   Copyright 2005 Jérémi Joslin.
  *
@@ -14,9 +19,11 @@
  *   limitations under the License.
  * ====================================================================
  */
-package org.codehaus.oxyd.kernel.auth;
 
-public class RightService {
+public interface IStore {
+    String login() throws oxydException;
 
-    
+    void saveDocument(IDocument doc, Context context) throws oxydException;
+
+    IDocument openDocument(String space, String document, Context context) throws oxydException;
 }

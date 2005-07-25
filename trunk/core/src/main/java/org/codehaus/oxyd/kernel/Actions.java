@@ -21,7 +21,9 @@ import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.utils.Utils;
 import org.codehaus.oxyd.kernel.auth.RightService;
-import org.codehaus.oxyd.kernel.auth.AuthService;
+import org.codehaus.oxyd.kernel.auth.User;
+import org.codehaus.oxyd.kernel.auth.IAuthService;
+import org.codehaus.oxyd.kernel.store.IStore;
 
 import java.util.*;
 
@@ -29,14 +31,45 @@ import java.util.*;
 public class Actions {
     private Map             workspaces;
     private RightService    rightService;
-    private AuthService     authService;
-    private String          storeService;
+    private IAuthService     authService;
+    private IStore          storeService;
 
 
 
     public Actions()
     {
       workspaces = new HashMap();
+    }
+
+    public Actions(IAuthService authService, IStore store)
+    {
+        this();
+        setAuthService(authService);
+        setStoreService(store);
+    }
+
+    public RightService getRightService() {
+        return rightService;
+    }
+
+    public void setRightService(RightService rightService) {
+        this.rightService = rightService;
+    }
+
+    public IAuthService getAuthService() {
+        return authService;
+    }
+
+    public void setAuthService(IAuthService authService) {
+        this.authService = authService;
+    }
+
+    public IStore getStoreService() {
+        return storeService;
+    }
+
+    public void setStoreService(IStore storeService) {
+        this.storeService = storeService;
     }
 
     public List getWorkspacesNames(Context context)
@@ -68,13 +101,35 @@ public class Actions {
 
     public IDocument getDocument(String workspace, String docName, Context context) throws oxydException
     {
-        if (isDocumentExist(workspace, docName, context))
-        {
-            Workspace space = getWorkspace(workspace, context);
-            return space.getDocument(docName, context);
+        try {
+            if (isDocumentCached(workspace, docName, context))
+            {
+                Workspace space = getWorkspace(workspace, context);
+                IDocument doc = space.getDocument(docName, context);
+                doc.addUser(context.getUser());
+                context.getUser().addOpenDocument(doc);
+                return doc;
+            }
         }
-        throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");
+        catch (oxydException e)
+        {
+            if (storeService != null)
+            {
+                IDocument doc = storeService.openDocument(workspace, docName, context);
 
+                if (doc != null)
+                {
+                    if (!isWorkspaceExist(workspace, context))
+                        createWorkspace(workspace,  context);
+                    Workspace space = getWorkspace(workspace, context);
+                    space.addDocument(doc, context);
+                }
+                return doc;
+            }
+            else
+                throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_DOCUMENT_NOT_EXIST, "Document does not exist");
+        }
+        return null;
     }
 
     public void UpdateDocumentBlock(String workspace, String docName, long blockId, byte[] content, Context context) throws oxydException {
@@ -83,7 +138,7 @@ public class Actions {
     }
 
     public List getUpdate(String workspace, String docName, long sinceVersion, Context context) throws oxydException {
-        if (isDocumentExist(workspace, docName, context))
+        if (isDocumentCached(workspace, docName, context))
         {
             Workspace space = getWorkspace(workspace, context);
             return space.getDocument(docName, context).getUpdates(sinceVersion, context);
@@ -100,6 +155,10 @@ public class Actions {
     public void saveDocumentBlock(String workpace, String docName, long blockId, Context context) throws oxydException {
         IDocument doc = getDocument(workpace, docName, context);
         doc.saveBlock(blockId, context);
+        if (getStoreService() != null)
+        {
+            getStoreService().saveDocument(doc, context);
+        }
     }
 
     public void unlockDocumentBlock(String workspace, String docName, long blockId, Context context) throws oxydException {
@@ -123,17 +182,20 @@ public class Actions {
         docName = Utils.noaccents(docName).replaceAll("[^(\\w| )]", "");
         if (!isWorkspaceExist(workspace, context))
             createWorkspace(workspace,  context);
-        if (!isDocumentExist(workspace, docName, context))
+        if (!isDocumentCached(workspace, docName, context))
         {
             Workspace space = getWorkspace(workspace, context);
             if (space == null)
                 space = this.createWorkspace(workspace, context);
-            return space.createDocument(docName, context);
+            IDocument doc = space.createDocument(docName, context);
+            doc.addUser(context.getUser());
+            context.getUser().addOpenDocument(doc);
+            return doc;
         }
         throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");
     }
 
-    private boolean isDocumentExist(String workspace, String docName, Context context) throws oxydException {
+    private boolean isDocumentCached(String workspace, String docName, Context context) throws oxydException {
         if (isWorkspaceExist(workspace, context))
         {
             Workspace space = getWorkspace(workspace, context);
@@ -157,5 +219,27 @@ public class Actions {
         return (workspaces.get(workspace) != null);
     }
 
+    public String getLoginKey(String login, String pwd, Context context)  throws oxydException
+    {
+        if (getAuthService() != null)
+            return getAuthService().login(login, pwd, context);
+        return null;
+    }
+
+    public void login(String key, Context context)  throws oxydException
+    {
+        if (getAuthService() != null)
+            getAuthService().login(key, context);
+    }
+
+   public void logout(String key, Context context)  throws oxydException
+    {
+        if (getAuthService() != null)
+        {
+            User user = context.getUser();
+            user.logout();
+            getAuthService().logout(key, context);
+        }
+    }
 
 }
