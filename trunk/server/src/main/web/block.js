@@ -5,7 +5,7 @@ function editBlock(ContentNode)
     editing = true;
     editingBlockNode = editingContentNode.parentNode;
     //Call the API
-    var url = baseUrl + "lockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
+    var url = baseUrl + "lockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&key=" + key;
     executeCommand(url, editBlockCallback1);
 	return false;
 }
@@ -17,7 +17,7 @@ function editBlockCallback1(xml)
         editing = false;
         return;
     }
-    var url = baseUrl + "getblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
+    var url = baseUrl + "getblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&key=" + key;
     executeCommand(url, editBlockCallback2);
 }
 
@@ -34,7 +34,7 @@ function editBlockCallback2(xml)
 //	y.appendChild(document.createTextNode(x));
 	var z = editingContentNode.parentNode;
 	z.insertBefore(y,editingContentNode);
-	z.insertBefore(butt,editingContentNode);
+	z.insertBefore(buttonsNode,editingContentNode);
 	z.removeChild(editingContentNode);
 	y.value = content;
 	y.focus();
@@ -44,7 +44,7 @@ function unlockBlock(callbackFunction)
 {
     if (!editing) return;
 
-    var url = baseUrl + "unlockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id;
+    var url = baseUrl + "unlockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&key=" + key;
     executeCommand(url, callbackFunction);
     editing = false;
 }
@@ -57,42 +57,68 @@ function updateBlock(callbackFunction)
     var content = getEditingContent();
     if (content != null)
     {
-        var url = baseUrl + "updateblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&content=" + UrlEncode(encode64(content));
+        var url = baseUrl + "updateblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&content=" + UrlEncode(encode64(content)) + "&key=" + key;
         executeCommand(url, callbackFunction);
     }
 }
 
 
+function saveBlock(callbackFunction)
+{
+    if (!editing) return;
+
+    var url = baseUrl + "saveblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&key=" + key;
+    executeCommand(url, callbackFunction);
+}
+
 
 function finishEditingBySavingCallback1(xml)
 {
     if (isError(xml))
+    {
+        nextEditingNode = null;
         return;
+    }
     saveBlock(finishEditingBySavingCallback2);
 }
 
 function finishEditingBySavingCallback2(xml)
 {
     if (isError(xml))
+    {
+        nextEditingNode = null;
         return;
-    unlockBlock(finishEditingBySavingCallback3);
+    }
+    finishEditing();
 }
 
-function finishEditingBySavingCallback3(xml)
+function finishEditingCallback(xml)
 {
     if (isError(xml))
+    {
+        nextEditingNode = null;
         return;
+    }
+    if (nextEditingNode != null)
+    {
+        selectBlockToEdit(nextEditingNode);
+        nextEditingNode = null;
+    }
+}
+
+function finishEditing()
+{
     var area = document.getElementsByTagName('TEXTAREA')[0];
     var contentEl = document.createElement('div');
     //var blockEl = area.parentNode;
     contentEl.setAttribute('id', 'content_'+editingBlockNode.id);
     contentEl.setAttribute('class', 'content');
     editingBlockNode.appendChild(contentEl);
-    contentEl.innerHTML = "<pre>" + area.value + "</pre>";
+    contentEl.innerHTML = area.value;
 	editingBlockNode.insertBefore(contentEl,area);
 	editingBlockNode.removeChild(area);
-	//editingBlockNode.removeChild(document.getElementsByTagName('button')[0]);
-    editingBlockNode.removeChild(document.getElementById('apply'));
+    editingBlockNode.removeChild(buttonsNode);
+    unlockBlock(finishEditingCallback);
 }
 
 function finishEditingBySaving()
@@ -103,6 +129,11 @@ function finishEditingBySaving()
 }
 
 
+
+function finishEditingByCancel()
+{
+    finishEditing();
+}
 
 function setBlockPosition(blockEl, blockId, pos)
 {
@@ -148,12 +179,22 @@ function readBlock(xmlblock)
         contentEl.setAttribute('class', 'content');
         blockEl.appendChild(contentEl);
     }
+    var blockStatus = "";
+
     if (xmlblock.getElementsByTagName('islocked')[0].firstChild.data == "true")
+    {
         contentEl.className = "contentLocked";
+        if (xmlblock.getElementsByTagName('username')[0])
+            blockStatus = "locked by: " + xmlblock.getElementsByTagName('username')[0].firstChild.data;
+    }
     else
+    {
         contentEl.className = "content";
+        if (xmlblock.getElementsByTagName('username')[0])
+            blockStatus = "last edit by: " + xmlblock.getElementsByTagName('username')[0].firstChild.data;
+    }
     if (xmlblock.getElementsByTagName('content')[0].firstChild)
-        contentEl.innerHTML = "<pre>" + decode64(xmlblock.getElementsByTagName('content')[0].firstChild.data) + "</pre>";
+        contentEl.innerHTML = decode64(xmlblock.getElementsByTagName('content')[0].firstChild.data);
     else
         contentEl.innerHTML = "";
 
@@ -163,10 +204,25 @@ function readBlock(xmlblock)
         //actionEl = document.createElement('div');
         actionEl = blockActionModelNode.cloneNode(true);
         actionEl.setAttribute('id', 'action_'+blockId);
+
         blockEl.appendChild(actionEl);
     }
+    setBlockStatus(actionEl, blockStatus);
     moveBlocktoHisPosition(blocksEl, blockEl, Math.round(pos));
     return blockEl;
+}
+
+function setBlockStatus(actionEl, status)
+{
+    var nodes = actionEl.childNodes;
+    for (var j=0;j<nodes.length;j++)
+    {
+        if (nodes[j].className == "blockStatus")
+        {
+            nodes[j].innerHTML = status;
+            return ;
+        }
+    }
 }
 
 function getBlockPosition(blockEl)
