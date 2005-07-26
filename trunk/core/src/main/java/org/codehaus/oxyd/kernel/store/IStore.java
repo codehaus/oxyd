@@ -21,7 +21,6 @@ import org.codehaus.oxyd.kernel.document.IDocument;
  */
 
 public interface IStore {
-    String login() throws oxydException;
 
     void saveDocument(IDocument doc, Context context) throws oxydException;
 

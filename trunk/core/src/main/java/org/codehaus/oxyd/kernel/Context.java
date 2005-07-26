@@ -20,11 +20,14 @@ package org.codehaus.oxyd.kernel;
 import org.codehaus.oxyd.kernel.auth.User;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Context {
     private User        user;
     private String      action;
     private List        parameters;
+    private Map         params;
 
     public User getUser() {
         return user;
@@ -56,5 +59,21 @@ public class Context {
                 ", action='" + action + "'" +
                 ", parameters=" + parameters +
                 "}";
+    }
+
+    public Object get(String name)
+    {
+        if (params != null)
+        {
+            return params.get(name);
+        }
+        return null;
+    }
+
+    public void set(String name, Object value)
+    {
+        if (params == null)
+            params = new HashMap();
+        params.put(name, value);
     }
 }

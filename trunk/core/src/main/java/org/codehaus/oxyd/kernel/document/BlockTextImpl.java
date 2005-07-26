@@ -23,6 +23,7 @@ import org.codehaus.oxyd.kernel.utils.Base64;
 
 public class            BlockTextImpl implements IBlock {
     private long        id;
+    private IDocument   doc;
     private String      userName;
     private long        version;
     private byte[]      content;
@@ -30,6 +31,16 @@ public class            BlockTextImpl implements IBlock {
     private String      type;
     private boolean     locked;
     private boolean     removed;
+
+    public BlockTextImpl(IDocument doc)
+    {
+        this.doc = doc;
+    }
+
+    public BlockTextImpl()
+    {
+        this.doc = doc;
+    }
 
     public long getId() {
         return id;
@@ -39,9 +50,35 @@ public class            BlockTextImpl implements IBlock {
         this.id = id;
     }
 
+    public void setBlockId(long id)
+    {
+    }
+
+    public long getBlockId()
+    {
+        return (doc.getWorkspace() + "." + doc.getName() + "." +getId()).hashCode();
+    }
+
+    public IDocument getDoc() {
+        return doc;
+    }
+
+    public void setDoc(IDocument doc) {
+        this.doc = doc;
+    }
+
+    public long getDocId() {
+        return doc.getId();
+    }
+
+    public void setDocId(long id) {
+    }
+
     public String getUserName() {
         return userName;
     }
+
+
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -97,7 +134,7 @@ public class            BlockTextImpl implements IBlock {
 
     public Object clone()
     {
-        IBlock block = new BlockTextImpl();
+        IBlock block = new BlockTextImpl(doc);
         if (getContent() != null)
             block.setContent((byte[])getContent().clone());
         block.setId(getId());
