@@ -24,6 +24,7 @@ import org.codehaus.oxyd.kernel.utils.Base64;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.server.storage.XWikiStore;
+import org.codehaus.oxyd.server.storage.HibernateStore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +39,7 @@ public class ActionManager extends HttpServlet{
 
     public void init(ServletConfig config) throws ServletException {
         this.config = config;
-        actions = new Actions(new AuthService(), new XWikiStore());
+        actions = new Actions(new AuthService(), new HibernateStore());
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
