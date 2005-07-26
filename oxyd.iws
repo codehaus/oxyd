@@ -120,37 +120,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="script.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/web/script.js">
+      <file leaf-file-name="HibernateStore.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/storage/HibernateStore.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="217" column="0" selection-start="5376" selection-end="5376" vertical-scroll-proportion="9.099099">
-              <folding />
+            <state line="143" column="0" selection-start="5339" selection-end="5339" vertical-scroll-proportion="0.2">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="document.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/web/document.js">
+      <file leaf-file-name="IDocument.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/IDocument.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="1" selection-start="2497" selection-end="2497" vertical-scroll-proportion="1.6606606">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="block.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/web/block.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="198" column="1" selection-start="5908" selection-end="5908" vertical-scroll-proportion="7.7417417">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Actions.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Actions.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="11" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.045045044">
+            <state line="28" column="0" selection-start="1038" selection-end="1038" vertical-scroll-proportion="0.0375">
               <folding />
             </state>
           </provider>
@@ -159,25 +143,43 @@
       <file leaf-file-name="DocumentImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="413" column="21" selection-start="12992" selection-end="12992" vertical-scroll-proportion="0.045045044">
+            <state line="34" column="13" selection-start="1283" selection-end="1283" vertical-scroll-proportion="-1.7922078">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActionManager.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Actions.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Actions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="159" column="38" selection-start="5512" selection-end="5512" vertical-scroll-proportion="0.9714286">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActionManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/ActionManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="129" column="13" selection-start="5484" selection-end="5484" vertical-scroll-proportion="0.7297297">
+            <state line="41" column="58" selection-start="1707" selection-end="1707" vertical-scroll-proportion="0.42857143">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DocumentImplTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/codehaus/oxyd/test/DocumentImplTest.java">
+      <file leaf-file-name="hibernate.cfg.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/src/main/web/WEB-INF/hibernate.cfg.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="13" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.04310345">
+            <state line="36" column="62" selection-start="1836" selection-end="1836" vertical-scroll-proportion="0.6103896">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DBCPConnectionProvider.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/storage/DBCPConnectionProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="173" column="0" selection-start="7639" selection-end="7639" vertical-scroll-proportion="0.21818182">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -185,19 +187,30 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/web/index.html">
+      <file leaf-file-name="TestHibernateStore.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/test/java/org/codehaus/oxyd/server/test/TestHibernateStore.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="175" column="31" selection-start="4857" selection-end="4857" vertical-scroll-proportion="0.5945946">
+            <state line="41" column="13" selection-start="1669" selection-end="1669" vertical-scroll-proportion="0.92">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IBlock.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/IBlock.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="17" selection-start="848" selection-end="848" vertical-scroll-proportion="0.0375">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/auth/User.java">
+      <file leaf-file-name="oxyd.hbm.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/web/WEB-INF/oxyd.hbm.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="20" selection-start="819" selection-end="819" vertical-scroll-proportion="0.12931034">
+            <state line="34" column="28" selection-start="1412" selection-end="1412" vertical-scroll-proportion="0.5075">
               <folding />
             </state>
           </provider>
@@ -233,8 +246,8 @@
     <setting name="SHOW_AS_DEPLOYMENT_VIEW" value="false" />
   </component>
   <component name="ModuleEditorState">
-    <option name="LAST_EDITED_MODULE_NAME" value="server" />
-    <option name="LAST_EDITED_TAB_NAME" value="Web Module Settings" />
+    <option name="LAST_EDITED_MODULE_NAME" value="core" />
+    <option name="LAST_EDITED_TAB_NAME" value="Libraries (Classpath)" />
   </component>
   <component name="NamedScopeManager" />
   <component name="PackagesPane">
@@ -295,6 +308,50 @@
         <option name="myItemId" value="server" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
       </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="Libraries" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.LibraryGroupNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="oxyd.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="Libraries" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.LibraryGroupNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="hsqldb-1.7.3.jar" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="oxyd.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="Libraries" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.LibraryGroupNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="hsqldb-1.7.3.jar" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="org.hsqldb" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
     </PATH>
     <PATH>
       <PATH_ELEMENT>
@@ -307,6 +364,36 @@
       </PATH_ELEMENT>
       <PATH_ELEMENT>
         <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="oxyd.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="test" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="java" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="org.codehaus.oxyd.server.test" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
     </PATH>
@@ -358,11 +445,109 @@
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
       <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="WEB-INF" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="oxyd.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="main" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
         <option name="myItemId" value="java" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
       <PATH_ELEMENT>
         <option name="myItemId" value="org.codehaus.oxyd.server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="oxyd.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="main" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="java" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="org.codehaus.oxyd.server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="storage" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="oxyd.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="main" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="java" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="org.codehaus.oxyd.server" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="auth" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
     </PATH>
@@ -524,6 +709,74 @@
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
       <PATH_ELEMENT>
+        <option name="myItemId" value="store" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="oxyd.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="main" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="java" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="org.codehaus.oxyd.kernel" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="document" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="oxyd.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="main" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="java" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="org.codehaus.oxyd.kernel" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
         <option name="myItemId" value="auth" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
@@ -567,7 +820,13 @@
   <component name="ReadonlyStatusHandler">
     <option name="SHOW_DIALOG" value="true" />
   </component>
-  <component name="RecentsManager" />
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.codehaus.oxyd.server.storage" />
+      <recent name="org.codehaus.oxyd.kernel.store" />
+      <recent name="org.codehaus.oxyd.kernel" />
+    </key>
+  </component>
   <component name="RestoreUpdateTree" />
   <component name="RunManager">
     <activeType name="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" />
@@ -577,15 +836,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-    </configuration>
-    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
     </configuration>
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -598,6 +848,24 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
+    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+    </configuration>
+    <configuration selected="false" default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="" />
     </configuration>
     <configuration selected="false" default="true" type="JUnit" factoryName="JUnit">
       <module name="" />
@@ -615,14 +883,101 @@
         <value defaultName="wholeProject" />
       </option>
     </configuration>
-    <configuration selected="false" default="true" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <configuration selected="false" default="false" name="testKernel" type="JUnit" factoryName="JUnit">
+      <module name="server" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="org.codehaus.oxyd.test" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Run" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="33170" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+    </configuration>
+    <configuration selected="false" default="false" name="testClientAPI" type="JUnit" factoryName="JUnit">
+      <module name="server" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="org.codehaus.oxyd.client.test" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Run" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="32896" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+    </configuration>
+    <configuration selected="false" default="false" name="testStore" type="JUnit" factoryName="JUnit">
+      <module name="server" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="org.codehaus.oxyd.server.test" />
+      <option name="MAIN_CLASS_NAME" value="org.codehaus.oxyd.server.test.TestXWikiStore" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Run" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="32902" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+    </configuration>
+    <configuration selected="true" default="false" name="testHibernateStore" type="JUnit" factoryName="JUnit">
+      <module name="server" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="org.codehaus.oxyd.server.test" />
+      <option name="MAIN_CLASS_NAME" value="org.codehaus.oxyd.server.test.TestHibernateStore" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/server/src/main/web" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Run" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="33707" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
     </configuration>
     <configuration selected="true" default="false" name="tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat">
       <option name="WORKING_DIRECTORY" />
@@ -674,54 +1029,6 @@
         </SHUTDOWN>
       </ConfigurationWrapper>
     </configuration>
-    <configuration selected="true" default="false" name="testKernel" type="JUnit" factoryName="JUnit">
-      <module name="server" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.codehaus.oxyd.test" />
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <RunnerSettings RunnerId="Run" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="33170" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="false" />
-      </RunnerSettings>
-      <ConfigurationWrapper RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-    </configuration>
-    <configuration selected="false" default="false" name="testClientAPI" type="JUnit" factoryName="JUnit">
-      <module name="server" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.codehaus.oxyd.client.test" />
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <RunnerSettings RunnerId="Run" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="32896" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="false" />
-      </RunnerSettings>
-      <ConfigurationWrapper RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-    </configuration>
   </component>
   <component name="SelectInManager" />
   <component name="StarteamConfiguration">
@@ -765,26 +1072,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1280" height="773" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1280" height="774" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.30674848" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.33523655" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.53527606" order="1" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.37846655" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.34303215" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33027524" order="8" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.32771823" order="11" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
-      <window_info id="Favorites" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="9" />
+      <window_info id="Favorites" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="5" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.37327188" order="2" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.2638037" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
-      <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.52300614" order="4" />
+      <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="4" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.38650307" order="4" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="10" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="3" />
@@ -854,111 +1161,113 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/BlockTextImpl.java">
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/codehaus/oxyd/test/ActionTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="19" selection-start="2986" selection-end="2986" vertical-scroll-proportion="0.025041737">
+        <state line="38" column="48" selection-start="1414" selection-end="1437" vertical-scroll-proportion="0.026548672">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientAPI/src/main/java/org/codehaus/oxyd/client/Utils.java">
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Context.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="12" selection-start="1792" selection-end="1792" vertical-scroll-proportion="0.025684932">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/web/WEB-INF/web.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="32" selection-start="72" selection-end="72" vertical-scroll-proportion="0.051369864">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="2" selection-start="2325" selection-end="2325" vertical-scroll-proportion="1.900685">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientAPI/src/test/java/org/codehaus/oxyd/client/test/ActionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="16" selection-start="1231" selection-end="1231" vertical-scroll-proportion="0.025041737">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Workspace.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="51" selection-start="845" selection-end="845" vertical-scroll-proportion="0.025684932">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/auth/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="20" selection-start="819" selection-end="819" vertical-scroll-proportion="0.12931034">
+        <state line="72" column="19" selection-start="1881" selection-end="1881" vertical-scroll-proportion="0.7051724">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/test/java/org/codehaus/oxyd/test/DocumentImplTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="13" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.04310345">
+        <state line="33" column="13" selection-start="1202" selection-end="1202" vertical-scroll-proportion="-0.16666667">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/BlockTextImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="64" selection-start="1702" selection-end="1702" vertical-scroll-proportion="0.32">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/oxydException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="55" selection-start="1653" selection-end="1653" vertical-scroll-proportion="0.721519">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/web/WEB-INF/oxyd.hbm.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="28" selection-start="1412" selection-end="1412" vertical-scroll-proportion="0.5075">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/IBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="17" selection-start="848" selection-end="848" vertical-scroll-proportion="0.0375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/test/java/org/codehaus/oxyd/server/test/TestHibernateStore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="13" selection-start="1669" selection-end="1669" vertical-scroll-proportion="0.92">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/storage/DBCPConnectionProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="413" column="21" selection-start="12992" selection-end="12992" vertical-scroll-proportion="0.045045044">
+        <state line="173" column="0" selection-start="7639" selection-end="7639" vertical-scroll-proportion="0.21818182">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/ActionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="58" selection-start="1707" selection-end="1707" vertical-scroll-proportion="0.42857143">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/Actions.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="11" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.045045044">
+        <state line="159" column="38" selection-start="5512" selection-end="5512" vertical-scroll-proportion="0.9714286">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/web/document.js">
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/DocumentImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="1" selection-start="2497" selection-end="2497" vertical-scroll-proportion="1.6606606">
+        <state line="34" column="13" selection-start="1283" selection-end="1283" vertical-scroll-proportion="-1.7922078">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/web/script.js">
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/codehaus/oxyd/kernel/document/IDocument.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="0" selection-start="5376" selection-end="5376" vertical-scroll-proportion="9.099099">
+        <state line="28" column="0" selection-start="1038" selection-end="1038" vertical-scroll-proportion="0.0375">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/web/block.js">
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/storage/HibernateStore.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="1" selection-start="5908" selection-end="5908" vertical-scroll-proportion="7.7417417">
-          <folding />
+        <state line="143" column="0" selection-start="5339" selection-end="5339" vertical-scroll-proportion="0.2">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/web/index.html">
+    <entry file="file://$PROJECT_DIR$/server/src/main/web/WEB-INF/hibernate.cfg.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="31" selection-start="4857" selection-end="4857" vertical-scroll-proportion="0.5945946">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/org/codehaus/oxyd/server/ActionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="13" selection-start="5484" selection-end="5484" vertical-scroll-proportion="0.7297297">
+        <state line="36" column="62" selection-start="1836" selection-end="1836" vertical-scroll-proportion="0.6103896">
           <folding />
         </state>
       </provider>

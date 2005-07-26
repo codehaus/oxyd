@@ -24,6 +24,18 @@ public interface IBlock {
 
     void setId(long id);
 
+    public void setBlockId(long id);
+
+    public long getBlockId();
+
+    public long getDocId();
+
+    public IDocument getDoc();
+
+    public void setDoc(IDocument doc);
+
+    public void setDocId(long id);
+
     String getUserName();
 
     void setUserName(String userName);

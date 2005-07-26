@@ -33,9 +33,8 @@ import java.io.IOException;
 import java.io.StringReader;
 
 public class DocumentImpl implements IDocument {
-    private long        id;
     private String      name;
-    private List         users;
+    private List        users;
     private long        version;
     private Map         blocks;
     protected Map       lockedBlocks;
@@ -79,11 +78,10 @@ public class DocumentImpl implements IDocument {
     }
 
     public long getId() {
-        return id;
+        return (workspace + "." + name).hashCode();
     }
 
     public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -146,7 +144,7 @@ public class DocumentImpl implements IDocument {
     public List getComments(long blockId) {
         List comments = new ArrayList();
         for (int i = 0; i < this.comments.size(); i++)
-            if (((IComment)this.comments.get(i)).getBlockId() == id)
+            if (((IComment)this.comments.get(i)).getBlockId() == getId())
                 comments.add(this.comments.get(i));
         return comments;
     }
@@ -398,7 +396,7 @@ public class DocumentImpl implements IDocument {
 
     public IBlock createBlock(String pos, byte[] content, Context context)
     {
-        IBlock block = new BlockTextImpl();
+        IBlock block = new BlockTextImpl(this);
         block.setContent(content);
         block.setRemoved(false);
         block.setUserName(context.getUser().getLogin());
@@ -468,7 +466,7 @@ public class DocumentImpl implements IDocument {
         for (int i = 0; i < ListFile.size(); i++)
         {
             Element blockEl = ((Element)ListFile.get(i));
-            IBlock block = new BlockTextImpl();
+            IBlock block = new BlockTextImpl(this);
             block.fromXML(blockEl);
             this.getBlocks().put(new Long(block.getId()), block);
         }
@@ -479,7 +477,7 @@ public class DocumentImpl implements IDocument {
         for (int i = 0; i < ListFile.size(); i++)
         {
             Element blockEl = ((Element)ListFile.get(i));
-            IBlock block = new BlockTextImpl();
+            IBlock block = new BlockTextImpl(this);
             block.fromXML(blockEl);
             lockedBlocks.put(new Long(block.getId()), block);
         }

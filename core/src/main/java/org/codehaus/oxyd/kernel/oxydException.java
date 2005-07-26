@@ -38,6 +38,7 @@ public class oxydException extends Exception {
     public static final int MODULE_CLIENT_ACTION = 7;
     public static final int MODULE_AUTH_SERVICE = 8;
     public static final int MODULE_XWIKI_STORE = 9;
+    public static final int MODULE_HIBERNATE_STORE = 10;
 
     public static final int ERROR_BLOCK_LOCKED = 1001;
     public static final int ERROR_BLOCK_NOT_LOCKED = 1002;
