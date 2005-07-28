@@ -51,7 +51,7 @@ public class render {
         sendResponse(doc, response);
     }
 
-    static private void sendResponse(Document doc, HttpServletResponse response) throws IOException {
+    static public void sendResponse(Document doc, HttpServletResponse response) throws IOException {
         OutputFormat outputFormat = new OutputFormat("", true);
         outputFormat.setEncoding("UTF-8");
         XMLWriter writer = new XMLWriter( response.getOutputStream(), outputFormat );

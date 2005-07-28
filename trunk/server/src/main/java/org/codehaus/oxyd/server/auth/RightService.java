@@ -14,24 +14,15 @@
  *   limitations under the License.
  * ====================================================================
  */
+package org.codehaus.oxyd.kernel.auth;
 
-package org.codehaus.oxyd.server.auth;
-
-import org.codehaus.oxyd.kernel.auth.IAuthService;
 import org.codehaus.oxyd.kernel.Context;
-import org.codehaus.oxyd.kernel.oxydException;
 
-public class XWikiAuthService implements IAuthService {
+public class RightService {
 
-    public String login(String login, String pwd, Context context) throws oxydException {
-        return null;
+    public boolean hasRight(String workspace, String document, Context context)
+    {
+        return true;
     }
 
-    public void login(String key, Context context) throws oxydException {
-
-    }
-
-    public void logout(String key, Context context) throws oxydException {
-
-    }
 }

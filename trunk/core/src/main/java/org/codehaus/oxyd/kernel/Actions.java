@@ -20,9 +20,7 @@ package org.codehaus.oxyd.kernel;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.utils.Utils;
-import org.codehaus.oxyd.kernel.auth.RightService;
 import org.codehaus.oxyd.kernel.auth.User;
-import org.codehaus.oxyd.kernel.auth.IAuthService;
 import org.codehaus.oxyd.kernel.store.IStore;
 
 import java.util.*;
@@ -30,8 +28,6 @@ import java.util.*;
 
 public class Actions {
     private Map             workspaces;
-    private RightService    rightService;
-    private IAuthService     authService;
     private IStore          storeService;
 
 
@@ -41,27 +37,10 @@ public class Actions {
       workspaces = new HashMap();
     }
 
-    public Actions(IAuthService authService, IStore store)
+    public Actions(IStore store)
     {
         this();
-        setAuthService(authService);
         setStoreService(store);
-    }
-
-    public RightService getRightService() {
-        return rightService;
-    }
-
-    public void setRightService(RightService rightService) {
-        this.rightService = rightService;
-    }
-
-    public IAuthService getAuthService() {
-        return authService;
-    }
-
-    public void setAuthService(IAuthService authService) {
-        this.authService = authService;
     }
 
     public IStore getStoreService() {
@@ -209,7 +188,7 @@ public class Actions {
         workspace = Utils.noaccents(workspace).replaceAll("[^(\\w| )]", "");
         if (isWorkspaceExist(workspace, context))
             throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Workspace already exist");
-        Workspace space = new Workspace(workspace);
+        Workspace space = new Workspace(workspace, storeService);
         workspaces.put(workspace, space);
         return space;
     }
@@ -217,29 +196,6 @@ public class Actions {
     public boolean isWorkspaceExist(String workspace, Context context)
     {
         return (workspaces.get(workspace) != null);
-    }
-
-    public String getLoginKey(String login, String pwd, Context context)  throws oxydException
-    {
-        if (getAuthService() != null)
-            return getAuthService().login(login, pwd, context);
-        return null;
-    }
-
-    public void login(String key, Context context)  throws oxydException
-    {
-        if (getAuthService() != null)
-            getAuthService().login(key, context);
-    }
-
-   public void logout(String key, Context context)  throws oxydException
-    {
-        if (getAuthService() != null)
-        {
-            User user = context.getUser();
-            user.logout();
-            getAuthService().logout(key, context);
-        }
     }
 
 }

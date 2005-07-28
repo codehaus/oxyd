@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class Context {
     private User        user;
-    private String      action;
+    private Actions     actions;
     private List        parameters;
     private Map         params;
 
@@ -37,12 +37,12 @@ public class Context {
         this.user = user;
     }
 
-    public String getAction() {
-        return action;
+    public Actions getAction() {
+        return actions;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setAction(Actions actions) {
+        this.actions = actions;
     }
 
     public List getParameters() {
@@ -56,7 +56,6 @@ public class Context {
     public String toString() {
         return "Context{" +
                 "user=" + user +
-                ", action='" + action + "'" +
                 ", parameters=" + parameters +
                 "}";
     }

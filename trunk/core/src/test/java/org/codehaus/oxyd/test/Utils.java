@@ -19,13 +19,14 @@ package org.codehaus.oxyd.test;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.auth.User;
 
 public class Utils {
 
     public static Context   initContext(Actions actions) throws oxydException {
         Context context = new Context();
-        String key = actions.getLoginKey("toto", "titi", context);
-        actions.login(key, context);
+        context.setUser(new User("titi"));
+
         return context;
     }
 }

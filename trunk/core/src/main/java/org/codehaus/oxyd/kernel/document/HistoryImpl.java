@@ -32,11 +32,6 @@ public class HistoryImpl implements IHistory {
         history.put(new Long(version), evt);
     }
 
-    /**
-     * 
-     * @param version
-     * @return
-     */
     public IDocument getHistoryEvent(long version)
     {
         for (long i = version; i > 0; i--)

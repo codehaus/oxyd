@@ -290,7 +290,7 @@ function executeCommand(url, callback) {
         }
     }
 
-    //addMessage(url);
+    addMessage(url);
     // use a local variable to hold our request and callback until the inner function is called...
     var ajaxRequest = null;
     var ajaxCallback = callback;

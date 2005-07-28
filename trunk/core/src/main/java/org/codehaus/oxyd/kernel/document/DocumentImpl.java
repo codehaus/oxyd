@@ -153,6 +153,16 @@ public class DocumentImpl implements IDocument {
         this.comments = comments;
     }
 
+    public void addComment(long blockId, String content, Context context)
+    {
+        IComment comment = new CommentImpl();
+        comment.setBlockId(blockId);
+        comment.setText(content);
+        comment.setDocument(this);
+        comment.setUserName(context.getUser().getLogin());
+        comments.add(comment);
+    }
+
     public String getParentName() {
         return parentName;
     }
@@ -374,24 +384,24 @@ public class DocumentImpl implements IDocument {
         return doc;
     }
 
-       public String toXML(Document doc) {
-            OutputFormat outputFormat = new OutputFormat("", true);
-            outputFormat.setEncoding("UTF-8");
-            StringWriter out = new StringWriter();
-            XMLWriter writer = new XMLWriter( out, outputFormat );
-            try {
-                writer.write(doc);
-                return out.toString();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "";
-            }
-       }
+   public String toXML(Document doc) {
+        OutputFormat outputFormat = new OutputFormat("", true);
+        outputFormat.setEncoding("UTF-8");
+        StringWriter out = new StringWriter();
+        XMLWriter writer = new XMLWriter( out, outputFormat );
+        try {
+            writer.write(doc);
+            return out.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+   }
 
-       public String toXML()
-       {
-            return toXML(toXMLDocument());
-       }
+   public String toXML()
+   {
+        return toXML(toXMLDocument());
+   }
 
 
     public IBlock createBlock(String pos, byte[] content, Context context)
