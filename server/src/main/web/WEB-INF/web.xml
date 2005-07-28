@@ -8,7 +8,17 @@
   <servlet>
     <servlet-name>action</servlet-name>
     <servlet-class>org.codehaus.oxyd.server.ActionManager</servlet-class>
+    <init-param>
+        <param-name>plugins</param-name>
+        <param-value>org.codehaus.oxyd.server.plugins.XWikiPlugin</param-value>
+    </init-param>
+    <init-param>
+        <param-name>users</param-name>
+        <param-value>/WEB-INF/users.xml</param-value>
+    </init-param>
       <load-on-startup>1</load-on-startup>
+
+
 
   </servlet>
 

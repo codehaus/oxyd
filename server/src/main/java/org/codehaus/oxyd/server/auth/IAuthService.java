@@ -1,3 +1,7 @@
+package org.codehaus.oxyd.kernel.auth;
+
+import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.server.ServerContext;
 /* ====================================================================
  *   Copyright 2005 Jérémi Joslin.
  *
@@ -14,9 +18,14 @@
  *   limitations under the License.
  * ====================================================================
  */
-package org.codehaus.oxyd.kernel.auth;
 
-public class RightService {
+public interface IAuthService {
 
-    
+    String login(String login, String pwd, ServerContext context) throws oxydException;
+
+    void login(String key, ServerContext context) throws oxydException;
+
+    void logout(String key, ServerContext context) throws oxydException;
+
+    void addLoggedIn(String key, User user);
 }

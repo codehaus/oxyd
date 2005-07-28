@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<users>
+    <user>
+        <login>jeremi</login>
+        <pwd>jeremi</pwd>
+    </user>
+    <user>
+        <login>ludo</login>
+        <pwd>ludo</pwd>
+    </user>
+    <user>
+        <login>vmassol</login>
+        <pwd>vincent</pwd>
+    </user>
+</users>

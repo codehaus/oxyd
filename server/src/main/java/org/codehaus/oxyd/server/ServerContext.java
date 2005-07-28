@@ -17,12 +17,18 @@
 package org.codehaus.oxyd.server;
 
 import org.codehaus.oxyd.kernel.Context;
+import org.codehaus.oxyd.kernel.Actions;
+import org.codehaus.oxyd.kernel.auth.IAuthService;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 public class ServerContext {
-    private Context         context;
-    private ServletContext  servletContext;
+    private Context             context;
+    private ServletContext      servletContext;
+    private Actions             actions;
+    private HttpServletRequest  request;
+    private IAuthService        authService;
 
     public Context getKernelContext() {
         return context;
@@ -32,11 +38,39 @@ public class ServerContext {
         this.context = context;
     }
 
+    public IAuthService getAuthService() {
+        return authService;
+    }
+
+    public void setAuthService(IAuthService authService) {
+        this.authService = authService;
+    }
+
     public ServletContext getServletContext() {
         return servletContext;
     }
 
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
+    }
+
+    public void setActionManager(Actions actions)
+    {
+        this.actions = actions;
+    }
+
+    public Actions getActionManager()
+    {
+        return actions;
+    }
+
+    public HttpServletRequest getRequest()
+    {
+        return this.request;
+    }
+
+    public void setRequest(HttpServletRequest req)
+    {
+        this.request = req;
     }
 }

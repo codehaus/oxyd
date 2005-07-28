@@ -18,6 +18,7 @@ package org.codehaus.oxyd.kernel;
 
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.DocumentImpl;
+import org.codehaus.oxyd.kernel.store.IStore;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -25,10 +26,12 @@ import java.util.HashMap;
 public class Workspace {
     private String  name;
     private Map     documents;
+    private IStore  storeService;
 
-    public Workspace(String name)
+    public Workspace(String name, IStore store)
     {
         this.name = name;
+        this.storeService = store;
         documents = new HashMap();
     }
     public String getName() {
@@ -64,6 +67,8 @@ public class Workspace {
             throw new oxydException(oxydException.MODULE_WORKSPACE, oxydException.ERROR_ALREADY_EXIST, "This document already exist");
         IDocument  doc = new DocumentImpl(getName(), docName);
         documents.put(docName, doc);
+        if (storeService != null)
+            storeService.saveDocument(doc, context);
         return doc;
     }
 

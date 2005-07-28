@@ -1,7 +1,3 @@
-package org.codehaus.oxyd.kernel.auth;
-
-import org.codehaus.oxyd.kernel.Context;
-import org.codehaus.oxyd.kernel.oxydException;
 /* ====================================================================
  *   Copyright 2005 Jérémi Joslin.
  *
@@ -19,10 +15,17 @@ import org.codehaus.oxyd.kernel.oxydException;
  * ====================================================================
  */
 
-public interface IAuthService {
-    String login(String login, String pwd, Context context) throws oxydException;
+package org.codehaus.oxyd.server.test;
 
-    void login(String key, Context context) throws oxydException;
+import org.codehaus.oxyd.server.ServerContext;
+import org.codehaus.oxyd.kernel.Actions;
+import org.codehaus.oxyd.kernel.oxydException;
 
-    void logout(String key, Context context) throws oxydException;
+public class Utils extends org.codehaus.oxyd.test.Utils {
+
+    public static ServerContext initServerContext() throws oxydException {
+        ServerContext serverContext = new ServerContext();
+        serverContext.setKernelContext(initContext(new Actions()));
+        return serverContext;
+    }
 }

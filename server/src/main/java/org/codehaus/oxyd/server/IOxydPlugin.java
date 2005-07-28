@@ -1,3 +1,7 @@
+package org.codehaus.oxyd.server;
+
+import org.dom4j.Document;
+import org.codehaus.oxyd.kernel.oxydException;
 /* ====================================================================
  *   Copyright 2005 Jérémi Joslin.
  *
@@ -15,7 +19,14 @@
  * ====================================================================
  */
 
-package org.codehaus.oxyd.kernel.store;
+public interface IOxydPlugin {
 
-public class HibernateStore {
+    public String getName();
+
+    public Document execute(String command, ServerContext context) throws oxydException;
+
+    public String beforeLogin(String userName, String pwd, ServerContext context) throws oxydException;
+
+    public Boolean beforeHasRight(String userName, String pwd, ServerContext context);
+
 }

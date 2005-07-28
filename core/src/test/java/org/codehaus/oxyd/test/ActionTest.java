@@ -19,7 +19,6 @@ package org.codehaus.oxyd.test;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
-import org.codehaus.oxyd.kernel.auth.AuthService;
 import org.codehaus.oxyd.kernel.document.IDocument;
 
 import java.util.List;
@@ -31,12 +30,12 @@ public class ActionTest extends TestCase {
     Context     context;
 
     public void setUp() throws Exception {
-        action = new Actions(new AuthService(), null);
+        action = new Actions(null);
         setUp(action);
     }
 
     public void setUp(Actions myAction) throws oxydException {
-        context = Utils.initContext(new Actions(new AuthService(), null));
+        context = Utils.initContext(new Actions(null));
         myAction.createWorkspace("firstSpace", context);
         myAction.createWorkspace("secondSpace", context);
         myAction.createDocument("firstSpace", "doc1", context);

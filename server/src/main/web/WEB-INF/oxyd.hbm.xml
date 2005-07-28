@@ -54,4 +54,23 @@
         </property>
     </class>
 
+    <class name="org.codehaus.oxyd.kernel.document.CommentImpl" table="comment">
+        <id name="id" type="long" unsaved-value="any">
+            <column name="id" not-null="true" />
+            <generator class="assigned" />
+        </id>
+        <property name="blockId" type="long">
+            <column name="blockId" not-null="true"/>
+        </property>
+        <property name="documentId" type="long">
+            <column name="documentId" not-null="true"/>
+        </property>
+        <property name="userName" type="string">
+            <column name="userName" length="255" not-null="true"/>
+        </property>
+        <property name="text" type="string">
+            <column name="text" not-null="true"/>
+        </property>
+    </class>
+
 </hibernate-mapping>

@@ -23,6 +23,7 @@ import org.codehaus.oxyd.kernel.store.IStore;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.document.DocumentImpl;
+import org.codehaus.oxyd.kernel.document.IComment;
 import org.hibernate.*;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.tool.hbm2ddl.DatabaseMetadata;
@@ -48,7 +49,6 @@ public class HibernateStore implements IStore {
 
     public void saveDocument(IDocument doc, Context context) throws oxydException {
 
-        log.warn("-------------save Document " + doc.getWorkspace() + "." + doc.getName() + doc.getId());
         try {
             checkHibernate(context);
             beginTransaction(context);
@@ -64,6 +64,10 @@ public class HibernateStore implements IStore {
             while (it.hasNext())
                 saveBlock((IBlock) it.next(), context);
 
+            it = doc.getComments().iterator();
+            while (it.hasNext())
+                saveComment((IComment) it.next(), context);
+
             endTransaction(context, true);
         }
         catch (Exception e) {
@@ -72,23 +76,32 @@ public class HibernateStore implements IStore {
         }
     }
 
+    private void saveComment(IComment comment, Context context)
+    {
+        if (comment.getId() != -1)
+            return;
+        Session session = getSession(context);
+        session.save(comment);
+    }
+
     private void saveBlock(IBlock block, Context context)
     {
         Session session = getSession(context);
-        Query query = session.createQuery("select block.id from BlockTextImpl as block where block.id = :id");
+        Query query = session.createQuery("select block.id from BlockTextImpl as block where block.id = :id and block.docId = :docId");
         query.setLong("id", block.getBlockId());
+        query.setLong("docId", block.getDocId());
         if (query.uniqueResult()==null)
             session.save(block);
         else
             session.update(block);
     }
 
+
     public IDocument openDocument(String space, String document, Context context) throws oxydException {
 
         try {
             IDocument doc = new DocumentImpl(space, document);
-            log.warn("--------------open Document " + doc.getWorkspace() + "." + doc.getName() + doc.getId());
-
+            
             checkHibernate(context);
             beginTransaction(context);
             Session session = getSession(context);
@@ -99,7 +112,7 @@ public class HibernateStore implements IStore {
         }
         catch (Exception e) {
             endTransaction(context, false);
-            throw new oxydException(oxydException.MODULE_HIBERNATE_STORE, oxydException.ERROR_UNKNOWN, e.getMessage());
+            throw new oxydException(oxydException.MODULE_HIBERNATE_STORE, oxydException.ERROR_DOCUMENT_NOT_EXIST, "Document does not exist");
         }
     }
 

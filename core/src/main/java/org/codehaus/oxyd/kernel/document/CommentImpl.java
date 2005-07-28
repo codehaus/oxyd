@@ -20,8 +20,9 @@ import org.dom4j.Element;
 import org.dom4j.dom.DOMElement;
 
 public class CommentImpl implements IComment {
-    private long        id;
+    private long        id = -1;
     private long        blockId;
+    private IDocument   doc;
     private String      userName;
     private String      text;
 
@@ -39,6 +40,17 @@ public class CommentImpl implements IComment {
 
     public void setBlockId(long blockId) {
         this.blockId = blockId;
+    }
+
+    public long getDocumentId() {
+        return doc.getId();
+    }
+
+    public void setDocumentId(long docId) {
+    }
+
+    public void setDocument(IDocument doc) {
+        this.doc = doc;
     }
 
     public String getUserName() {

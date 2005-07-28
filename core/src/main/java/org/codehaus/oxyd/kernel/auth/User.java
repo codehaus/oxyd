@@ -18,13 +18,12 @@ package org.codehaus.oxyd.kernel.auth;
 
 import org.codehaus.oxyd.kernel.document.IDocument;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
 public class        User {
     String      login;
     List        openDocuments;
+    Map         params;
 
     public String getLogin() {
         return login;
@@ -65,7 +64,7 @@ public class        User {
         final User user = (User) o;
 
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
-        
+
         return true;
     }
 
@@ -74,6 +73,22 @@ public class        User {
         result = (login != null ? login.hashCode() : 0);
         result = 29 * result + (openDocuments != null ? openDocuments.hashCode() : 0);
         return result;
+    }
+
+    public Object get(String name)
+    {
+        if (params != null)
+        {
+            return params.get(name);
+        }
+        return null;
+    }
+
+    public void set(String name, Object value)
+    {
+        if (params == null)
+            params = new HashMap();
+        params.put(name, value);
     }
 
 }

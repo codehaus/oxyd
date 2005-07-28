@@ -20,11 +20,14 @@ import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
 import org.codehaus.oxyd.kernel.auth.AuthService;
+import org.codehaus.oxyd.kernel.auth.User;
 import org.codehaus.oxyd.kernel.utils.Base64;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
-import org.codehaus.oxyd.server.storage.XWikiStore;
 import org.codehaus.oxyd.server.storage.HibernateStore;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,14 +35,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.*;
 import java.util.List;
 import java.io.IOException;
+import java.io.File;
 
 public class ActionManager extends HttpServlet{
     Actions         actions = null;
     ServletConfig   config;
+    PluginManager   plugins;
+    AuthService     authService;
 
     public void init(ServletConfig config) throws ServletException {
         this.config = config;
-        actions = new Actions(new AuthService(), new HibernateStore());
+        String userFile = config.getInitParameter("users");
+        String param = config.getInitParameter("plugins");
+        plugins = new PluginManager(param);
+        AuthService authService = new AuthService();
+        SAXReader reader = new SAXReader();
+        try {
+            authService.fromXML(reader.read(ActionManager.class.getResourceAsStream(userFile)));
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        this.authService = authService;
+        actions = new Actions(new HibernateStore());
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -51,10 +68,13 @@ public class ActionManager extends HttpServlet{
     {
         String action = getActionName(req);
         ServerContext serverContext = new ServerContext();
-
-        serverContext.setKernelContext(new Context());
-        serverContext.getKernelContext().setAction(action);
+        Context coreContext = new Context();
+        coreContext.setAction(actions);
+        serverContext.setKernelContext(coreContext);
         serverContext.setServletContext(config.getServletContext());
+        serverContext.setActionManager(actions);
+        serverContext.setAuthService(authService);
+        serverContext.setRequest(req);
 
         resp.setContentType("text/xml;charset=UTF-8");
 
@@ -63,7 +83,7 @@ public class ActionManager extends HttpServlet{
 
             if (action.compareTo("login") != 0)
             {
-                actions.login(getKey(req), serverContext.getKernelContext());
+                this.login(getKey(req), serverContext);
             }
 
             if (action.compareTo("getworkspaces") == 0)
@@ -142,9 +162,20 @@ public class ActionManager extends HttpServlet{
 
             else if (action.compareTo("login") == 0)
             {
-                String key = actions.getLoginKey(getLogin(req), getPwd(req), serverContext.getKernelContext());
-
+                String login = getLogin(req);
+                String pwd = getPwd(req);
+                String key = plugins.beforeLogin(login, pwd, serverContext);
+                if(key == null)
+                    key = this.getLoginKey(getLogin(req), getPwd(req), serverContext);
                 render.returnKey(key, resp);
+            }
+
+            else if (action.compareTo("plugin") == 0)
+            {
+                serverContext.setRequest(req);
+                Document res = plugins.execute(getPluginName(req), serverContext);
+
+                render.sendResponse(res, resp);
             }
 
             else
@@ -162,7 +193,7 @@ public class ActionManager extends HttpServlet{
         }
         catch (IOException ioe)
         {
-            
+
         }
 
     }
@@ -224,6 +255,26 @@ public class ActionManager extends HttpServlet{
         }
     }
 
+    private String getPluginName(HttpServletRequest req)
+    {
+        try {
+            String url;
+            url = req.getRequestURI();
+            int startCommand = url.indexOf("/", 0);
+            startCommand = url.indexOf("/", startCommand + 1);
+            startCommand = url.indexOf("/", startCommand + 1);
+            startCommand = url.indexOf("/", startCommand + 1) + 1;
+            int endCommand = url.indexOf("/", startCommand);
+            if (endCommand <= 0)
+                endCommand = url.length();
+            return (url.substring(startCommand, endCommand));
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
     private String getWorkspaceName(HttpServletRequest req)
     {
         try {
@@ -262,6 +313,29 @@ public class ActionManager extends HttpServlet{
         catch (Exception e)
         {
             return null;
+        }
+    }
+
+    public String getLoginKey(String login, String pwd, ServerContext serverContext)  throws oxydException
+    {
+        if (authService != null)
+            return authService.login(login, pwd, serverContext);
+        return null;
+    }
+
+    public void login(String key, ServerContext serverContext)  throws oxydException
+    {
+        if (authService != null)
+            authService.login(key, serverContext);
+    }
+
+   public void logout(String key, ServerContext serverContext)  throws oxydException
+    {
+        if (authService != null)
+        {
+            User user = serverContext.getKernelContext().getUser();
+            user.logout();
+            authService.logout(key, serverContext);
         }
     }
 }

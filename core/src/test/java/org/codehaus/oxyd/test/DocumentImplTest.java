@@ -22,7 +22,6 @@ import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
 import org.codehaus.oxyd.kernel.Actions;
-import org.codehaus.oxyd.kernel.auth.AuthService;
 
 import junit.framework.TestCase;
 
@@ -36,7 +35,7 @@ public class DocumentImplTest extends TestCase {
     private Context context;
 
     public void setUp() throws Exception {
-        action = new Actions(new AuthService(), null);
+        action = new Actions(null);
         context = Utils.initContext(action);
     }
 

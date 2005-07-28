@@ -28,6 +28,12 @@ public interface IComment {
 
     void setBlockId(long blockId);
 
+    long getDocumentId();
+
+    void setDocumentId(long docId);
+
+    void setDocument(IDocument doc);
+
     String getUserName();
 
     void setUserName(String userName);
