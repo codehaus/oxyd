@@ -32,8 +32,6 @@ import java.sql.SQLException;
 import java.io.StringWriter;
 import java.io.PrintWriter;
 
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>A connection provider that uses an Apache commons DBCP connection pool.</p>
