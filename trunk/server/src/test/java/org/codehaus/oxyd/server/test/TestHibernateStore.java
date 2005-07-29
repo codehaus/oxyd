@@ -25,7 +25,6 @@ import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.oxydException;
-import org.codehaus.oxyd.test.Utils;
 
 public class TestHibernateStore   extends TestCase  {
     HibernateStore  store;

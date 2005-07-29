@@ -20,12 +20,21 @@ package org.codehaus.oxyd.server.test;
 import org.codehaus.oxyd.server.ServerContext;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.Context;
+import org.codehaus.oxyd.kernel.auth.User;
 
-public class Utils extends org.codehaus.oxyd.test.Utils {
+public class Utils{
 
     public static ServerContext initServerContext() throws oxydException {
         ServerContext serverContext = new ServerContext();
         serverContext.setKernelContext(initContext(new Actions()));
         return serverContext;
+    }
+
+    public static Context   initContext(Actions actions) throws oxydException {
+        Context context = new Context();
+        context.setUser(new User("titi"));
+
+        return context;
     }
 }
