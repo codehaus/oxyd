@@ -66,7 +66,7 @@ function addBlockCallback(xml){
 
 function getDocument(workspace, document)
 {
-    var url = baseUrl + "getdocument/" + workspace + "/" + document + "?key=" + key;
+    var url = baseUrl + "opendocument/" + workspace + "/" + document + "?key=" + key;
     affDocumentInfos();
     executeCommand(url, readDocument);
 }
@@ -76,6 +76,21 @@ function createDocument(workspace, document)
     var url = baseUrl + "createdocument/" + workspace + "/" + document + "?key=" + key;
     affDocumentInfos();
     executeCommand(url, readDocument);
+}
+
+function saveWikiDocument(workspace, document)
+{
+    var url = baseUrl + "plugin/xwiki/save/" + workspace + "/" + document + "?key=" + key;
+    executeCommand(url, saveWikiDocumentCallback);
+}
+
+function saveWikiDocumentCallback(xml)
+{
+    if (!isError)
+    {
+        var wikiSaveDocumentStatusEl = document.getElementById('WikiSaveDocumentStatus');
+        wikiSaveDocumentStatusEl.innerHTML = "Ok";
+    }
 }
 
 

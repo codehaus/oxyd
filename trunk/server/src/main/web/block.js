@@ -241,10 +241,14 @@ function moveBlocktoHisPosition(blocksEl, blockEl, pos)
     var nodes = blocksEl.childNodes;
     var i = 0;
     var flag = false;
+    addMessage("-----------------------------");
+    addMessage(blockEl.id + " a inserer à la position " + pos);
     for (; i < nodes.length ; i++)
     {
-        if (nodes[i].className == "block" && pos <= getBlockPosition(nodes[i]))
+        addMessage("node=" + nodes[i].id + " --> Position=" + getBlockPosition(nodes[i]));
+        if (nodes[i].className == "block" && nodes[i].id != blockEl.id && Math.round(pos) <= getBlockPosition(nodes[i]))
         {
+            addMessage("insert " + blockEl.id + " before " + nodes[i].id);
             blocksEl.insertBefore(blockEl, nodes[i]);
             flag = true;
             break;

@@ -20,21 +20,32 @@ package org.codehaus.oxyd.kernel;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.utils.Utils;
-import org.codehaus.oxyd.kernel.auth.User;
 import org.codehaus.oxyd.kernel.store.IStore;
+import org.apache.commons.transaction.locking.ReadWriteLockManager;
+import org.apache.commons.transaction.util.PrintWriterLogger;
+import org.apache.commons.transaction.util.LoggerFacade;
 
 import java.util.*;
+import java.io.PrintWriter;
 
 
+/**
+ * TODO terminer le lock, et verifier que l'on apelle bien release même en cas d'erreur
+ */
 public class Actions {
-    private Map             workspaces;
-    private IStore          storeService;
-
+    private Map                     workspaces;
+    private IStore                  storeService;
+    private ReadWriteLockManager    lockManager;
+    protected static final long TIMEOUT = 10000;
 
 
     public Actions()
     {
-      workspaces = new HashMap();
+        workspaces = new HashMap();
+        LoggerFacade logFacade = new PrintWriterLogger(new PrintWriter(System.out),
+            Actions.class.getName(), false);
+        lockManager = new ReadWriteLockManager(logFacade, TIMEOUT);
+
     }
 
     public Actions(IStore store)
@@ -80,22 +91,19 @@ public class Actions {
 
     public IDocument getDocument(String workspace, String docName, Context context) throws oxydException
     {
+        IDocument doc;
+
         try {
+        if (lockManager.tryReadLock(getOwnerId(), workspace + "." + docName))
+        {
             if (isDocumentCached(workspace, docName, context))
             {
                 Workspace space = getWorkspace(workspace, context);
-                IDocument doc = space.getDocument(docName, context);
-                doc.addUser(context.getUser());
-                context.getUser().addOpenDocument(doc);
-                return doc;
-            }
-        }
-        catch (oxydException e)
-        {
-            if (storeService != null)
+                doc = space.getDocument(docName, context);
+             }
+            else if (storeService != null)
             {
-                IDocument doc = storeService.openDocument(workspace, docName, context);
-
+                doc = storeService.openDocument(workspace, docName, context);
                 if (doc != null)
                 {
                     if (!isWorkspaceExist(workspace, context))
@@ -103,51 +111,135 @@ public class Actions {
                     Workspace space = getWorkspace(workspace, context);
                     space.addDocument(doc, context);
                 }
-                return doc;
             }
             else
                 throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_DOCUMENT_NOT_EXIST, "Document does not exist");
+            if (doc != null)
+            {
+                doc.addUser(context.getUser());
+                context.getUser().addOpenDocument(doc);
+            }
         }
-        return null;
+        else
+             throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_SYSTEM_LOCK, "can't lock this document");
+        }
+        finally{
+            lockManager.release(getOwnerId(), workspace + "." + docName);
+        }
+        return doc;
     }
 
     public void UpdateDocumentBlock(String workspace, String docName, long blockId, byte[] content, Context context) throws oxydException {
+        try {
+            if (lockManager.tryWriteLock(getOwnerId(), workspace + "." + docName))
+            {
+                IDocument doc = getDocument(workspace, docName, context);
+                doc.updateBlock(blockId, content, context);
+            }
+            else
+                 throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_SYSTEM_LOCK, "can't lock this block");
+        }
+        finally{
+            lockManager.release(getOwnerId(), workspace + "." + docName);
+        }
+    }
+
+    public void getDocumentUsers(String workspace, String docName, Context context) throws oxydException {
         IDocument doc = getDocument(workspace, docName, context);
-        doc.updateBlock(blockId, content, context);
     }
 
     public List getUpdate(String workspace, String docName, long sinceVersion, Context context) throws oxydException {
-        if (isDocumentCached(workspace, docName, context))
-        {
-            Workspace space = getWorkspace(workspace, context);
-            return space.getDocument(docName, context).getUpdates(sinceVersion, context);
+        try {
+            if (lockManager.tryReadLock(getOwnerId(), workspace + "." + docName))
+            {
+                if (isDocumentCached(workspace, docName, context))
+                {
+                    List updates = null;
+                    Workspace space = getWorkspace(workspace, context);
+                    updates = space.getDocument(docName, context).getUpdates(sinceVersion, context);                    return updates;
+                }
+                throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");
+            }else
+                 throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_SYSTEM_LOCK, "can't lock this block");
         }
-        throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");
-
+        finally{
+            lockManager.release(getOwnerId(), workspace + "." + docName);
+        }
     }
 
-    public void lockDocumentBlock(String workpace, String docName, long blockId, Context context) throws oxydException {
-        IDocument doc = getDocument(workpace, docName, context);
-        doc.lockBlock(blockId, context);
+    public void lockDocumentBlock(String workspace, String docName, long blockId, Context context) throws oxydException {
+        try{
+            if (lockManager.tryWriteLock(getOwnerId(), workspace + "." + docName))
+            {
+                IDocument doc = getDocument(workspace, docName, context);
+                doc.lockBlock(blockId, context);
+            }
+            else
+                throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_SYSTEM_LOCK, "can't lock this block");
+        }
+        finally{
+            lockManager.release(getOwnerId(), workspace + "." + docName);
+        }
     }
 
-    public void saveDocumentBlock(String workpace, String docName, long blockId, Context context) throws oxydException {
-        IDocument doc = getDocument(workpace, docName, context);
-        doc.saveBlock(blockId, context);
-        if (getStoreService() != null)
-        {
-            getStoreService().saveDocument(doc, context);
+    public void saveDocumentBlock(String workspace, String docName, long blockId, Context context) throws oxydException {
+        try{
+            if (lockManager.tryWriteLock(getOwnerId(), workspace + "." + docName))
+            {
+                IDocument doc = getDocument(workspace, docName, context);
+
+                doc.saveBlock(blockId, context);
+                if (getStoreService() != null)
+                {
+                    getStoreService().saveDocument(doc, context);
+                }
+            }
+            else
+                throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_SYSTEM_LOCK, "can't lock this block");
         }
+        finally{
+            lockManager.release(getOwnerId(), workspace + "." + docName);
+        }
+
     }
 
     public void unlockDocumentBlock(String workspace, String docName, long blockId, Context context) throws oxydException {
         IDocument doc = getDocument(workspace, docName, context);
-        doc.unlockBlock(blockId, context);
+        try{
+            if (lockManager.tryWriteLock(getOwnerId(), workspace + "." + docName))
+            {
+                doc.unlockBlock(blockId, context);
+                if (getStoreService() != null)
+                {
+                    getStoreService().saveDocument(doc, context);
+                }
+            }
+            else
+               throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_SYSTEM_LOCK, "can't lock this block");
+        }
+        finally{
+            lockManager.release(getOwnerId(), workspace + "." + docName);
+        }
     }
 
     public IBlock addDocumentBlock(String workspace, String docName, String pos, byte[] content, Context context) throws oxydException {
         IDocument doc = getDocument(workspace, docName, context);
-        return doc.createBlock(pos, content, context);
+        try{
+            if (lockManager.tryWriteLock(getOwnerId(), workspace + "." + docName))
+            {
+                IBlock block = doc.createBlock(pos, content, context);
+                if (getStoreService() != null)
+                {
+                    getStoreService().saveDocument(doc, context);
+                }
+                return block;
+            }
+            else
+                throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_SYSTEM_LOCK, "can't lock this block");
+        }
+        finally{
+            lockManager.release(getOwnerId(), workspace + "." + docName);
+        }
     }
 
 
@@ -157,21 +249,37 @@ public class Actions {
         throw new Error("not Implemented");
     }
 
+    /**
+     * TODO create the document in the store
+     * @param workspace
+     * @param docName
+     * @param context
+     * @return
+     * @throws oxydException
+     */
     public IDocument createDocument(String workspace, String docName, Context context) throws oxydException {
         docName = Utils.noaccents(docName).replaceAll("[^(\\w| )]", "");
-        if (!isWorkspaceExist(workspace, context))
-            createWorkspace(workspace,  context);
-        if (!isDocumentCached(workspace, docName, context))
-        {
-            Workspace space = getWorkspace(workspace, context);
-            if (space == null)
-                space = this.createWorkspace(workspace, context);
-            IDocument doc = space.createDocument(docName, context);
-            doc.addUser(context.getUser());
-            context.getUser().addOpenDocument(doc);
-            return doc;
+        try{
+            if (lockManager.tryWriteLock(getOwnerId(), workspace + "." + docName))
+            {
+                if (!isWorkspaceExist(workspace, context))
+                    createWorkspace(workspace,  context);
+                if (!isDocumentCached(workspace, docName, context))
+                {
+                    Workspace space = getWorkspace(workspace, context);
+                    IDocument doc = space.createDocument(docName, context);
+                    doc.addUser(context.getUser());
+                    context.getUser().addOpenDocument(doc);
+                    return doc;
+                }
+                throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");
+            }
+            else
+                throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_SYSTEM_LOCK, "can't lock this block");
         }
-        throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Document Already exist");
+        finally{
+            lockManager.release(getOwnerId(), workspace + "." + docName);
+        }
     }
 
     private boolean isDocumentCached(String workspace, String docName, Context context) throws oxydException {
@@ -181,11 +289,11 @@ public class Actions {
             return space.isDocumentExist(docName, context);
         }
         else
-            throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_WORKSPACE_NOT_EXIST, "this workspace does not exist");
+            return false;
     }
 
     public Workspace createWorkspace(String workspace, Context context) throws oxydException {
-        workspace = Utils.noaccents(workspace).replaceAll("[^(\\w| )]", "");
+        workspace = Utils.noaccents(workspace);        //[^(\w| )]
         if (isWorkspaceExist(workspace, context))
             throw new oxydException(oxydException.MODULE_ACTION, oxydException.ERROR_ALREADY_EXIST, "Workspace already exist");
         Workspace space = new Workspace(workspace, storeService);
@@ -196,6 +304,12 @@ public class Actions {
     public boolean isWorkspaceExist(String workspace, Context context)
     {
         return (workspaces.get(workspace) != null);
+    }
+
+    private Object getOwnerId()
+    {
+        return Thread.currentThread().toString();
+        //return context.get("ownerId");
     }
 
 }

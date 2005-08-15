@@ -26,6 +26,7 @@ import org.dom4j.Element;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Iterator;
 
 public class AuthService implements IAuthService {
 
@@ -69,7 +70,21 @@ public class AuthService implements IAuthService {
     {
         if (loggedIn == null)
             loggedIn = new HashMap();
-        loggedIn.put(key, user);           
+        loggedIn.put(key, user);
+    }
+
+    public User     getUser(String login, ServerContext serverContext)
+    {
+        if (loggedIn == null)
+            return null;
+        Iterator it = loggedIn.values().iterator();
+        while (it.hasNext())
+        {
+            User user = (User) it.next();
+            if (user.getLogin() == login)
+                return user;
+        }
+        return null;
     }
 
     public String login(String login, String pwd, ServerContext serverContext) throws oxydException {
@@ -78,11 +93,17 @@ public class AuthService implements IAuthService {
             throw new oxydException(oxydException.MODULE_AUTH_SERVICE, oxydException.ERROR_INVALID_USERNAME_OR_PASSWORD, "invalid Username or password");
         if (validPwd.compareTo(pwd) != 0)
             throw new oxydException(oxydException.MODULE_AUTH_SERVICE, oxydException.ERROR_INVALID_USERNAME_OR_PASSWORD, "invalid Username or password");
-        serverContext.getKernelContext().setUser(new User(login));
+
         if (loggedIn == null)
             loggedIn = new HashMap();
-        loggedIn.put(new Integer(serverContext.getKernelContext().getUser().getLogin().hashCode()).toString(), serverContext.getKernelContext().getUser());
-        return new Integer(serverContext.getKernelContext().getUser().getLogin().hashCode()).toString();
+        User user = getUser(login,  serverContext);
+        if (user == null)
+        {
+            user = new User(login);
+            loggedIn.put(new Integer(user.getLogin().hashCode()).toString(), user);
+        }
+        serverContext.getKernelContext().setUser(user);
+        return new Integer(user.getLogin().hashCode()).toString();
     }
 
     public void login(String key, ServerContext serverContext) throws oxydException {

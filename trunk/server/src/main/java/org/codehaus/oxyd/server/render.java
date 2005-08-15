@@ -102,11 +102,11 @@ public class render {
     }
 
     public static void returnOk(HttpServletResponse response) throws IOException {
-        Document returndoc = new DOMDocument();
+        Document returnOk = new DOMDocument();
         Element respel = new DOMElement("response");
-        returndoc.setRootElement(respel);
+        returnOk.setRootElement(respel);
         respel.addText("OK");
-        sendResponse(returndoc, response);
+        sendResponse(returnOk, response);
     }
 
     public static void returnKey(String key, HttpServletResponse response) throws IOException {
@@ -126,6 +126,19 @@ public class render {
         respel.addText(e.getMessage());
         respel.addAttribute("module", ""+e.getModule());
         respel.addAttribute("code", ""+e.getCode());
+        sendResponse(returndoc, response);
+    }
+
+    public static void ReturnError(Exception e, HttpServletResponse response) throws IOException {
+        Document returndoc = new DOMDocument();
+        Element respel = new DOMElement("error");
+        returndoc.setRootElement(respel);
+        if (e.getMessage() != null)
+            respel.addText(e.getMessage());
+        else
+            respel.addText("unexpected error");
+        respel.addAttribute("module", "-1");
+        respel.addAttribute("code", "-1");
         sendResponse(returndoc, response);
     }
 

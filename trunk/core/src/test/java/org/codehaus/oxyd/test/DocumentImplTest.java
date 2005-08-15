@@ -26,8 +26,7 @@ import org.codehaus.oxyd.kernel.Actions;
 import junit.framework.TestCase;
 
 import java.util.List;
-
-
+import java.util.ArrayList;
 
 
 public class DocumentImplTest extends TestCase {
@@ -346,6 +345,62 @@ public class DocumentImplTest extends TestCase {
 
         assertTrue(inList(b1, blocks));
         assertTrue(inList(b2, blocks));
+    }
+
+    public void testBlocRefactoring() throws oxydException {
+        IDocument doc = new DocumentImpl("test", "titi42");
+        long version = doc.getVersion();
+        IBlock b1 = doc.createBlock("0", "".getBytes(), context);
+        doc.lockBlock(b1.getId(), context);
+        doc.updateBlock(b1.getId(), "1\n\n2\n\n3\n\n4\n\n".getBytes(), context);
+        doc.saveBlock(b1.getId(), context);
+        version = doc.getVersion();
+        doc.unlockBlock(b1.getId(), context);
+        List updates = doc.getUpdates(version, context);
+        assertEquals(4, updates.size());
+        List pos = new ArrayList();
+        pos.add("1");
+        pos.add("2");
+        pos.add("3");
+        pos.add("4");
+        positionsInList(updates, pos);
+
+
+        b1 = doc.createBlock("3", "".getBytes(), context);
+        doc.lockBlock(b1.getId(), context);
+        doc.updateBlock(b1.getId(), "2.1\n\n2.2\n\n2.3\n\n2.4\n\n".getBytes(), context);
+        doc.saveBlock(b1.getId(), context);
+        version = doc.getVersion();
+        doc.unlockBlock(b1.getId(), context);
+        updates = doc.getUpdates(version, context);
+        assertEquals(6, updates.size());
+        pos = new ArrayList();
+        pos.add("3");
+        pos.add("4");
+        pos.add("5");
+        pos.add("6");
+        pos.add("7");
+        pos.add("8");
+        positionsInList(updates, pos);
+    }
+
+    private void positionsInList(List blocks, List positions)
+    {
+        for (int i = 0; i < blocks.size(); i++)
+        {
+            IBlock block = (IBlock)blocks.get(i);
+            boolean flag = false;
+            for (int j = 0; j < positions.size(); j++)
+            {
+                if (block.getPosition().equals(positions.get(j)))
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag)
+                assertTrue("block:" + block.getId() + " position ("+block.getPosition()+")is not on the list", false);
+        }
     }
 }
 

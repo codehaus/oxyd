@@ -2,6 +2,7 @@ package org.codehaus.oxyd.server;
 
 import org.dom4j.Document;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.document.IDocument;
 /* ====================================================================
  *   Copyright 2005 Jérémi Joslin.
  *
@@ -29,4 +30,5 @@ public interface IOxydPlugin {
 
     public Boolean beforeHasRight(String userName, String pwd, ServerContext context);
 
+    public IDocument afterOpenningDocument(String space, String document, IDocument doc, ServerContext serverContext) throws oxydException;
 }

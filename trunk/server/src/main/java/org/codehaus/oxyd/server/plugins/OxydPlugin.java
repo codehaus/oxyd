@@ -20,6 +20,7 @@ package org.codehaus.oxyd.server.plugins;
 import org.codehaus.oxyd.server.IOxydPlugin;
 import org.codehaus.oxyd.server.ServerContext;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.document.IDocument;
 import org.dom4j.Document;
 
 public abstract class OxydPlugin implements IOxydPlugin {
@@ -64,6 +65,10 @@ public abstract class OxydPlugin implements IOxydPlugin {
     public Boolean beforeHasRight(String userName, String pwd, ServerContext context)
     {
         return null;
+    }
+
+    public IDocument afterOpenningDocument(String space, String document, IDocument doc, ServerContext serverContext) throws oxydException {
+        return doc;
     }
 
 }
