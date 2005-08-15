@@ -19,6 +19,7 @@ package org.codehaus.oxyd.test;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.Workspace;
 import org.codehaus.oxyd.kernel.document.IDocument;
 
 import java.util.List;

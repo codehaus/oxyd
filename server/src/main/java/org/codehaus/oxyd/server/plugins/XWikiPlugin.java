@@ -25,6 +25,9 @@ import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.document.DocumentImpl;
 import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.dom.DOMDocument;
+import org.dom4j.dom.DOMElement;
 import org.apache.xmlrpc.XmlRpcClient;
 import org.apache.xmlrpc.XmlRpcException;
 
@@ -72,8 +75,13 @@ public class XWikiPlugin extends OxydPlugin {
     }
 
     private Document saveDocument(String command, ServerContext context) throws oxydException {
-        saveDocument(context.getActionManager().getDocument(getWorkspace(command), getDocumentName(command), context.getKernelContext()), context);
-        return null;
+        String space = getWorkspace(command);
+        saveDocument(context.getActionManager().getDocument(space, getDocumentName(command), context.getKernelContext()), context);
+        Document returnOk = new DOMDocument();
+        Element respel = new DOMElement("response");
+        returnOk.setRootElement(respel);
+        respel.addText("OK");
+        return returnOk;
     }
 
     private Document loadDocument(String command, ServerContext context) throws oxydException {
@@ -89,17 +97,19 @@ public class XWikiPlugin extends OxydPlugin {
 
         String[] tab = content.split("\n\n");
         for (int i = 0; i < tab.length; i++)
-            doc.createBlock("" + i + 1, tab[i].getBytes(), context.getKernelContext());
+            doc.createBlock((new Integer(i + 1)).toString(), tab[i].getBytes(), context.getKernelContext());
         return doc;
     }
 
     public void saveDocument(IDocument doc, ServerContext context) throws oxydException {
         String token = (String) context.getKernelContext().getUser().get("wikiToken");
-        Hashtable page = getWikiDocument(token, doc.getWorkspace(), doc.getName(), context);
+        String space = doc.getWorkspace();
+        space = space.substring(space.indexOf(":") + 1);
+        Hashtable page = getWikiDocument(token, space, doc.getName(), context);
         page.put("content", generatePage(doc, context.getKernelContext()));
 
         try {
-            XmlRpcClient xmlrpc = new XmlRpcClient(getWikiUrl(context) + baseURL);
+            XmlRpcClient xmlrpc = new XmlRpcClient(getWikiUrl(context.getKernelContext().getUser()) + baseURL);
             Vector params = new Vector ();
             params.addElement (token);
             params.addElement (page);
@@ -130,7 +140,7 @@ public class XWikiPlugin extends OxydPlugin {
         }
     }
 
-    private String generatePage(IDocument doc, Context context)
+    private String generatePage(IDocument doc, Context serverContext)
     {
         String content = "";
 
@@ -155,11 +165,12 @@ public class XWikiPlugin extends OxydPlugin {
         return content;
     }
 
-    public Hashtable getWikiDocument(String token, String space, String document, ServerContext context) throws oxydException {
+    public Hashtable getWikiDocument(String token, String space, String document, ServerContext serverContext) throws oxydException {
       try {
-            XmlRpcClient xmlrpc = new XmlRpcClient(getWikiUrl(context) + baseURL);
+            XmlRpcClient xmlrpc = new XmlRpcClient(getWikiUrl(serverContext.getKernelContext().getUser()) + baseURL);
             Vector params = new Vector ();
             params.addElement (token);
+            space = space.substring(space.indexOf(":") + 1);
             params.addElement (space + "." + document);
 
             Hashtable result =  (Hashtable) xmlrpc.execute ("confluence1.getPage", params);
@@ -181,6 +192,12 @@ public class XWikiPlugin extends OxydPlugin {
         return url;
     }
 
+    public String getWikiUrl(User user)
+    {
+        String url = (String) user.get("wikiServer");
+        return url;
+    }
+
     public String getWikiLogin(ServerContext context)
     {
         String login = context.getRequest().getParameter("wikiLogin");
@@ -198,13 +215,36 @@ public class XWikiPlugin extends OxydPlugin {
         if (url != null)
         {
             String token = login(url, login, pwd, context);
-            User user = new User(login);
+            User user = context.getAuthService().getUser(login, context);
+            if (user == null){
+                user = new User(login);
+                context.getAuthService().addLoggedIn(token, user);
+            }
             user.set("wikiToken", token);
-            context.getAuthService().addLoggedIn(token, user);
+            user.set("wikiServer", getWikiUrl(context));
             context.getKernelContext().setUser(user);
             return token;
         }
         else
             return null;
+    }
+
+    public IDocument afterOpenningDocument(String space, String document, IDocument doc, ServerContext serverContext) throws oxydException {
+        if (doc != null)
+            return doc;
+        String wikiUrl = getWikiUrl(serverContext.getKernelContext().getUser());
+        if (wikiUrl == null)
+            return null;
+        try {
+            doc = serverContext.getActionManager().getDocument(wikiUrl.substring(7) + ":" + space, document, serverContext.getKernelContext());
+        }
+        catch (oxydException e)
+        {}
+        if (doc == null)
+        {
+            doc = serverContext.getActionManager().createDocument(wikiUrl.substring(7) + ":" + space, document, serverContext.getKernelContext());
+            loadDocument(doc, serverContext);
+        }
+        return doc;
     }
 }

@@ -219,7 +219,10 @@ body {
                     <div id="infos">
                         document: <a id="spaceName"></a>.<a id="documentName"></a><br />
                         version: <a id="version"></a><br />
-                        <a onclick="addBlock('-1')"><img src="img/button_add.png" alt="add"/></a>
+                        <a onclick="addBlock('-1')"><img src="img/button_add.png" alt="add"/></a>  <br />
+                        <div id="wikicommand">
+                            <a onclick="saveWikiDocument(getWorkspaceName(), getDocumentName())">Save the document in the wiki</a><a id="WikiSaveDocumentStatus"></a>
+                        </div>
                     </div>
                     <div id="blocks">
 

@@ -62,15 +62,15 @@ public class WorkspaceTest  extends TestCase{
         catch(oxydException e)
         {}
     }
+      /*
+    public void testCreateDocumentwithAccents() throws oxydException {
 
-  /*  public void testCreateDocumentwithAccents() throws oxydException {
-
-        assertTrue("pb with accent but no exception", false);
+        //assertTrue("pb with accent but no exception", false);
         IDocument doc = space.createDocument("docaccentsé&é\"'('", context);
         assertNotNull(doc);
         assertEquals("docaccents", doc.getName());
 
     }
-     */
+      */
 
 }

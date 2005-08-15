@@ -21,6 +21,7 @@ import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.oxydException;
 import org.codehaus.oxyd.kernel.auth.AuthService;
 import org.codehaus.oxyd.kernel.auth.User;
+import org.codehaus.oxyd.kernel.auth.RightService;
 import org.codehaus.oxyd.kernel.utils.Base64;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
@@ -34,14 +35,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.*;
 import java.util.List;
+import java.util.Iterator;
 import java.io.IOException;
-import java.io.File;
 
 public class ActionManager extends HttpServlet{
     Actions         actions = null;
     ServletConfig   config;
     PluginManager   plugins;
     AuthService     authService;
+    RightService    rightService;
 
     public void init(ServletConfig config) throws ServletException {
         this.config = config;
@@ -49,13 +51,16 @@ public class ActionManager extends HttpServlet{
         String param = config.getInitParameter("plugins");
         plugins = new PluginManager(param);
         AuthService authService = new AuthService();
+        RightService rightService = new RightService();
         SAXReader reader = new SAXReader();
         try {
-            authService.fromXML(reader.read(ActionManager.class.getResourceAsStream(userFile)));
+            ServletContext context = config.getServletContext();
+            authService.fromXML(reader.read(context.getResourceAsStream(userFile)));
         } catch (DocumentException e) {
             e.printStackTrace();
         }
         this.authService = authService;
+        this.rightService = rightService;
         actions = new Actions(new HibernateStore());
     }
 
@@ -76,14 +81,24 @@ public class ActionManager extends HttpServlet{
         serverContext.setAuthService(authService);
         serverContext.setRequest(req);
 
+        //serverContext.getKernelContext().set("ownerId", req.toString());
+
         resp.setContentType("text/xml;charset=UTF-8");
 
+        String documentName = getDocumentName(req);
+        String workspaceName = getWorkspaceName(req);
 
         try{
 
             if (action.compareTo("login") != 0)
             {
                 this.login(getKey(req), serverContext);
+            }
+
+            if (action.compareTo("opendocument") != 0 && action.compareTo("createdocument") != 0 && action.compareTo("plugin") != 0)
+            {
+                if (documentName != null && workspaceName != null && !documentIsOpen(workspaceName, documentName, serverContext))
+                    throw new oxydException(oxydException.MODULE_ACTION_MANAGER, oxydException.ERROR_DOCUMENT_NOT_OPEN, "You need to open this document before");
             }
 
             if (action.compareTo("getworkspaces") == 0)
@@ -99,10 +114,23 @@ public class ActionManager extends HttpServlet{
             }
 
 
-            else if (action.compareTo("getdocument") == 0)
+            else if (action.compareTo("opendocument") == 0)
             {
-                IDocument doc = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
-                render.returnDocument(doc, resp);
+                String space = getWorkspaceName(req);
+                String document = getDocumentName(req);
+                IDocument doc = null; // = plugins.beforeOpenningDocument(space, document, serverContext);
+                if (hasOpenRight(space, document, serverContext))
+                {
+                    try {
+                        doc = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
+                    }
+                    catch(oxydException e)
+                    {}
+//                    render.returnDocument(doc, resp);
+                }
+                doc = plugins.afterOpenningDocument(space, document, doc, serverContext);
+                if (doc != null)
+                    render.returnDocument(doc, resp);
             }
 
             else if (action.compareTo("createdocument") == 0)
@@ -191,9 +219,13 @@ public class ActionManager extends HttpServlet{
                 e1.printStackTrace();
             }
         }
-        catch (IOException ioe)
+        catch (Exception e)
         {
-
+            try {
+                render.ReturnError(e, resp);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
 
     }
@@ -282,8 +314,14 @@ public class ActionManager extends HttpServlet{
             url = req.getRequestURI();
             int startWorkSpace = url.indexOf("/", 0);
             startWorkSpace = url.indexOf("/", startWorkSpace + 1);
+            if (startWorkSpace == 0)
+                return null;
             startWorkSpace = url.indexOf("/", startWorkSpace + 1);
+            if (startWorkSpace == 0)
+                return null;
             startWorkSpace = url.indexOf("/", startWorkSpace + 1) + 1;
+            if (startWorkSpace == 0)
+                return null;
             int endWorkspace = url.indexOf("/", startWorkSpace);
             if (endWorkspace <= 0)
                 endWorkspace = url.length();
@@ -302,9 +340,17 @@ public class ActionManager extends HttpServlet{
             url = req.getRequestURI();
             int startDocument = url.indexOf("/", 0);
             startDocument = url.indexOf("/", startDocument + 1);
+            if (startDocument == 0)
+                return null;
             startDocument = url.indexOf("/", startDocument + 1);
+            if (startDocument == 0)
+                return null;
             startDocument = url.indexOf("/", startDocument + 1);
+            if (startDocument == 0)
+                return null;
             startDocument = url.indexOf("/", startDocument + 1) + 1;
+            if (startDocument == 0)
+                return null;
             int endDocument = url.indexOf("/", startDocument);
             if (endDocument <= 0)
                 endDocument = url.length();
@@ -337,5 +383,30 @@ public class ActionManager extends HttpServlet{
             user.logout();
             authService.logout(key, serverContext);
         }
+    }
+
+
+    private boolean hasOpenRight(String workspace, String document, ServerContext serverContext)
+    {
+        Boolean res = plugins.beforeHasRight(workspace, document, serverContext);
+        if (res == null)
+            return this.rightService.hasRight(workspace, document, serverContext.getKernelContext());
+        return res.booleanValue();
+    }
+
+
+    private boolean documentIsOpen(String workspace, String document, ServerContext serverContext)
+    {
+        if (workspace == null || document == null)
+            return false;
+        User user  =  serverContext.getKernelContext().getUser();
+        Iterator it = user.getOpenDocuments().iterator();
+        while (it.hasNext())
+        {
+            IDocument doc = (IDocument) it.next();
+            if (doc.getWorkspace().compareTo(workspace) == 0 && doc.getName().compareTo(document) == 0)
+                return true;
+        }
+        return false;
     }
 }

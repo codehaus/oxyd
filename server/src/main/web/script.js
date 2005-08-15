@@ -21,6 +21,8 @@ var topInfosNode = null;
 var loginFormNode = null;
 var buttonsNode = null;
 
+var wikiUrl = "oxyddemo.xwiki.com";
+
 //key for getLoginKey
 var key = null;
 
@@ -240,6 +242,8 @@ function getVersion()
 function login(login, pwd)
 {
     var url = baseUrl + "login?login=" + login + "&pwd="+pwd;
+    if (wikiUrl !=null)
+        url = url + "&wikiServer=" + wikiUrl;
     executeCommand(url, loginCallback);
 
 }
@@ -290,7 +294,7 @@ function executeCommand(url, callback) {
         }
     }
 
-    addMessage(url);
+    //addMessage(url);
     // use a local variable to hold our request and callback until the inner function is called...
     var ajaxRequest = null;
     var ajaxCallback = callback;

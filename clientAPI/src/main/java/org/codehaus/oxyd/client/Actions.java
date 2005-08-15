@@ -63,7 +63,7 @@ public class Actions {
 
     public Document getDocument(String workspace, String docName) throws oxydException
     {
-        String url = serverUrl + "getdocument/" + workspace + "/" + docName;
+        String url = serverUrl + "opendocument/" + workspace + "/" + docName;
         String content = Utils.getURLContent(url);
         org.dom4j.Document xmlDoc = getXMLDocument(content);
         isError(xmlDoc);

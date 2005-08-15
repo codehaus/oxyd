@@ -71,9 +71,9 @@ public class PluginManager {
         return null;
     }
 
-    public Boolean beforeHasRight(String userName, String pwd, ServerContext serverContext)
+    public Boolean beforeHasRight(String workspace, String document, ServerContext serverContext)
     {
-        return Boolean.FALSE;
+        return null;
     }
 
     public String beforeLogin(String userName, String pwd, ServerContext serverContext) throws oxydException {
@@ -87,5 +87,15 @@ public class PluginManager {
                 break;
         }
         return key;
+    }
+
+    public IDocument afterOpenningDocument(String space, String document, IDocument doc, ServerContext serverContext) throws oxydException {
+        Iterator it = pluginsObjects.values().iterator();
+        while(it.hasNext())
+        {
+            IOxydPlugin plugin = (IOxydPlugin) it.next();
+            doc = plugin.afterOpenningDocument(space, document, doc, serverContext);
+        }
+        return doc;
     }
 }

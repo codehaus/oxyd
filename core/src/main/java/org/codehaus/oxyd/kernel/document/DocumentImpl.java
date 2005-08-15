@@ -426,8 +426,8 @@ public class DocumentImpl implements IDocument {
 
         long  moveversion = getNextVersion();
 
-        if (destPos > getBlocks().size())
-            destPos = getBlocks().size();
+/*        if (destPos > getBlocks().size())
+            destPos = getBlocks().size();*/
         if (destPos < 1)
             destPos = 1;
         Object[]  blockCol = getBlocks().values().toArray();

@@ -52,7 +52,9 @@ public class oxydException extends Exception {
     public static final int ERROR_HTTP_ERROR= 1010;
     public static final int ERROR_INVALID_USERNAME_OR_PASSWORD = 1011;
     public static final int ERROR_INVALID_KEY = 1012;
-    public static final int ERROR_UNKNOWN= 1012;
+    public static final int ERROR_UNKNOWN= 1013;
+    public static final int ERROR_DOCUMENT_NOT_OPEN= 1014;
+    public static final int ERROR_SYSTEM_LOCK= 1015;
 
 
     public static final int ERROR_NOT_IMPLEMENTED = 9000;
