@@ -45,6 +45,6 @@ public class TestHibernateStore   extends TestCase  {
 
 
         doc = store.openDocument("test", "toto", context);
-
+        assertNotNull(doc);
     }
 }
