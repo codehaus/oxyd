@@ -87,6 +87,7 @@ function createDocument(workspace, document)
 
 function closeDocument(workspace, document)
 {
+    openLoadingText("Loading");
     var url = baseUrl + "closedocument/" + workspace + "/" + document + "?key=" + key;
     executeCommand(url, closeDocumentCallback);
 }
@@ -103,6 +104,7 @@ function closeDocumentCallback(xml)
 
 function saveWikiDocument(workspace, document)
 {
+    openLoadingText("Loading");
     var url = baseUrl + "plugin/xwiki/save/" + workspace + "/" + document + "?key=" + key;
     executeCommand(url, saveWikiDocumentCallback);
 }
@@ -114,6 +116,7 @@ function saveWikiDocumentCallback(xml)
         var wikiSaveDocumentStatusEl = document.getElementById('WikiSaveDocumentStatus');
         wikiSaveDocumentStatusEl.innerHTML = "Ok";
     }
+    hideLoadingBox();
 }
 
 
@@ -124,11 +127,11 @@ function readDocument(xml)
         affOpenFunctions();
         return;
     }
-    hideLoadingBox();
     setVersion(xml.getElementsByTagName('version')[0].firstChild.data);
     setWorkspaceName(xml.getElementsByTagName('workspace')[0].firstChild.data);
     setDocumentName(xml.getElementsByTagName('name')[0].firstChild.data);
     readBlocks(xml);
+    hideLoadingBox();
     setTimeout("getUpdates()", 2000);
 }
 

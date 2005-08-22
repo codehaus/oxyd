@@ -285,6 +285,11 @@ body {
                 <input type="password" name="txtPwd" id="txtPwd" value=""/>
                 <input id="validLogin" value="Login" onclick='login(this.form.txtLogin.value, this.form.txtPwd.value)' type="button" />
             </form>
+            <form id="openUrl" action="#" >
+                <label for="txtUrl" >Url</label>
+                <input type="text" name="txtUrl" id="txtUrl" value=""/>
+                <input id="validOpenUrl" value="Valid" onclick='openWikiUrl(this.form.txtUrl.value)' type="button" />
+            </form>
             <form id="formopendoc" action="#" >
                 <label for="txtSpaceName" >Workspace</label>
                 <input type="text" name="txtSpaceName" id="txtSpaceName" value=""/>

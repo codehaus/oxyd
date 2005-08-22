@@ -20,9 +20,12 @@ var topActionNode = null;
 var topInfosNode = null;
 var loginFormNode = null;
 var buttonsNode = null;
+var loginEl = null;
+var openWikiUrlNode = null;
 
-var wikiUrl = "www.xwiki.org";
-
+//var wikiUrl = "www.xwiki.org";
+var wikiEdit = true;
+var wikiUrl = null; //"oxyddemo.xwiki.com";
 //key for getLoginKey
 var key = null;
 
@@ -60,6 +63,15 @@ window.onload = function() {
     blockActionModelNode.innerHTML = blockActionHTML;
 
     extractTop();
+    if (wikiEdit)
+    {
+        loginEl.parentNode.removeChild(loginEl);
+    }
+    else
+    {
+        openWikiUrlNode.parentNode.removeChild(openWikiUrlNode);
+    }
+
 }
 
 function onMouseOverButton(el)
@@ -105,6 +117,21 @@ function onMouseOutBlock(el)
         actionEl.style.visibility = "hidden";
 }
 
+function openWikiUrl(url)
+{
+    var pos = url.indexOf("http://");
+    if (pos == 0)
+        url = url.substring(7, url.length);
+    var urltab = url.split("/");
+    if (urltab.length != 6)
+    {
+        addMessage("bad Url: " + url + "length=" + urltab.length);
+    }
+    workspace = urltab[4];
+    documentName = urltab[5];
+    wikiUrl = urltab[0];
+    affLoginFunctions();
+}
 
 function selectBlockToEdit(e)
 {
@@ -163,6 +190,8 @@ function extractTop()
     topInfosNode = document.getElementById("infos");
     topActionNode.parentNode.removeChild(topActionNode);
     topInfosNode.parentNode.removeChild(topInfosNode);
+    loginEl = document.getElementById('loginForm');
+    openWikiUrlNode = document.getElementById('openUrl');
 }
 
 function affDocumentInfos()
@@ -195,7 +224,6 @@ function affOpenFunctions()
 
     var sidebarEl = document.getElementById("sidebar");
     sidebarEl.style.visibility = "hidden";
-
 }
 
 
@@ -262,6 +290,20 @@ function hideLoadingBox()
     loadingBoxEl.style.visibility = "hidden";
 }
 
+function affLoginFunctions()
+{
+    var topEl = document.getElementById("top");
+    try{
+        topEl.removeChild(openWikiUrlNode);
+    }
+    catch(e)
+    {}
+    topEl.appendChild(loginEl);
+
+    var sidebarEl = document.getElementById("sidebar");
+    sidebarEl.style.visibility = "hidden";
+}
+
 function login(login, pwd)
 {
     var url = baseUrl + "login?login=" + login + "&pwd="+pwd;
@@ -278,9 +320,12 @@ function loginCallback(xml)
     if (!isError(xml))
     {
         key = xml.getElementsByTagName('key')[0].firstChild.data;
-        var loginEl = document.getElementById('loginForm');
+        //var loginEl = document.getElementById('loginForm');
         loginEl.parentNode.removeChild(loginEl);
-        affOpenFunctions();
+        if (wikiEdit)
+           getDocument(workspace, documentName);
+        else
+            affOpenFunctions();
     }
 }
 

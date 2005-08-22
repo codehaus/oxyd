@@ -26,7 +26,7 @@ import org.codehaus.oxyd.kernel.Context;
 import org.codehaus.oxyd.kernel.Actions;
 import org.codehaus.oxyd.kernel.oxydException;
 
-public class TestHibernateStore   extends TestCase  {
+public class HibernateStoreTest   extends TestCase  {
     HibernateStore  store;
     Context         context;
     public void setUp() throws oxydException {

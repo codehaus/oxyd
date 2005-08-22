@@ -73,8 +73,9 @@
 
     </dependencies>
 
+
     <build>
-        <finalName>server</finalName>
+<!--        <finalName>server</finalName>-->
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
