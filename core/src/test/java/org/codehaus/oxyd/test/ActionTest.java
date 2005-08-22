@@ -111,6 +111,20 @@ public class ActionTest extends TestCase {
         }
     }
 
+/*    public void testaddUserMessage() throws oxydException {
+        action.addUserMessage("test message", context);
+        action.addUserMessage("second test message", context);
+        List msgs = action.getUserMessage(context);
+        assertNotNull(msgs);
+        assertEquals(2, msgs.size());
+        assertEquals("test message", msgs.get(0));
+        assertEquals("second test message", msgs.get(1));
+        msgs = action.getUserMessage(context);
+        assertNull(msgs);
+
+
+    }   */
+
 
 
 /*

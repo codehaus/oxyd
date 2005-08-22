@@ -5,6 +5,7 @@ function editBlock(ContentNode)
     editing = true;
     editingBlockNode = editingContentNode.parentNode;
     //Call the API
+    openLoadingText("Loading");
     var url = baseUrl + "lockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&key=" + key;
     executeCommand(url, editBlockCallback1);
 	return false;
@@ -14,6 +15,7 @@ function editBlockCallback1(xml)
 {
     if (isError(xml))
     {
+        hideLoadingBox();
         editing = false;
         return;
     }
@@ -23,12 +25,14 @@ function editBlockCallback1(xml)
 
 function editBlockCallback2(xml)
 {
+    hideLoadingBox();
     var content = "";
-    if (isError(xml) || xml.getElementsByTagName('content').length == 0 || !xml.getElementsByTagName('content')[0].firstChild)
+    if (isError(xml))
     {
-
+        return ;
     }
-    else
+    var contentEl = xml.getElementsByTagName('content');
+    if (contentEl.length >= 0 && contentEl[0].firstChild)
         content = decode64(xml.getElementsByTagName('content')[0].firstChild.data);
 	var y = document.createElement('TEXTAREA');
 //	y.appendChild(document.createTextNode(x));
@@ -45,6 +49,7 @@ function unlockBlock(callbackFunction)
     if (!editing) return;
 
     var url = baseUrl + "unlockblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + editingBlockNode.id + "&key=" + key;
+    openLoadingText("Loading");
     executeCommand(url, callbackFunction);
     editing = false;
 }
@@ -71,11 +76,18 @@ function saveBlock(callbackFunction)
     executeCommand(url, callbackFunction);
 }
 
+function deleteBlock(blockId)
+{
+    var url = baseUrl + "deleteblock/" + getWorkspaceName() + "/" + getDocumentName() + "?blockid=" + blockId + "&key=" + key;
+    executeCommand(url, isError);
+}
+
 
 function finishEditingBySavingCallback1(xml)
 {
     if (isError(xml))
     {
+        hideLoadingBox();
         nextEditingNode = null;
         return;
     }
@@ -86,6 +98,7 @@ function finishEditingBySavingCallback2(xml)
 {
     if (isError(xml))
     {
+        hideLoadingBox();
         nextEditingNode = null;
         return;
     }
@@ -94,6 +107,7 @@ function finishEditingBySavingCallback2(xml)
 
 function finishEditingCallback(xml)
 {
+    hideLoadingBox();
     if (isError(xml))
     {
         nextEditingNode = null;
@@ -123,6 +137,7 @@ function finishEditing()
 
 function finishEditingBySaving()
 {
+    openLoadingText("Loading");
     updateBlock(finishEditingBySavingCallback1);
 
 	return false;
@@ -158,6 +173,13 @@ function readBlock(xmlblock)
         return;
 
     var blockEl = document.getElementById(blockId);
+
+    if (blockEl && xmlblock.getElementsByTagName('isremoved')[0].firstChild.data == "true")
+    {
+        blockEl.parentNode.removeChild(blockEl);
+        return;
+    }
+
     if (blockEl == null)
     {
         blockEl = document.createElement('div');
@@ -165,7 +187,6 @@ function readBlock(xmlblock)
         blockEl.setAttribute('class', 'block');
         blockEl.setAttribute("onmouseover", "onMouseOverBlock(this)");
         blockEl.setAttribute("onmouseout", "onMouseOutBlock(this)");
-        //blocksEl.appendChild(blockEl);
     }
 
     var pos = xmlblock.getElementsByTagName('position')[0].firstChild.data;
@@ -201,7 +222,6 @@ function readBlock(xmlblock)
     var actionEl = document.getElementById('action_'+blockId);
     if (actionEl == null)
     {
-        //actionEl = document.createElement('div');
         actionEl = blockActionModelNode.cloneNode(true);
         actionEl.setAttribute('id', 'action_'+blockId);
 
@@ -241,14 +261,14 @@ function moveBlocktoHisPosition(blocksEl, blockEl, pos)
     var nodes = blocksEl.childNodes;
     var i = 0;
     var flag = false;
-    addMessage("-----------------------------");
-    addMessage(blockEl.id + " a inserer à la position " + pos);
+    //addMessage("-----------------------------");
+    //addMessage(blockEl.id + " a inserer à la position " + pos);
     for (; i < nodes.length ; i++)
     {
-        addMessage("node=" + nodes[i].id + " --> Position=" + getBlockPosition(nodes[i]));
+        //addMessage("node=" + nodes[i].id + " --> Position=" + getBlockPosition(nodes[i]));
         if (nodes[i].className == "block" && nodes[i].id != blockEl.id && Math.round(pos) <= getBlockPosition(nodes[i]))
         {
-            addMessage("insert " + blockEl.id + " before " + nodes[i].id);
+            //addMessage("insert " + blockEl.id + " before " + nodes[i].id);
             blocksEl.insertBefore(blockEl, nodes[i]);
             flag = true;
             break;

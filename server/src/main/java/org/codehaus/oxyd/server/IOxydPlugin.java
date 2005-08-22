@@ -31,4 +31,6 @@ public interface IOxydPlugin {
     public Boolean beforeHasRight(String userName, String pwd, ServerContext context);
 
     public IDocument afterOpenningDocument(String space, String document, IDocument doc, ServerContext serverContext) throws oxydException;
+
+    void afterClosingDocument(IDocument doc, ServerContext serverContext) throws oxydException;
 }

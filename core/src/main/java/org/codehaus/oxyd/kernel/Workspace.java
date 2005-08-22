@@ -19,9 +19,11 @@ package org.codehaus.oxyd.kernel;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.DocumentImpl;
 import org.codehaus.oxyd.kernel.store.IStore;
+import org.codehaus.oxyd.kernel.auth.User;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Workspace {
     private String  name;
@@ -70,6 +72,17 @@ public class Workspace {
         if (storeService != null)
             storeService.saveDocument(doc, context);
         return doc;
+    }
+
+    public void removeDocument(IDocument doc, Context context)
+    {
+       if (doc.getUsers().size() != 0)
+        {
+            Iterator it = doc.getUsers().iterator();
+            while (it.hasNext())
+                ((User)it.next()).removeOpenDocument(doc);
+        }
+        documents.remove(doc.getName());
     }
 
     public void addDocument(IDocument doc, Context context)

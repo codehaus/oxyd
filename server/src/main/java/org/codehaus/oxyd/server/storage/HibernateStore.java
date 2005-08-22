@@ -48,10 +48,10 @@ public class HibernateStore implements IStore {
     private Configuration configuration;
 
     public void saveDocument(IDocument doc, Context context) throws oxydException {
-
+        boolean btransaction = false;
         try {
             checkHibernate(context);
-            beginTransaction(context);
+            btransaction = beginTransaction(context);
             Session session = getSession(context);
             Query query = session.createQuery("select doc.id from DocumentImpl as doc where doc.id = :id");
             query.setLong("id", doc.getId());
@@ -67,11 +67,12 @@ public class HibernateStore implements IStore {
             it = doc.getComments().iterator();
             while (it.hasNext())
                 saveComment((IComment) it.next(), context);
-
-            endTransaction(context, true);
+            if (btransaction)
+                endTransaction(context, true);
         }
         catch (Exception e) {
-            endTransaction(context, false);
+            if (btransaction)
+                endTransaction(context, false);
             throw new oxydException(oxydException.MODULE_HIBERNATE_STORE, oxydException.ERROR_UNKNOWN, e.getMessage());
         }
     }
@@ -96,22 +97,49 @@ public class HibernateStore implements IStore {
             session.update(block);
     }
 
+    public void deleteDocument(IDocument doc, Context context) throws oxydException {
+        boolean btransaction = false;
+        try {
+
+            checkHibernate(context);
+            btransaction = beginTransaction(context);
+            Session session = getSession(context);
+
+            Iterator it = doc.getBlocks().values().iterator();
+            while (it.hasNext())
+                session.delete(it.next());
+            session.delete(doc);
+            if (btransaction)
+                endTransaction(context, true);
+        }
+        catch (Exception e) {
+            if (btransaction)
+                endTransaction(context, false);
+            throw new oxydException(oxydException.MODULE_HIBERNATE_STORE, oxydException.ERROR_DOCUMENT_NOT_EXIST, "Document does not exist");
+        }
+    }
+
+
 
     public IDocument openDocument(String space, String document, Context context) throws oxydException {
-
+        boolean btransaction = false;
         try {
             IDocument doc = new DocumentImpl(space, document);
             
             checkHibernate(context);
-            beginTransaction(context);
+            btransaction = beginTransaction(context);
             Session session = getSession(context);
             session.load(doc, new Long(doc.getId()));
             loadBlocks(doc, context);
-            endTransaction(context, true);
+            if (btransaction)
+                endTransaction(context, true);
+            if (doc.getVersion() == 0)
+                return null;
             return doc;
         }
         catch (Exception e) {
-            endTransaction(context, false);
+            if (btransaction)
+                endTransaction(context, false);
             throw new oxydException(oxydException.MODULE_HIBERNATE_STORE, oxydException.ERROR_DOCUMENT_NOT_EXIST, "Document does not exist");
         }
     }
@@ -196,7 +224,7 @@ public class HibernateStore implements IStore {
      }
 
 
-    private boolean beginTransaction(Context context)  throws HibernateException{
+ /*   private boolean beginTransaction(Context context)  throws HibernateException{
         Session session;
         Transaction transaction;
         if ( log.isDebugEnabled() ) log.debug("Trying to get session from pool");
@@ -211,7 +239,43 @@ public class HibernateStore implements IStore {
         if ( log.isDebugEnabled() ) log.debug("Opened transaction " + transaction);
         setTransaction(transaction, context);
         return true;
+    }  */
+
+
+    public boolean beginTransaction(Context context)
+            throws HibernateException {
+
+        Transaction transaction = getTransaction(context);
+        Session session = getSession(context);
+
+        if (((session==null)&&(transaction!=null))
+                ||((transaction==null)&&(session!=null))) {
+            if ( log.isWarnEnabled() ) log.warn("Incompatible session (" + session + ") and transaction (" + transaction + ") status");
+            return false;
+        }
+
+        if (transaction!=null) {
+            if ( log.isDebugEnabled() ) log.debug("Taking session from context " + session);
+            if ( log.isDebugEnabled() ) log.debug("Taking transaction from context " + transaction);
+            return false;
+        }
+        if (session==null) {
+            if ( log.isDebugEnabled() ) log.debug("Trying to get session from pool");
+            session = (SessionImpl)getSessionFactory().openSession();
+            if ( log.isDebugEnabled() ) log.debug("Taken session from pool " + session);
+
+            // Keep some statistics about session and connections
+
+            setSession(session, context);
+
+            if ( log.isDebugEnabled() ) log.debug("Trying to open transaction");
+            transaction = session.beginTransaction();
+            if ( log.isDebugEnabled() ) log.debug("Opened transaction " + transaction);
+            setTransaction(transaction, context);
+        }
+        return true;
     }
+
 
    private void endTransaction(Context context, boolean commit)
             throws HibernateException {

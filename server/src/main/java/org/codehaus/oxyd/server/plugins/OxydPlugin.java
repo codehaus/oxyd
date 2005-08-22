@@ -71,4 +71,8 @@ public abstract class OxydPlugin implements IOxydPlugin {
         return doc;
     }
 
+    public void afterClosingDocument(IDocument doc, ServerContext serverContext) throws oxydException {
+
+    }
+
 }

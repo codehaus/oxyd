@@ -24,6 +24,32 @@ public class        User {
     String      login;
     List        openDocuments;
     Map         params;
+    List        waitingMessage;
+
+    public class Message {
+        String workspace;
+        String document;
+        String msg;
+
+        public Message(String workspace, String document, String msg){
+            this.workspace = workspace;
+            this.document = document;
+            this.msg = msg;
+        }
+
+        public String getWorkspace() {
+            return workspace;
+        }
+
+        public String getDocument() {
+            return document;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+    }
+
 
     public String getLogin() {
         return login;
@@ -41,11 +67,45 @@ public class        User {
         return openDocuments;
     }
 
+    public void addMessage(String workspaceName, String documentName, String msg)
+    {
+        if (waitingMessage == null)
+            waitingMessage = new ArrayList();
+        Message oMsg = new Message(workspaceName, documentName, msg);
+        waitingMessage.add(oMsg);
+    }
+
+    public List getwaitingMessage(String workspaceName, String documentName)
+    {
+        List res = new ArrayList();
+        if (waitingMessage == null)
+            return res;
+        Iterator it = waitingMessage.iterator();
+
+        while (it.hasNext())
+        {
+            Message message = (Message) it.next();
+            if (message.getWorkspace() == workspaceName && message.getDocument() == documentName)
+            {
+                res.add(message.getMsg());
+                waitingMessage.remove(message);
+            }
+        }
+
+        return res;
+    }
+
     public void addOpenDocument(IDocument doc) {
         if (openDocuments == null)
             openDocuments = new ArrayList();
         if (!openDocuments.contains(doc))
             openDocuments.add(doc);
+    }
+
+
+    public void removeOpenDocument(IDocument doc) {
+        if (openDocuments.contains(doc))
+            openDocuments.remove(doc);
     }
 
     public void logout()

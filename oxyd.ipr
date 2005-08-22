@@ -209,11 +209,42 @@
     </legend>
   </component>
   <component name="XPlanner.Model" />
-  <component name="libraryTable" />
+  <component name="libraryTable">
+    <library name="dom4j-1.6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPO$/dom4j/dom4j/1.6/dom4j-1.6.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="commons-transaction-1.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPO$/commons-transaction/commons-transaction/1.1/commons-transaction-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="junit-3.8.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPO$/junit/junit/3.8.1/junit-3.8.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="log4j-1.2.6">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPO$/log4j/log4j/1.2.6/log4j-1.2.6.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+  </component>
   <component name="uidesigner-configuration">
     <option name="INSTRUMENT_CLASSES" value="true" />
     <option name="COPY_FORMS_RUNTIME_TO_OUTPUT" value="true" />
   </component>
-  <UsedPathMacros />
+  <UsedPathMacros>
+    <macro name="MAVEN_REPO" />
+  </UsedPathMacros>
 </project>
 

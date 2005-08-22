@@ -116,38 +116,51 @@ public class ActionManager extends HttpServlet{
 
             else if (action.compareTo("opendocument") == 0)
             {
-                String space = getWorkspaceName(req);
-                String document = getDocumentName(req);
                 IDocument doc = null; // = plugins.beforeOpenningDocument(space, document, serverContext);
-                if (hasOpenRight(space, document, serverContext))
+                if (hasOpenRight(workspaceName, documentName, serverContext))
                 {
                     try {
-                        doc = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
+                        doc = actions.openDocument(workspaceName, documentName, serverContext.getKernelContext());
                     }
                     catch(oxydException e)
                     {}
-//                    render.returnDocument(doc, resp);
                 }
-                doc = plugins.afterOpenningDocument(space, document, doc, serverContext);
+                doc = plugins.afterOpenningDocument(workspaceName, documentName, doc, serverContext);
                 if (doc != null)
                     render.returnDocument(doc, resp);
             }
 
+            else if (action.compareTo("closedocument") == 0)
+            {
+                IDocument doc = null;
+                doc = actions.getDocument(workspaceName, documentName, serverContext.getKernelContext());
+                actions.closeDocument(workspaceName, documentName, true, serverContext.getKernelContext());
+                plugins.afterClosingDocument(doc, serverContext);
+
+                render.returnOk(resp);
+            }
+
             else if (action.compareTo("createdocument") == 0)
             {
-                IDocument doc = actions.createDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext());
+                IDocument doc = actions.createDocument(workspaceName, documentName, serverContext.getKernelContext());
                 render.returnDocument(doc, resp);
             }
 
             else if (action.compareTo("addblock") == 0)
             {
-                IBlock block = actions.addDocumentBlock(getWorkspaceName(req), getDocumentName(req), getPos(req),getContent(req), serverContext.getKernelContext());
+                IBlock block = actions.addDocumentBlock(workspaceName, documentName, getPos(req),getContent(req), serverContext.getKernelContext());
                 render.returnBlock(block, resp);
             }
 
             else if (action.compareTo("updateblock") == 0)
             {
-                actions.UpdateDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req),getContent(req), serverContext.getKernelContext());
+                actions.updateDocumentBlock(workspaceName, documentName, getBlockId(req),getContent(req), serverContext.getKernelContext());
+                render.returnOk(resp);
+            }
+
+            else if (action.compareTo("deleteblock") == 0)
+            {
+                actions.deleteDocumentBlock(workspaceName, documentName, getBlockId(req), serverContext.getKernelContext());
                 render.returnOk(resp);
             }
 
@@ -158,32 +171,33 @@ public class ActionManager extends HttpServlet{
 
             else if (action.compareTo("getupdates") == 0)
             {
-                List updates = actions.getUpdate(getWorkspaceName(req), getDocumentName(req), getSinceVersion(req), serverContext.getKernelContext());
-                long version = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext()).getVersion();
-                render.returnUpdates(updates, version, resp);
+                List updates = actions.getUpdate(workspaceName, documentName, getSinceVersion(req), serverContext.getKernelContext());
+                long version = actions.getDocument(workspaceName, documentName, serverContext.getKernelContext()).getVersion();
+                List users = actions.getDocumentUsers(workspaceName, documentName, serverContext.getKernelContext());
+                render.returnUpdates(updates, version, users, resp);
             }
 
             else if (action.compareTo("lockblock") == 0)
             {
-                actions.lockDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req), serverContext.getKernelContext());
+                actions.lockDocumentBlock(workspaceName, documentName, getBlockId(req), serverContext.getKernelContext());
                 render.returnOk(resp);
             }
 
             else if (action.compareTo("saveblock") == 0)
             {
-                actions.saveDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req), serverContext.getKernelContext());
+                actions.saveDocumentBlock(workspaceName, documentName, getBlockId(req), serverContext.getKernelContext());
                 render.returnOk(resp);
             }
 
             else if (action.compareTo("unlockblock") == 0)
             {
-                actions.unlockDocumentBlock(getWorkspaceName(req), getDocumentName(req), getBlockId(req), serverContext.getKernelContext());
+                actions.unlockDocumentBlock(workspaceName, documentName, getBlockId(req), serverContext.getKernelContext());
                 render.returnOk(resp);
             }
 
             else if (action.compareTo("getblock") == 0)
             {
-                IBlock block = actions.getDocument(getWorkspaceName(req), getDocumentName(req), serverContext.getKernelContext()).getBlock(getBlockId(req), serverContext.getKernelContext());
+                IBlock block = actions.getDocument(workspaceName, documentName, serverContext.getKernelContext()).getBlock(getBlockId(req), serverContext.getKernelContext());
 
                 render.returnBlock(block, resp);
             }
@@ -409,4 +423,11 @@ public class ActionManager extends HttpServlet{
         }
         return false;
     }
+
+    private List getCurrentUserMessage(String workspace, String document, Context context)
+    {
+        User user = context.getUser();
+        return user.getwaitingMessage(workspace, document);
+    }
+
 }

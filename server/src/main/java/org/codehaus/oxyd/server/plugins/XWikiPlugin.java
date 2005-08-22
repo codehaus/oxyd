@@ -20,10 +20,10 @@ package org.codehaus.oxyd.server.plugins;
 import org.codehaus.oxyd.server.ServerContext;
 import org.codehaus.oxyd.kernel.oxydException;
 import org.codehaus.oxyd.kernel.Context;
+import org.codehaus.oxyd.kernel.store.IStore;
 import org.codehaus.oxyd.kernel.auth.User;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
-import org.codehaus.oxyd.kernel.document.DocumentImpl;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.dom.DOMDocument;
@@ -48,8 +48,6 @@ public class XWikiPlugin extends OxydPlugin {
         String action = getAction(command);
         if (action.compareTo("save") ==  0)
             return saveDocument(command, context);
-        else if (action.compareTo("load") ==  0)
-            return loadDocument(command, context);
         return null;
     }
 
@@ -76,7 +74,9 @@ public class XWikiPlugin extends OxydPlugin {
 
     private Document saveDocument(String command, ServerContext context) throws oxydException {
         String space = getWorkspace(command);
-        saveDocument(context.getActionManager().getDocument(space, getDocumentName(command), context.getKernelContext()), context);
+        IDocument doc = context.getActionManager().getDocument(space, getDocumentName(command), context.getKernelContext());
+        doc.addUsersMsg("plop", context.getKernelContext());
+        saveDocument(doc, context);
         Document returnOk = new DOMDocument();
         Element respel = new DOMElement("response");
         returnOk.setRootElement(respel);
@@ -98,6 +98,7 @@ public class XWikiPlugin extends OxydPlugin {
         String[] tab = content.split("\n\n");
         for (int i = 0; i < tab.length; i++)
             doc.createBlock((new Integer(i + 1)).toString(), tab[i].getBytes(), context.getKernelContext());
+        context.getActionManager().getStoreService().saveDocument(doc, context.getKernelContext());
         return doc;
     }
 
@@ -230,11 +231,9 @@ public class XWikiPlugin extends OxydPlugin {
     }
 
     public IDocument afterOpenningDocument(String space, String document, IDocument doc, ServerContext serverContext) throws oxydException {
-        if (doc != null)
-            return doc;
         String wikiUrl = getWikiUrl(serverContext.getKernelContext().getUser());
         if (wikiUrl == null)
-            return null;
+            return doc;
         try {
             doc = serverContext.getActionManager().getDocument(wikiUrl.substring(7) + ":" + space, document, serverContext.getKernelContext());
         }
@@ -245,6 +244,16 @@ public class XWikiPlugin extends OxydPlugin {
             doc = serverContext.getActionManager().createDocument(wikiUrl.substring(7) + ":" + space, document, serverContext.getKernelContext());
             loadDocument(doc, serverContext);
         }
+        doc.addUser(serverContext.getKernelContext().getUser());
+        serverContext.getKernelContext().getUser().addOpenDocument(doc);
         return doc;
+    }
+
+    public void afterClosingDocument(IDocument doc, ServerContext serverContext) throws oxydException {
+        if ((doc.getWorkspace().indexOf(":") >= 0) && (doc.getUsers().size() == 0))
+        {
+            saveDocument(doc, serverContext);
+            serverContext.getActionManager().deleteDocument(doc.getWorkspace(), doc.getName(), true, serverContext.getKernelContext());
+        }
     }
 }

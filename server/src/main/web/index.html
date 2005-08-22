@@ -30,11 +30,11 @@ body {
 
 
 #main {
-    /*float: left;
-    position: relative; */
+    float: left;
+    position: relative;
 	top:0px;
 	left:5px;
-	/*width: 480px;  */
+	width: 480px;
 	background: #FFFFFF;
 	padding-right: 5px;
     padding-left: 5px;
@@ -43,6 +43,23 @@ body {
     font-family: Verdana, Courier New, sans-serif;
 	color: #333333;
 	font-size: small;
+}
+
+/* Footer
+********************************************/
+#footer {
+	clear: both;
+	margin: 2em 0 0;
+	padding: 3px 1em 1em;
+	color: #fff;
+	background: transparent;
+	font-size: 0.8em;
+	text-align: right;
+	line-height: 100%;
+	position : relative;
+}
+#footer a {
+	color : #666;
 }
 
 #container {
@@ -68,11 +85,32 @@ body {
     overflow: auto;
     visibility:hidden;
 }
-/*
-#infos {
-    visibility:hidden;
+
+
+#sidebar {
+  visibility:hidden;
 }
-  */
+
+#loadingBox {
+	position: fixed;
+	right: 0;
+	top: 0;
+	display: block;
+	height: auto;/*20px;*/
+	width: auto;/*80px;*/
+    background: #ff0000;
+    color:#ffffff;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
+    visibility:hidden;
+    /*background: url(images/too_cool.png) bottom right no-repeat; */
+	/*text-indent: -999em;   */
+	/*text-decoration: none; */
+}
+
+
+
 #top h1 {
 	    margin-top : 0;
         padding-top: 15px;
@@ -130,6 +168,50 @@ body {
     font-size: 0.6em;
 }
 
+        /* Sidebar
+-------------------------------------------------------- */
+
+#sidebar {
+	font-family: arial, verdana, sans-serif;
+    width: 180px;
+	/*color: #999999; */
+	font-size: x-small;
+	font-weight: normal;
+  	/*background: #333333;  */
+	text-transform: uppercase;
+  	line-height: 140%;
+    float : right;
+    margin : 0 0 2em 0;
+    padding-left: 2px;
+}
+
+#sidebar h2{
+	font-family: arial, verdana, sans-serif;
+	/*color: #999999;  */
+	font-size: X-small;
+	font-weight: heavy;
+  	/*background: #333333;*/
+  	line-height: 140%;
+  	padding: 2px;
+  	margin-top: 10px;
+  	border-bottom: 1px solid #808080;
+  	text-transform: uppercase;
+	letter-spacing: .2em;
+}
+
+#sidebar ul {
+	padding-left : 0;
+	margin : 0 0 0 0;
+	list-style : none;
+}
+
+#sidebar li {
+    /*background : url(images/listexit.gif) no-repeat;   */
+	margin-top : 0.15em;
+	padding-left : 1px;
+        list-style: none;
+}
+
         /* Elements
        -------------------------------------------------------- */
 
@@ -185,12 +267,14 @@ body {
         textarea {
              margin-left: 10px;
             width: 75%;
-            height: 100px;}
+            height: 100px;
+        }
 
 </style>
 </head>
 
 <body>
+<a id="loadingBox" href="#">Loading</a>
 <div id="page">
     <div id="container">
         <div id="top">
@@ -213,16 +297,13 @@ body {
 
         </div>
 
-        <!--<div id="main">   -->
             <div id="main">
                 <div id="document">
                     <div id="infos">
                         document: <a id="spaceName"></a>.<a id="documentName"></a><br />
                         version: <a id="version"></a><br />
                         <a onclick="addBlock('-1')"><img src="img/button_add.png" alt="add"/></a>  <br />
-                        <div id="wikicommand">
-                            <a onclick="saveWikiDocument(getWorkspaceName(), getDocumentName())">Save the document in the wiki</a><a id="WikiSaveDocumentStatus"></a>
-                        </div>
+
                     </div>
                     <div id="blocks">
 
@@ -232,7 +313,27 @@ body {
 
                 </div>
             </div>
-        <!--</div>    -->
+               <div id="sidebar">
+                    <h2>Users</h2>
+                    <div id="users">
+
+                    </div>
+
+                    <h2>Actions</h2>
+                    <div id="actions">
+                        <ul>
+                            <li>
+                                <a href="#" onclick="saveWikiDocument(getWorkspaceName(), getDocumentName())">Save the document in the wiki</a><a id="WikiSaveDocumentStatus"></a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="closeDocument(getWorkspaceName(), getDocumentName())">Close the document</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            <p id="footer"><a href="http://www.xwiki.com/">
+XWiki</a> :: <a href="http://www.codehaus.org/">
+Codehaus</a></p>
     </div>
 </div>
 </body>

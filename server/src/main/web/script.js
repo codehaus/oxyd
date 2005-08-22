@@ -21,7 +21,7 @@ var topInfosNode = null;
 var loginFormNode = null;
 var buttonsNode = null;
 
-var wikiUrl = "oxyddemo.xwiki.com";
+var wikiUrl = "www.xwiki.org";
 
 //key for getLoginKey
 var key = null;
@@ -53,7 +53,7 @@ window.onload = function() {
     blockActionModelNode.setAttribute('class', 'action');
 
     var blockActionHTML = "<span class=\"blockActionButtons\"><a onclick=\" addBlock(this.parentNode.parentNode.parentNode.id)\"><img src=\"img/new.png\" alt=\"add a block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a>";
-    blockActionHTML = blockActionHTML + " <a onclick=\" removeBlock(this.parentNode.parentNode.parentNode.id)\"><img src=\"img/trash.png\" alt=\"remove the block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a></span>";
+    blockActionHTML = blockActionHTML + " <a onclick=\"deleteBlock(this.parentNode.parentNode.parentNode.id)\"><img src=\"img/trash.png\" alt=\"remove the block\" class=\"actionButton\" onmouseover=\"onMouseOverButton(this)\" onmouseout=\"onMouseOutButton(this)\" /></a></span>";
 
     blockActionHTML = blockActionHTML + "<span class=\"blockStatus\"></span>";
 
@@ -174,6 +174,11 @@ function affDocumentInfos()
     catch(e)
     {}
     topEl.appendChild(topInfosNode);
+
+    setUsers("");
+    var sidebarEl = document.getElementById("sidebar");
+    sidebarEl.style.visibility = "visible";
+
 //    topInfosNode.style.visibility = "visible";
 
 }
@@ -188,6 +193,9 @@ function affOpenFunctions()
     {}
     topEl.appendChild(topActionNode);
 
+    var sidebarEl = document.getElementById("sidebar");
+    sidebarEl.style.visibility = "hidden";
+
 }
 
 
@@ -198,7 +206,7 @@ function isError(xml)
     var error = xml.getElementsByTagName('error');
     if (error.length == 0)
         return false;
-
+    hideLoadingBox();
     addMessage(error[0].firstChild.data);
     return true;
 }
@@ -224,7 +232,9 @@ function setDocumentName(name)
 function getDocumentName()
 {
     var documentNameEl = document.getElementById('documentName');
-    return(documentNameEl.innerHTML);
+    if (documentNameEl)
+        return(documentNameEl.innerHTML);
+    return(null);
 }
 
 function setVersion(num)
@@ -239,17 +249,32 @@ function getVersion()
     return(versionEl.innerHTML);
 }
 
+function openLoadingText(text)
+{
+    var loadingBoxEl = document.getElementById('loadingBox');
+    loadingBoxEl.innerHTML = text;
+    loadingBoxEl.style.visibility = "visible";
+}
+
+function hideLoadingBox()
+{
+    var loadingBoxEl = document.getElementById('loadingBox');
+    loadingBoxEl.style.visibility = "hidden";
+}
+
 function login(login, pwd)
 {
     var url = baseUrl + "login?login=" + login + "&pwd="+pwd;
     if (wikiUrl !=null)
         url = url + "&wikiServer=" + wikiUrl;
+    openLoadingText("login");
     executeCommand(url, loginCallback);
 
 }
 
 function loginCallback(xml)
 {
+    hideLoadingBox();
     if (!isError(xml))
     {
         key = xml.getElementsByTagName('key')[0].firstChild.data;
@@ -294,7 +319,7 @@ function executeCommand(url, callback) {
         }
     }
 
-    //addMessage(url);
+    // addMessage(url);
     // use a local variable to hold our request and callback until the inner function is called...
     var ajaxRequest = null;
     var ajaxCallback = callback;

@@ -98,4 +98,13 @@ public class PluginManager {
         }
         return doc;
     }
+
+    public void afterClosingDocument(IDocument doc, ServerContext serverContext) throws oxydException {
+        Iterator it = pluginsObjects.values().iterator();
+        while(it.hasNext())
+        {
+            IOxydPlugin plugin = (IOxydPlugin) it.next();
+            plugin.afterClosingDocument(doc, serverContext);
+        }
+    }
 }

@@ -35,7 +35,7 @@ import java.io.StringReader;
 public class DocumentImpl implements IDocument {
     private String      name;
     private List        users;
-    private long        version;
+    private long        version = 0;
     private Map         blocks;
     protected Map       lockedBlocks;
     private List        comments;
@@ -108,6 +108,16 @@ public class DocumentImpl implements IDocument {
             users.remove(user);
     }
 
+    public void addUsersMsg(String msg, Context context)
+    {
+        Iterator it = users.iterator();
+        while (it.hasNext())
+        {
+            User user = (User) it.next();
+            user.addMessage(this.getWorkspace(), this.getName(), msg);
+        }
+    }
+
     public long getVersion() {
         return version;
     }
@@ -135,6 +145,10 @@ public class DocumentImpl implements IDocument {
 
     public void setBlocks(Map blocks) {
         this.blocks = blocks;
+    }
+
+    public Map getLockedBlocks(){
+        return lockedBlocks;
     }
 
     public List getComments() {
@@ -251,7 +265,7 @@ public class DocumentImpl implements IDocument {
         blocks.put(new Long(blockId), lockedBlock.clone());
     }
 
-    public void removeBlock(long blockId, Context context) throws oxydException {
+    public void deleteBlock(long blockId, Context context) throws oxydException {
         if (isBlockLocked(blockId))
             throw new oxydException(oxydException.MODULE_DOCUMENT_IMPL, oxydException.ERROR_BLOCK_LOCKED, "The block is currently locked");
         IBlock block  = (IBlock) blocks.get(new Long(blockId));
