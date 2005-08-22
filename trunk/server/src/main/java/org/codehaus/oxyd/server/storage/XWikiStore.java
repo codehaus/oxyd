@@ -31,7 +31,7 @@ import java.io.IOException;
 
 import sun.security.util.SignatureFile;
 
-public class XWikiStore implements IStore {
+public class XWikiStore  {           //implements IStore
     String baseURL  = "http://oxyddemo.xwiki.com/xwiki/bin/xmlrpc/confluence";
     String userName = "OxydDemo" ;
     String pwd = "demo";

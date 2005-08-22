@@ -40,6 +40,8 @@ public interface IDocument {
 
     void removeUser(User user);
 
+    void addUsersMsg(String msg, Context context);
+
     long getVersion();
 
     IBlock getVersion(long blockId, long version, Context context);
@@ -49,6 +51,8 @@ public interface IDocument {
     void setVersion(long version);
 
     Map getBlocks();
+
+    Map getLockedBlocks();
 
     void setBlocks(Map blocks);
 
@@ -82,7 +86,7 @@ public interface IDocument {
 
     void saveBlock(long blockId, Context context) throws oxydException;
 
-    void removeBlock(long blockId, Context context) throws oxydException;
+    void deleteBlock(long blockId, Context context) throws oxydException;
 
     void unlockBlock(long blockId, Context context) throws oxydException;
 

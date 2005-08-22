@@ -64,6 +64,13 @@
             <scope>compile</scope>
         </dependency>
 
+         <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.7.3.0</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -73,7 +80,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <webXml>${basedir}/src/main/web/WEB-INF/web.xml</webXml>
-		    <warSourceDirectory>${basedir}/src/main/web</warSourceDirectory>
+		            <warSourceDirectory>${basedir}/src/main/web</warSourceDirectory>
                 </configuration>
             </plugin>
         </plugins>

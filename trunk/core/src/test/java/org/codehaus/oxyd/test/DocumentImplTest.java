@@ -235,6 +235,28 @@ public class DocumentImplTest extends TestCase {
         assertEquals("the version must have changed", 8, b1.getVersion());
     }
 
+    public void testRemoveBlock() throws oxydException {
+        IDocument doc = new DocumentImpl("space42", "test");
+        long sinceVersion = 0;
+        doc.setId(42);
+        doc.setName("test");
+
+        IBlock bloc1 = doc.createBlock("1", "That's the futur".getBytes(), context);
+        IBlock bloc2 = doc.createBlock("2", "the second block".getBytes(), context);
+        IBlock bloc3 = doc.createBlock("3", "the third block".getBytes(), context);
+
+        List updates = doc.getUpdates(sinceVersion, context);
+        assertEquals(3, updates.size());
+        sinceVersion = doc.getVersion();
+
+        doc.deleteBlock(bloc2.getId(), context);
+
+        updates = doc.getUpdates(sinceVersion, context);
+        assertEquals(1, updates.size());
+        bloc2 = (IBlock) updates.get(0);
+        assertTrue(bloc2.isRemoved());
+    }
+
     public void testGetUpdates() throws oxydException {
         IDocument doc = new DocumentImpl("test");
         long sinceVersion = 0;
@@ -402,6 +424,7 @@ public class DocumentImplTest extends TestCase {
                 assertTrue("block:" + block.getId() + " position ("+block.getPosition()+")is not on the list", false);
         }
     }
+
 }
 
 

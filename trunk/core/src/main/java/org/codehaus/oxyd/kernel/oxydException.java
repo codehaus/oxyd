@@ -55,6 +55,8 @@ public class oxydException extends Exception {
     public static final int ERROR_UNKNOWN= 1013;
     public static final int ERROR_DOCUMENT_NOT_OPEN= 1014;
     public static final int ERROR_SYSTEM_LOCK= 1015;
+    public static final int ERROR_CANNOT_CLOSE_DOCUMENT= 1016;
+    public static final int ERROR_CANNOT_DELETE_DOCUMENT= 1017;
 
 
     public static final int ERROR_NOT_IMPLEMENTED = 9000;

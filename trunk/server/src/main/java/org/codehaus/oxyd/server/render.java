@@ -19,6 +19,7 @@ package org.codehaus.oxyd.server;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
 import org.codehaus.oxyd.kernel.oxydException;
+import org.codehaus.oxyd.kernel.auth.User;
 import org.dom4j.Element;
 import org.dom4j.Document;
 import org.dom4j.io.XMLWriter;
@@ -142,10 +143,22 @@ public class render {
         sendResponse(returndoc, response);
     }
 
-    public static void returnUpdates(List updates, long version, HttpServletResponse response) throws IOException {
+    public static void returnUpdates(List updates, long version, List users, HttpServletResponse response) throws IOException {
         Document doc = new DOMDocument();
         Element respel = new DOMElement("response");
         doc.setRootElement(respel);
+
+        Element usersEl = new DOMElement("users");
+        respel.add(usersEl);
+        if (users != null)
+        {
+            for (int i = 0; i < users.size(); i++)
+            {
+                Element el = new DOMElement("user");
+                el.addText(((User)users.get(i)).getLogin());
+                usersEl.add(el);
+            }
+        }
 
         Element docsEl = new DOMElement("blocks");
         respel.add(docsEl);

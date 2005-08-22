@@ -25,4 +25,6 @@ public interface IStore {
     void saveDocument(IDocument doc, Context context) throws oxydException;
 
     IDocument openDocument(String space, String document, Context context) throws oxydException;
+
+    public void deleteDocument(IDocument doc, Context context) throws oxydException;
 }

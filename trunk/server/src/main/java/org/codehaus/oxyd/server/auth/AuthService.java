@@ -23,10 +23,7 @@ import org.codehaus.oxyd.server.ServerContext;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Iterator;
+import java.util.*;
 
 public class AuthService implements IAuthService {
 
@@ -117,4 +114,5 @@ public class AuthService implements IAuthService {
             throw new oxydException(oxydException.MODULE_AUTH_SERVICE, oxydException.ERROR_INVALID_KEY, "invalid key");
         loggedIn.remove(key);
     }
+
 }
