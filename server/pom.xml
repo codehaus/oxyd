@@ -71,11 +71,25 @@
             <scope>compile</scope>
         </dependency>
 
+<dependency>
+  <groupId>mysql</groupId>
+  <artifactId>mysql-connector-java</artifactId>
+  <version>3.0.10</version>
+  <scope>compile</scope>
+</dependency>
+
+<dependency>
+  <groupId>jta</groupId>
+  <artifactId>jta</artifactId>
+  <version>1.0.1b</version>
+  <scope>compile</scope>
+</dependency>
+
     </dependencies>
 
 
     <build>
-<!--        <finalName>server</finalName>-->
+        <!--<finalName>server</finalName>-->
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
