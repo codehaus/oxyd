@@ -20,7 +20,6 @@ package org.codehaus.oxyd.server.plugins;
 import org.codehaus.oxyd.server.ServerContext;
 import org.codehaus.oxyd.kernel.oxydException;
 import org.codehaus.oxyd.kernel.Context;
-import org.codehaus.oxyd.kernel.store.IStore;
 import org.codehaus.oxyd.kernel.auth.User;
 import org.codehaus.oxyd.kernel.document.IDocument;
 import org.codehaus.oxyd.kernel.document.IBlock;
@@ -201,24 +200,43 @@ public class XWikiPlugin extends OxydPlugin {
 
     public String getWikiLogin(ServerContext context)
     {
-        String login = context.getRequest().getParameter("wikiLogin");
-        return login;
+        return context.getRequest().getParameter("wikiLogin");
     }
 
     public String getWikiPwd(ServerContext context)
     {
-        String pwd = context.getRequest().getParameter("wikiPwd");
-        return pwd;
+        return context.getRequest().getParameter("wikiPwd");
+    }
+
+     public String getNickname(ServerContext context)
+    {
+        return context.getRequest().getParameter("nickname");
     }
 
     public String beforeLogin(String login, String pwd, ServerContext context) throws oxydException {
         String url = getWikiUrl(context);
         if (url != null)
         {
+            String nickname = null;
+            if (login.equalsIgnoreCase("guest") && pwd.equalsIgnoreCase("guest"))
+            {
+                nickname = getNickname(context);
+                if (nickname == null || nickname.length() == 0)
+                    throw new oxydException(oxydException.MODULE_PLUGIN, oxydException.ERROR_UNKNOWN, "error in nickname");
+                if (context.getAuthService().getUser(nickname, context) != null)
+                    throw new oxydException(oxydException.MODULE_PLUGIN, oxydException.ERROR_INVALID_USERNAME_OR_PASSWORD, "nickname already taken");
+            }
             String token = login(url, login, pwd, context);
-            User user = context.getAuthService().getUser(login, context);
+            User user = null;
+            if (nickname == null)
+                user = context.getAuthService().getUser(login, context);
+            else
+                user = context.getAuthService().getUser(nickname, context);
             if (user == null){
-                user = new User(login);
+                if (nickname == null)
+                    user = new User(login);
+                else
+                    user = new User(nickname);
                 context.getAuthService().addLoggedIn(token, user);
             }
             user.set("wikiToken", token);

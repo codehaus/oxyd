@@ -62,7 +62,7 @@
     <modules>
         <module>core</module>
         <module>server</module>
-        <module>clientAPI</module>
+        <!--<module>clientAPI</module>-->
     </modules>
 
         <scm>

@@ -23,9 +23,9 @@ var buttonsNode = null;
 var loginEl = null;
 var openWikiUrlNode = null;
 
-//var wikiUrl = "www.xwiki.org";
 var wikiEdit = true;
 var wikiUrl = null; //"oxyddemo.xwiki.com";
+
 //key for getLoginKey
 var key = null;
 
@@ -304,9 +304,13 @@ function affLoginFunctions()
     sidebarEl.style.visibility = "hidden";
 }
 
-function login(login, pwd)
+function login(login, pwd, nickname)
 {
-    var url = baseUrl + "login?login=" + login + "&pwd="+pwd;
+    var url = null;
+    if (login !== "")
+        url = baseUrl + "login?login=" + login + "&pwd="+pwd;
+    else
+        url = baseUrl + "login?login=guest&pwd=guest&nickname="+nickname;
     if (wikiUrl !=null)
         url = url + "&wikiServer=" + wikiUrl;
     openLoadingText("login");
