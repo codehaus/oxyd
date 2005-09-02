@@ -147,6 +147,7 @@ function readBlocks(xml)
 
 function setUsers(htmlUsers)
 {
+    addMessage("update users");
     var UsersEl = document.getElementById('users');
     UsersEl.innerHTML = htmlUsers;
 }
