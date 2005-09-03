@@ -63,11 +63,11 @@ public class AuthService implements IAuthService {
         }
     }
 
-    public void addLoggedIn(String key, User user)
+    public void addLoggedIn(User user)
     {
         if (loggedIn == null)
             loggedIn = new HashMap();
-        loggedIn.put(key, user);
+        loggedIn.put(user.getKey(), user);
     }
 
     public User     getUser(String login, ServerContext serverContext)
@@ -96,11 +96,11 @@ public class AuthService implements IAuthService {
         User user = getUser(login,  serverContext);
         if (user == null)
         {
-            user = new User(login);
-            loggedIn.put(new Integer(user.getLogin().hashCode()).toString(), user);
+            user = new User(login, serverContext.getKernelContext());
+            addLoggedIn(user);
         }
         serverContext.getKernelContext().setUser(user);
-        return new Integer(user.getLogin().hashCode()).toString();
+        return user.getKey();
     }
 
     public void login(String key, ServerContext serverContext) throws oxydException {

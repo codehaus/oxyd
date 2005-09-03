@@ -75,6 +75,7 @@ public class ActionManager extends HttpServlet{
         ServerContext serverContext = new ServerContext();
         Context coreContext = new Context();
         coreContext.setAction(actions);
+        coreContext.set("clientIp", req.getRemoteAddr());
         serverContext.setKernelContext(coreContext);
         serverContext.setServletContext(config.getServletContext());
         serverContext.setActionManager(actions);

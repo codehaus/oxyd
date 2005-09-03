@@ -234,15 +234,15 @@ public class XWikiPlugin extends OxydPlugin {
                 user = context.getAuthService().getUser(nickname, context);
             if (user == null){
                 if (nickname == null)
-                    user = new User(login);
+                    user = new User(login, context.getKernelContext());
                 else
-                    user = new User(nickname);
-                context.getAuthService().addLoggedIn(token, user);
+                    user = new User(nickname, context.getKernelContext());
+                context.getAuthService().addLoggedIn(user);
             }
             user.set("wikiToken", token);
             user.set("wikiServer", getWikiUrl(context));
             context.getKernelContext().setUser(user);
-            return token;
+            return user.getKey();
         }
         else
             return null;

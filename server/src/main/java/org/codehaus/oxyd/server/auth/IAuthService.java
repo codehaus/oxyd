@@ -27,7 +27,7 @@ public interface IAuthService {
 
     void logout(String key, ServerContext context) throws oxydException;
 
-    void addLoggedIn(String key, User user);
+    void addLoggedIn(User user);
 
     User     getUser(String login, ServerContext serverContext);
 }
