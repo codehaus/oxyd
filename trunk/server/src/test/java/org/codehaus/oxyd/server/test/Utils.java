@@ -33,7 +33,7 @@ public class Utils{
 
     public static Context   initContext(Actions actions) throws oxydException {
         Context context = new Context();
-        context.setUser(new User("titi"));
+        context.setUser(new User("titi", context));
 
         return context;
     }
